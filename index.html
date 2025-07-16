@@ -517,7 +517,7 @@
                             <p class="text-gray-300 mb-3 text-sm sm:text-base">Official $VIBE Token Contract Address:</p>
                             
                             <!-- TODO: CHANGE THIS - This is the most important part! Replace the placeholder address with your REAL Solana contract address. -->
-                            <code id="contractAddress" class="font-roboto-mono text-cyan-300 bg-gray-900/70 p-3 rounded-md word-break-all block w-full text-center" contenteditable="true" spellcheck="false">Fpzv8qinWsoWSdUknzdSU8YiX3AZWYDjhiwhQETTbonk</code>
+                            <code id="contractAddress" class="font-roboto-mono text-cyan-300 bg-gray-900/70 p-3 rounded-md word-break-all block w-full text-center" contenteditable="true" spellcheck="false">Will be available after launch</code>
                             
                             <button id="copyAddressButton" class="font-orbitron pro-button pro-button-secondary py-2.5 px-6 rounded-lg text-sm w-full sm:w-auto mt-4">
                                 Copy Address
@@ -702,26 +702,23 @@
                 const liveChart = handleLiveChart();
                 const addressNode = document.getElementById('contractAddress');
                 const placeholderText = "Will be available after launch";
-                let hasStarted = false;
+                let chartLoaded = false;
 
                 if (addressNode) {
-                    const observer = new MutationObserver((mutationsList) => {
-                        for(const mutation of mutationsList) {
-                            if (mutation.type === 'childList' || mutation.type === 'characterData') {
-                                const currentAddress = addressNode.innerText.trim();
-                                if (currentAddress !== placeholderText && !hasStarted) {
-                                    // Basic validation for a Solana-like address
-                                    if (currentAddress.length > 30 && currentAddress.length < 50 && !currentAddress.includes(" ")) {
-                                        hasStarted = true;
-                                        liveChart.load(currentAddress);
-                                        observer.disconnect();
-                                    }
-                                }
+                    // Use an 'input' event listener for contenteditable elements
+                    addressNode.addEventListener('input', () => {
+                        if (chartLoaded) return; // Don't do anything if chart is already loaded
+
+                        const currentAddress = addressNode.innerText.trim();
+                        
+                        if (currentAddress !== placeholderText) {
+                            // Basic validation for a Solana-like address
+                            if (currentAddress.length > 30 && currentAddress.length < 50 && !currentAddress.includes(" ")) {
+                                chartLoaded = true; // Set flag to prevent reloading
+                                liveChart.load(currentAddress);
                             }
                         }
                     });
-
-                    observer.observe(addressNode, { characterData: true, childList: true, subtree: true });
                 }
             });
 
