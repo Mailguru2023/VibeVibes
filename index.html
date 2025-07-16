@@ -500,10 +500,10 @@
                 <div class="flex justify-center space-x-6 md:space-x-8"> 
                     
                     <!-- TODO: ИЗМЕНИТЬ ЭТО - Обновите href="#" на ваши реальные ссылки на социальные сети -->
-                    <a href="#" target="WWW" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-cyan-500/70 hover:bg-cyan-500/20 transition-all duration-300 group transform hover:scale-110" aria-label="X (formerly Twitter)">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-cyan-500/70 hover:bg-cyan-500/20 transition-all duration-300 group transform hover:scale-110" aria-label="X (formerly Twitter)">
                         <svg class="w-8 h-8 sm:w-10 sm:h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
                     </a>
-                    <a href="#" target="WWW" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-purple-500/70 hover:bg-purple-500/20 transition-all duration-300 group transform hover:scale-110" aria-label="Telegram">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-purple-500/70 hover:bg-purple-500/20 transition-all duration-300 group transform hover:scale-110" aria-label="Telegram">
                         <svg class="w-8 h-8 sm:w-10 sm:h-10 text-purple-400 group-hover:text-purple-300 transition-colors" fill="currentColor" viewBox="0 0 24 24"><g><path d="M22 2L11.167 12.833L2 14.833L5.667 8.5L2 2L22 2ZM11.167 12.833L18.333 6.5L5.667 8.5L11.167 12.833Z" transform="translate(0 -0.000488281)"></path><path d="M22.0002 2.00049L14.8335 18.3338L11.1668 12.8338L18.3335 6.50049L22.0002 2.00049Z"></path></g></svg>
                     </a>
                 </div>
@@ -547,7 +547,7 @@
                             <p class="text-gray-300 mb-3 text-sm sm:text-base">Official $VIBE Token Contract Address:</p>
                             
                             <!-- TODO: ИЗМЕНИТЬ ЭТО - Это самая важная часть! Замените заглушку на ваш РЕАЛЬНЫЙ адрес контракта Solana. -->
-                            <code id="contractAddress" class="font-roboto-mono text-cyan-300 bg-gray-900/70 p-3 rounded-md word-break-all block w-full text-center" contenteditable="true" spellcheck="false">9tqjeRS1swj36Ee5C1iGiwAxjQJNGAVCzaTLwFY8bonk</code>
+                            <code id="contractAddress" class="font-roboto-mono text-cyan-300 bg-gray-900/70 p-3 rounded-md word-break-all block w-full text-center" contenteditable="true" spellcheck="false">Will be available after launch</code>
                             
                             <button id="copyAddressButton" class="font-orbitron pro-button pro-button-secondary py-2.5 px-6 rounded-lg text-sm w-full sm:w-auto mt-4">
                                 Copy Address
@@ -735,7 +735,15 @@
                     maxInterval: 12000,
                     vibePerSol: 1000000,
                 };
-                const accentColors = ['#A855F7', '#06B6D4', '#EC4899', '#10B981', '#F97316'];
+                
+                // FIXED: Reverted to object array for colors to fix the bug
+                const accentColors = [
+                    { hex: '#A855F7', rgb: '168, 85, 247' },  /* Purple */
+                    { hex: '#06B6D4', rgb: '6, 182, 212' },   /* Cyan */
+                    { hex: '#EC4899', rgb: '236, 72, 153' },  /* Pink */
+                    { hex: '#10B981', rgb: '16, 185, 129' },  /* Green */
+                    { hex: '#F97316', rgb: '249, 115, 22' }   /* Orange */
+                ];
                 let simulationIntervalId = null;
 
                 function getRandom(min, max) { return Math.random() * (max - min) + min; }
@@ -753,21 +761,21 @@
                 function createTransactionElement() {
                     const clone = template.content.cloneNode(true);
                     const item = clone.querySelector('.transaction-item');
-                    const accentColor = getRandomItem(accentColors);
+                    const randomAccent = getRandomItem(accentColors); // Get the object
                     
                     const solSpent = getRandom(0.5, 10);
                     const vibeAmount = solSpent * config.vibePerSol * getRandom(0.9, 1.1);
-
-                    item.style.setProperty('--item-accent-color', accentColor);
-                    item.style.setProperty('--item-accent-rgb', accentColor.replace(/[^\d,]/g, '').split(','));
                     
-                    clone.querySelector('.tx-action').style.color = accentColor;
-                    clone.querySelector('.tx-action svg').style.color = accentColor;
+                    // FIXED: Correctly use object properties
+                    item.style.setProperty('--item-accent-rgb', randomAccent.rgb);
+                    
+                    clone.querySelector('.tx-action').style.color = randomAccent.hex;
+                    clone.querySelector('.tx-action svg').style.color = randomAccent.hex;
                     
                     clone.querySelector('.tx-time').textContent = new Date().toLocaleTimeString();
                     clone.querySelector('.tx-amount').textContent = solSpent.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4});
                     clone.querySelector('.tx-currency').textContent = 'SOL';
-                    clone.querySelector('.tx-for-vibe').innerHTML = `for <span class="font-bold" style="color:${accentColor}">${vibeAmount.toLocaleString(undefined, {maximumFractionDigits:0})} $VIBE</span>`;
+                    clone.querySelector('.tx-for-vibe').innerHTML = `for <span class="font-bold" style="color:${randomAccent.hex}">${vibeAmount.toLocaleString(undefined, {maximumFractionDigits:0})} $VIBE</span>`;
                     clone.querySelector('.tx-wallet').textContent = `${generateRandomString(4)}...${generateRandomString(4)}`;
 
                     return item;
@@ -778,7 +786,11 @@
                     if (container.children.length >= config.maxTransactions) {
                         const oldestChild = container.lastElementChild;
                         oldestChild.style.animation = 'transaction-fade-out-down 0.6s ease-out forwards';
-                        setTimeout(() => oldestChild.remove(), 600);
+                        setTimeout(() => {
+                            if(oldestChild.parentNode === container) {
+                                oldestChild.remove()
+                            }
+                        }, 600);
                     }
                     container.prepend(transactionElement);
                 }
