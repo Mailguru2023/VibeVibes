@@ -19,6 +19,8 @@
             background-color: #111827;
             color: #E5E7EB;
             overflow-x: hidden;
+            /* FIX: Add padding to the top of the body to prevent content from being obscured by the sticky header */
+            padding-top: 4rem; /* 64px, which is the height of the header (h-16) */
         }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .font-roboto { font-family: 'Roboto', sans-serif; }
@@ -109,60 +111,61 @@
         .roadmap-item { position: relative; padding: 1.5rem; padding-left: 3.5rem; border-left: 4px solid #A855F7; }
         .roadmap-item:last-child { border-left-color: transparent; }
         .roadmap-icon { position: absolute; left: -16px; top: 1.75rem; width: 32px; height: 32px; border-radius: 50%; background-color: #A855F7; border: 4px solid #111827; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
-        #stickyHeader { position: fixed; top: -100px; left: 0; right: 0; z-index: 1000; background-color: rgba(12, 15, 26, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 0.75rem 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.3); transition: top 0.4s ease-in-out; display: flex; align-items: center; justify-content: space-between; }
-        #stickyHeader.visible { top: 0; }
+        #stickyHeader { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background-color: rgba(12, 15, 26, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         #copyFeedback { transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out; }
         #mobile-menu { background-color: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
     </style>
 </head>
 <body class="antialiased">
 
-    <header id="stickyHeader" class="px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center">
-                <a href="#" class="header-logo" aria-label="VibeVibes Home"> 
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" class="h-8 md:h-9 w-auto">
-                        <circle cx="50" cy="50" r="40" stroke="url(#headerStickyLogoGradient)" stroke-width="5"/>
-                        <text x="50" y="58" font-family="'Orbitron', sans-serif" font-size="24" fill="#A855F7" text-anchor="middle" class="neon-text-accent neon-purple-accent">$V</text>
-                        <defs>
-                            <linearGradient id="headerStickyLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </a>
+    <header id="stickyHeader">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="header-logo flex-shrink-0" aria-label="VibeVibes Home"> 
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" class="h-8 md:h-9 w-auto">
+                            <circle cx="50" cy="50" r="40" stroke="url(#headerStickyLogoGradient)" stroke-width="5"/>
+                            <text x="50" y="58" font-family="'Orbitron', sans-serif" font-size="24" fill="#A855F7" text-anchor="middle" class="neon-text-accent neon-purple-accent">$V</text>
+                            <defs>
+                                <linearGradient id="headerStickyLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <nav id="desktop-nav" class="ml-10 flex items-baseline space-x-4">
+                        <!-- Desktop navigation links will be inserted here -->
+                    </nav>
+                </div>
+                <div class="hidden md:block">
+                     <a href="#how-to-buy" class="pro-button pro-button-primary text-xs md:text-sm py-2 px-4 rounded-lg">
+                        Buy $VIBE
+                    </a>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <!-- Mobile menu button -->
+                    <button type="button" id="menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div class="hidden md:block">
-                <nav id="desktop-nav" class="ml-10 flex items-baseline space-x-4">
-                    <!-- Desktop navigation links will be inserted here -->
-                </nav>
-            </div>
-            <div class="hidden md:block">
-                 <a href="#how-to-buy" class="pro-button pro-button-primary text-xs md:text-sm py-2 px-4 rounded-lg">
-                    Buy $VIBE
-                </a>
-            </div>
-            <div class="-mr-2 flex md:hidden">
-                <!-- Mobile menu button -->
-                <button type="button" id="menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+        </div>
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div id="mobile-nav" class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <!-- Mobile navigation links will be inserted here -->
             </div>
         </div>
     </header>
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="md:hidden hidden" id="mobile-menu">
-        <div id="mobile-nav" class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <!-- Mobile navigation links will be inserted here -->
-        </div>
-    </div>
 
 
     <header class="hero-bg-pro min-h-screen flex flex-col items-center justify-center text-center p-4 sm:p-6 relative">
@@ -306,32 +309,23 @@
         // ===================================================================================
         // CONFIGURATION OBJECT
         // ===================================================================================
-        // TODO: ИЗМЕНИТЬ ЭТО - В этом блоке находятся все данные, которые вам нужно будет поменять.
-        // Просто измените значения в кавычках, и сайт обновится автоматически.
         const projectConfig = {
-            // Основная информация о проекте (для заголовков и мета-тегов)
             meta: {
                 title: "VibeVibes ($VIBE) - Invest in the Future of Digital Vibes",
                 description: "Discover $VIBE: A unique token on the Solana blockchain, merging cutting-edge technology, a strong community, and a social mission.",
                 heroTitle: "VibeVibes: Pioneering Digital Assets",
                 heroSubtitle: "Discover $VIBE: A unique token on the Solana blockchain, merging cutting-edge technology, a strong community, and a social mission.",
             },
-
-            // Ссылки на ваши социальные сети
             socials: {
                 twitter: "https://twitter.com/",
                 telegram: "https://telegram.org/",
             },
-            
-            // Навигационные ссылки в шапке сайта
             navigation: [
                 { name: "Vision", href: "#vision" },
                 { name: "Tokenomics", href: "#tokenomics" },
                 { name: "Roadmap", href: "#roadmap" },
                 { name: "Community", href: "#community" },
             ],
-
-            // Информация для секции Vision
             vision: {
                 title: "Our Vision",
                 subtitle: "VibeVibes aims to create more than just a cryptocurrency; we're building an entire ecosystem powered by positive vibrations, technological innovation, and tangible social impact.",
@@ -341,8 +335,6 @@
                     { title: "Social Responsibility", text: "Committing a portion of proceeds to support mental health initiatives, demonstrating our dedication to positive global impact." }
                 ]
             },
-
-            // Информация для секции Tokenomics
             tokenomics: {
                 subtitle: "The $VIBE tokenomics are designed for sustainability, holder incentives, and ecosystem growth.",
                 distribution: {
@@ -364,8 +356,6 @@
                     ]
                 }
             },
-
-            // Дорожная карта проекта
             roadmap: {
                 subtitle: "Strategic goals and key milestones for the VibeVibes project.",
                 phases: [
@@ -395,31 +385,22 @@
                     }
                 ]
             },
-            
-            // Информация для секции Community
             community: {
                 subtitle: "Connect with us, share the vibe, and be part of our journey to make a positive impact."
             },
-
-            // Ссылки на биржи и DEX
             links: {
-                // Вставьте сюда РЕАЛЬНЫЙ адрес вашего контракта, когда он будет готов
-                contractAddress: "", // Оставьте пустым для отображения заглушки
-                placeholderAddress: "Will be available after launch",
-                // Ссылки на централизованные биржи (CEX)
+                contractAddress: "", 
+                placeholderAddress: "CNNQZyEWfz9mDBRCiRNwjaUvMaLnaRWem8HeJYh7bonk",
                 exchanges: [
                     { name: "Binance", url: "https://www.binance.com/", style: "binance" },
                     { name: "Bybit", url: "https://www.bybit.com/", style: "bybit" },
                     { name: "Coinbase", url: "https://www.coinbase.com/", style: "coinbase" }
                 ],
-                // Ссылки на децентрализованные биржи (DEX)
                 dex: [
                     { name: "Trade on Raydium", url: "https://raydium.io/", style: "pro-button-green" },
                     { name: "Trade on Jupiter", url: "https://jup.ag/", style: "pro-button-secondary" }
                 ]
             },
-            
-            // Текст дисклеймера в футере
             disclaimer: "Disclaimer: Investing in cryptocurrencies involves significant risk. This is a fictional project for demonstration purposes. Always conduct your own research (DYOR) and consult with a financial advisor."
         };
         // ===================================================================================
@@ -522,8 +503,7 @@
                 const addressInput = document.getElementById('contractAddress');
                 if (projectConfig.links.contractAddress) {
                     addressInput.value = projectConfig.links.contractAddress;
-                    // Trigger input event to load chart if address is pre-filled
-                    addressInput.dispatchEvent(new Event('input'));
+                    addressInput.dispatchEvent(new Event('input', { bubbles: true }));
                 } else {
                     addressInput.placeholder = projectConfig.links.placeholderAddress;
                 }
@@ -560,27 +540,10 @@
             }
 
             function handleHeader() {
-                const header = document.getElementById('stickyHeader');
                 const menuButton = document.getElementById('menu-button');
                 const mobileMenu = document.getElementById('mobile-menu');
                 const openIcon = document.getElementById('menu-icon-open');
                 const closeIcon = document.getElementById('menu-icon-close');
-
-                if (!header) return;
-                let lastScrollTop = 0;
-                const scrollThreshold = 100;
-
-                window.addEventListener('scroll', () => {
-                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-                        header.classList.remove('visible');
-                    } else if (scrollTop < lastScrollTop && scrollTop > scrollThreshold) {
-                        header.classList.add('visible');
-                    } else if (scrollTop <= scrollThreshold) {
-                        header.classList.remove('visible');
-                    }
-                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-                }, { passive: true });
 
                 if(menuButton && mobileMenu && openIcon && closeIcon) {
                     menuButton.addEventListener('click', () => {
