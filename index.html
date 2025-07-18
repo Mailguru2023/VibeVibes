@@ -117,7 +117,6 @@
         .transaction-item:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 4px 12px rgba(0,0,0,0.25), 0 0 20px rgba(var(--item-accent-rgb, 168, 85, 247), 0.3); }
         @keyframes transaction-fade-in-up { from { opacity: 0; transform: translateY(15px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes transaction-fade-out-down { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(15px) scale(0.98); } }
-        /* Re-added original logo animation */
         @keyframes subtle-pulse-hero-svg {
             0%, 100% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.03); opacity: 1; }
@@ -345,23 +344,32 @@
         // ===================================================================================
         // CONFIGURATION OBJECT
         // ===================================================================================
+        // TODO: CHANGE THIS - This block contains all the data you need to change.
+        // Just change the values in the quotes and the site will update automatically.
         const projectConfig = {
+            // Main project information (for titles and meta tags)
             meta: {
                 title: "VibeVibes ($VIBE) - Invest in the Future of Digital Vibes",
                 description: "Discover $VIBE: A unique token on the Solana blockchain, merging cutting-edge technology, a strong community, and a social mission.",
                 heroTitle: "VibeVibes: Pioneering Digital Assets",
                 heroSubtitle: "Discover $VIBE: A unique token on the Solana blockchain, merging cutting-edge technology, a strong community, and a social mission.",
             },
+
+            // Links to your social networks
             socials: {
                 twitter: "https://twitter.com/",
                 telegram: "https://telegram.org/",
             },
+            
+            // Navigation links in the site header
             navigation: [
                 { name: "Vision", href: "#vision" },
                 { name: "Tokenomics", href: "#tokenomics" },
                 { name: "Roadmap", href: "#roadmap" },
                 { name: "Community", href: "#community" },
             ],
+
+            // Information for the Vision section
             vision: {
                 title: "Our Vision",
                 subtitle: "VibeVibes aims to create more than just a cryptocurrency; we're building an entire ecosystem powered by positive vibrations, technological innovation, and tangible social impact.",
@@ -371,6 +379,8 @@
                     { title: "Social Responsibility", text: "Committing a portion of proceeds to support mental health initiatives, demonstrating our dedication to positive global impact." }
                 ]
             },
+
+            // Information for the Tokenomics section
             tokenomics: {
                 subtitle: "The $VIBE tokenomics are designed for sustainability, holder incentives, and ecosystem growth.",
                 distribution: {
@@ -392,6 +402,8 @@
                     ]
                 }
             },
+
+            // Project roadmap
             roadmap: {
                 subtitle: "Strategic goals and key milestones for the VibeVibes project.",
                 phases: [
@@ -421,22 +433,31 @@
                     }
                 ]
             },
+            
+            // Information for the Community section
             community: {
                 subtitle: "Connect with us, share the vibe, and be part of our journey to make a positive impact."
             },
+
+            // Links to exchanges and DEXs
             links: {
+                // IMPORTANT: Paste your REAL contract address here when it's ready. Leave empty to show the placeholder.
                 contractAddress: "", 
                 placeholderAddress: "Will be available after launch",
+                // Links to centralized exchanges (CEX)
                 exchanges: [
                     { name: "Binance", url: "https://www.binance.com/", style: "binance" },
                     { name: "Bybit", url: "https://www.bybit.com/", style: "bybit" },
                     { name: "Coinbase", url: "https://www.coinbase.com/", style: "coinbase" }
                 ],
+                // Links to decentralized exchanges (DEX)
                 dex: [
                     { name: "Trade on Raydium", url: "https://raydium.io/", style: "pro-button-green" },
                     { name: "Trade on Jupiter", url: "https://jup.ag/", style: "pro-button-secondary" }
                 ]
             },
+            
+            // Disclaimer text in the footer
             disclaimer: "Disclaimer: Investing in cryptocurrencies involves significant risk. This is a fictional project for demonstration purposes. Always conduct your own research (DYOR) and consult with a financial advisor."
         };
         // ===================================================================================
@@ -613,98 +634,6 @@
                 });
             }
             
-            function handle3DLogo() {
-                const container = document.getElementById('logo-container');
-                const canvas = document.getElementById('logo-canvas');
-                if (!container || !canvas || typeof THREE === 'undefined') return;
-
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-                renderer.setSize(container.clientWidth, container.clientHeight);
-                renderer.setPixelRatio(window.devicePixelRatio);
-
-                // Lighting
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-                scene.add(ambientLight);
-                const pointLight1 = new THREE.PointLight(0xA855F7, 1.5, 200);
-                pointLight1.position.set(50, 50, 50);
-                scene.add(pointLight1);
-                const pointLight2 = new THREE.PointLight(0x06B6D4, 1.5, 200);
-                pointLight2.position.set(-50, -50, -50);
-                scene.add(pointLight2);
-
-
-                // Crystal Core
-                const coreGeometry = new THREE.IcosahedronGeometry(4, 0);
-                const coreMaterial = new THREE.MeshStandardMaterial({
-                    color: 0xffffff,
-                    emissive: 0xA855F7,
-                    emissiveIntensity: 1,
-                    metalness: 0.8,
-                    roughness: 0.2,
-                });
-                const core = new THREE.Mesh(coreGeometry, coreMaterial);
-                scene.add(core);
-
-                // Outer Rings
-                const ring1_geom = new THREE.TorusGeometry(10, 0.3, 16, 100);
-                const ring1_mat = new THREE.MeshBasicMaterial({ color: 0xA855F7, wireframe: true });
-                const ring1 = new THREE.Mesh(ring1_geom, ring1_mat);
-                ring1.rotation.x = Math.PI / 2;
-                scene.add(ring1);
-
-                const ring2_geom = new THREE.TorusGeometry(13, 0.3, 16, 100);
-                const ring2_mat = new THREE.MeshBasicMaterial({ color: 0x06B6D4, wireframe: true, opacity: 0.5, transparent: true });
-                const ring2 = new THREE.Mesh(ring2_geom, ring2_mat);
-                ring2.rotation.x = Math.PI / 2;
-                ring2.rotation.y = Math.PI / 4;
-                scene.add(ring2);
-
-                // Particle System
-                const particlesGeometry = new THREE.BufferGeometry();
-                const particlesCnt = 5000;
-                const posArray = new Float32Array(particlesCnt * 3);
-                for(let i = 0; i < particlesCnt * 3; i++) {
-                    posArray[i] = (Math.random() - 0.5) * 150;
-                }
-                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-                const particlesMaterial = new THREE.PointsMaterial({
-                    size: 0.1,
-                    color: 0x67E8F9,
-                    blending: THREE.AdditiveBlending,
-                    transparent: true,
-                    opacity: 0.7
-                });
-                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-                scene.add(particlesMesh);
-
-                camera.position.z = 45;
-
-                const clock = new THREE.Clock();
-
-                function animate() {
-                    requestAnimationFrame(animate);
-                    const elapsedTime = clock.getElapsedTime();
-
-                    // Animate objects
-                    core.rotation.y = .2 * elapsedTime;
-                    core.rotation.x = .2 * elapsedTime;
-                    ring1.rotation.z = -.1 * elapsedTime;
-                    ring2.rotation.z = .08 * elapsedTime;
-                    particlesMesh.rotation.y = -.03 * elapsedTime;
-
-                    renderer.render(scene, camera);
-                }
-                animate();
-
-                window.addEventListener('resize', () => {
-                    camera.aspect = container.clientWidth / container.clientHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(container.clientWidth, container.clientHeight);
-                });
-            }
-
             function handleTransactionFeed() {
                 const container = document.getElementById('transactionFeedContainer');
                 const template = document.getElementById('transactionItemTemplate');
@@ -800,7 +729,6 @@
                 handleAnimatedFavicon();
                 handleHeader();
                 handleCopyAddress();
-                handle3DLogo();
                 
                 const transactionSimulator = handleTransactionFeed();
                 const addressNode = document.getElementById('contractAddress');
