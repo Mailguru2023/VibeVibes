@@ -19,7 +19,6 @@
             background-color: #111827;
             color: #E5E7EB;
             overflow-x: hidden;
-            /* FIX: Add padding to the top of the body to prevent content from being obscured by the sticky header */
             padding-top: 4rem; /* 64px, which is the height of the header (h-16) */
         }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
@@ -114,6 +113,18 @@
         #stickyHeader { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background-color: rgba(12, 15, 26, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         #copyFeedback { transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out; }
         #mobile-menu { background-color: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .transaction-item { background-color: rgba(31, 41, 55, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; border-radius: 0.375rem; border: 1px solid rgba(var(--item-accent-rgb, 168, 85, 247), 0.35); box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 15px rgba(var(--item-accent-rgb, 168, 85, 247), 0.15); opacity: 0; animation: transaction-fade-in-up 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; display: flex; flex-direction: column; gap: 0.15rem; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .transaction-item:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 4px 12px rgba(0,0,0,0.25), 0 0 20px rgba(var(--item-accent-rgb, 168, 85, 247), 0.3); }
+        @keyframes transaction-fade-in-up { from { opacity: 0; transform: translateY(15px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes transaction-fade-out-down { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(15px) scale(0.98); } }
+        /* Re-added original logo animation */
+        @keyframes subtle-pulse-hero-svg {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.03); opacity: 1; }
+        }
+        .animate-subtle-pulse-hero-svg {
+            animation: subtle-pulse-hero-svg 4s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -286,13 +297,16 @@
             </div>
         </section>
 
-        <section id="live-chart" class="py-16 md:py-24 px-4 sm:px-6">
+        <section id="live-transactions" class="py-16 md:py-24 px-4 sm:px-6">
             <div class="content-layer-pro max-w-screen-xl mx-auto">
-                <h2 class="section-title-pro text-3xl md:text-4xl neon-text-accent neon-green-accent">Live Project Chart</h2>
-                <div id="chart-container" class="max-w-4xl mx-auto text-center mt-4 rounded-lg overflow-hidden border-2 border-cyan-500/30" style="min-height: 500px;">
-                    <p id="chart-status" class="font-orbitron text-lg text-gray-400 neon-text-accent neon-cyan-accent animate-pulse p-10">
-                        The project chart will appear here after launch
+                <h2 class="section-title-pro text-3xl md:text-4xl neon-text-accent neon-green-accent">Live $VIBE Activity</h2>
+                <div class="max-w-2xl mx-auto text-center">
+                    <p id="tx-feed-status" class="font-orbitron text-lg text-gray-400 neon-text-accent neon-cyan-accent animate-pulse p-10">
+                        First transactions will appear after project launch
                     </p>
+                    <div id="transactionFeedContainer" class="transaction-feed-container mt-4">
+                        <!-- Transactions will be added here by JavaScript -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -304,6 +318,28 @@
             <p id="disclaimer" class="text-xs text-gray-600 mt-2 max-w-xl mx-auto"></p>
         </div>
     </footer>
+    
+    <template id="transactionItemTemplate">
+        <div class="transaction-item">
+            <div class="flex justify-between items-baseline mb-1">
+                <span class="tx-time font-roboto-mono text-xs text-gray-400"></span>
+                <span class="tx-action font-orbitron text-sm font-bold flex items-center">
+                    <svg class="w-4 h-4 mr-1.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L12 11.586l3.293-3.293A1 1 0 0116 8V7h-4z" clip-rule="evenodd"></path></svg>
+                    BOUGHT
+                </span>
+            </div>
+            <div class="flex justify-between items-baseline flex-wrap gap-x-4">
+                <div>
+                    <span class="tx-amount font-bold text-base text-white"></span>
+                    <span class="tx-currency font-bold text-base"></span>
+                    <span class="tx-for-vibe text-sm text-gray-400"></span>
+                </div>
+                <div class="tx-actor-info text-sm text-gray-400 font-roboto-mono">
+                    <span class="tx-wallet text-cyan-400"></span>
+                </div>
+            </div>
+        </div>
+    </template>
 
     <script>
         // ===================================================================================
@@ -390,7 +426,7 @@
             },
             links: {
                 contractAddress: "", 
-                placeholderAddress: "CNNQZyEWfz9mDBRCiRNwjaUvMaLnaRWem8HeJYh7bonk",
+                placeholderAddress: "Will be available after launch",
                 exchanges: [
                     { name: "Binance", url: "https://www.binance.com/", style: "binance" },
                     { name: "Bybit", url: "https://www.bybit.com/", style: "bybit" },
@@ -412,13 +448,10 @@
             'use strict';
 
             function populateContent() {
-                // Meta
                 document.title = projectConfig.meta.title;
                 document.querySelector('meta[name="description"]').setAttribute('content', projectConfig.meta.description);
                 document.getElementById('hero-title').innerText = projectConfig.meta.heroTitle;
                 document.getElementById('hero-subtitle').innerText = projectConfig.meta.heroSubtitle;
-
-                // Navigation
                 const desktopNav = document.getElementById('desktop-nav');
                 const mobileNav = document.getElementById('mobile-nav');
                 desktopNav.innerHTML = '';
@@ -428,9 +461,6 @@
                     mobileNav.innerHTML += `<a href="${link.href}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">${link.name}</a>`;
                 });
                  mobileNav.innerHTML += `<a href="#how-to-buy" class="text-cyan-400 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">How to Buy</a>`;
-
-
-                // Vision
                 const visionContainer = document.getElementById('vision-content');
                 let visionHTML = `<h2 class="section-title-pro text-3xl md:text-4xl">${projectConfig.vision.title}</h2><p class="section-subtitle-pro text-lg">${projectConfig.vision.subtitle}</p><div class="grid md:grid-cols-3 gap-6 lg:gap-8 text-center">`;
                 projectConfig.vision.cards.forEach(card => {
@@ -438,8 +468,6 @@
                 });
                 visionHTML += `</div>`;
                 visionContainer.innerHTML = visionHTML;
-
-                // Tokenomics
                 document.getElementById('tokenomics-subtitle').innerText = projectConfig.tokenomics.subtitle;
                 const tokenomicsContainer = document.getElementById('tokenomics-cards');
                 tokenomicsContainer.innerHTML = `
@@ -458,8 +486,6 @@
                         </ul>
                     </div>
                 `;
-
-                // Roadmap
                 document.getElementById('roadmap-subtitle').innerText = projectConfig.roadmap.subtitle;
                 const roadmapContainer = document.getElementById('roadmap-container');
                 roadmapContainer.innerHTML = '';
@@ -474,8 +500,6 @@
                         </div>
                     `;
                 });
-
-                // Community
                 document.getElementById('community-subtitle').innerText = projectConfig.community.subtitle;
                 const socialsContainer = document.getElementById('social-links-container');
                 socialsContainer.innerHTML = `
@@ -486,20 +510,16 @@
                         <svg class="w-8 h-8 sm:w-10 sm:h-10 text-purple-400 group-hover:text-purple-300 transition-colors" fill="currentColor" viewBox="0 0 24 24"><g><path d="M22 2L11.167 12.833L2 14.833L5.667 8.5L2 2L22 2ZM11.167 12.833L18.333 6.5L5.667 8.5L11.167 12.833Z" transform="translate(0 -0.000488281)"></path><path d="M22.0002 2.00049L14.8335 18.3338L11.1668 12.8338L18.3335 6.50049L22.0002 2.00049Z"></path></g></svg>
                     </a>
                 `;
-
-                // Links
                 const exchangeContainer = document.getElementById('exchange-links-container');
                 exchangeContainer.innerHTML = '';
                 projectConfig.links.exchanges.forEach(link => {
                     exchangeContainer.innerHTML += `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="exchange-button ${link.style}">${link.name}</a>`;
                 });
-                
                 const dexContainer = document.getElementById('dex-links-container');
                 dexContainer.innerHTML = '';
                  projectConfig.links.dex.forEach(link => {
                     dexContainer.innerHTML += `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="font-orbitron pro-button ${link.style} py-3 px-8 rounded-lg text-sm sm:text-base w-full sm:w-auto">${link.name}</a>`;
                 });
-                
                 const addressInput = document.getElementById('contractAddress');
                 if (projectConfig.links.contractAddress) {
                     addressInput.value = projectConfig.links.contractAddress;
@@ -507,8 +527,6 @@
                 } else {
                     addressInput.placeholder = projectConfig.links.placeholderAddress;
                 }
-
-                // Disclaimer
                 document.getElementById('disclaimer').innerText = projectConfig.disclaimer;
             }
 
@@ -520,20 +538,17 @@
                 canvas.height = 32;
                 const ctx = canvas.getContext('2d');
                 let t = 0;
-
                 function draw() {
                     t += 0.05;
                     const radius = 8 + Math.sin(t) * 2;
                     ctx.clearRect(0, 0, 32, 32);
                     ctx.beginPath();
                     ctx.arc(16, 16, radius, 0, Math.PI * 2);
-                    ctx.fillStyle = '#A855F7'; // Purple
+                    ctx.fillStyle = '#A855F7';
                     ctx.fill();
                     try {
                         favicon.href = canvas.toDataURL('image/png');
-                    } catch (e) {
-                        console.error("Could not update favicon:", e);
-                    }
+                    } catch (e) { console.error("Could not update favicon:", e); }
                     requestAnimationFrame(draw);
                 }
                 draw();
@@ -544,7 +559,6 @@
                 const mobileMenu = document.getElementById('mobile-menu');
                 const openIcon = document.getElementById('menu-icon-open');
                 const closeIcon = document.getElementById('menu-icon-close');
-
                 if(menuButton && mobileMenu && openIcon && closeIcon) {
                     menuButton.addEventListener('click', () => {
                         mobileMenu.classList.toggle('hidden');
@@ -566,15 +580,11 @@
                 const addressElement = document.getElementById('contractAddress');
                 const feedbackElement = document.getElementById('copyFeedback');
                 if (!copyButton || !addressElement || !feedbackElement) return;
-
                 let feedbackTimeout;
-
                 copyButton.addEventListener('click', () => {
                     clearTimeout(feedbackTimeout);
                     const addressToCopy = addressElement.value;
-                    
                     feedbackElement.style.opacity = '1';
-
                     if (!addressToCopy || addressToCopy.trim() === '' || addressToCopy.trim() === projectConfig.links.placeholderAddress) {
                         feedbackElement.textContent = 'Address not available yet!';
                         feedbackElement.style.color = '#F59E0B';
@@ -585,44 +595,204 @@
                             textArea.style.position = 'fixed';
                             textArea.style.top = '-9999px';
                             textArea.style.left = '-9999px';
-                            
                             document.body.appendChild(textArea);
                             textArea.select();
                             document.execCommand('copy');
                             document.body.removeChild(textArea);
-
                             feedbackElement.textContent = 'Address Copied!';
                             feedbackElement.style.color = '#22D3EE';
-
                         } catch (err) {
                             feedbackElement.textContent = 'Failed to copy!';
                             feedbackElement.style.color = '#F472B6';
                             console.error('Fallback copy failed: ', err);
                         }
                     }
-                    
                     feedbackTimeout = setTimeout(() => {
                         feedbackElement.style.opacity = '0';
                     }, 2000);
                 });
             }
+            
+            function handle3DLogo() {
+                const container = document.getElementById('logo-container');
+                const canvas = document.getElementById('logo-canvas');
+                if (!container || !canvas || typeof THREE === 'undefined') return;
 
-            function handleLiveChart() {
-                const chartContainer = document.getElementById('chart-container');
-                if (!chartContainer) return;
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
 
-                function loadChart(address) {
-                    chartContainer.innerHTML = '';
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://dexscreener.com/solana/${address}?embed=1&theme=dark&info=0`;
-                    iframe.width = '100%';
-                    iframe.height = '500';
-                    iframe.setAttribute('frameborder', '0');
-                    iframe.setAttribute('allowfullscreen', '');
-                    chartContainer.appendChild(iframe);
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+                scene.add(ambientLight);
+                const pointLight1 = new THREE.PointLight(0xA855F7, 1.5, 200);
+                pointLight1.position.set(50, 50, 50);
+                scene.add(pointLight1);
+                const pointLight2 = new THREE.PointLight(0x06B6D4, 1.5, 200);
+                pointLight2.position.set(-50, -50, -50);
+                scene.add(pointLight2);
+
+
+                // Crystal Core
+                const coreGeometry = new THREE.IcosahedronGeometry(4, 0);
+                const coreMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xffffff,
+                    emissive: 0xA855F7,
+                    emissiveIntensity: 1,
+                    metalness: 0.8,
+                    roughness: 0.2,
+                });
+                const core = new THREE.Mesh(coreGeometry, coreMaterial);
+                scene.add(core);
+
+                // Outer Rings
+                const ring1_geom = new THREE.TorusGeometry(10, 0.3, 16, 100);
+                const ring1_mat = new THREE.MeshBasicMaterial({ color: 0xA855F7, wireframe: true });
+                const ring1 = new THREE.Mesh(ring1_geom, ring1_mat);
+                ring1.rotation.x = Math.PI / 2;
+                scene.add(ring1);
+
+                const ring2_geom = new THREE.TorusGeometry(13, 0.3, 16, 100);
+                const ring2_mat = new THREE.MeshBasicMaterial({ color: 0x06B6D4, wireframe: true, opacity: 0.5, transparent: true });
+                const ring2 = new THREE.Mesh(ring2_geom, ring2_mat);
+                ring2.rotation.x = Math.PI / 2;
+                ring2.rotation.y = Math.PI / 4;
+                scene.add(ring2);
+
+                // Particle System
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCnt = 5000;
+                const posArray = new Float32Array(particlesCnt * 3);
+                for(let i = 0; i < particlesCnt * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 150;
+                }
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.1,
+                    color: 0x67E8F9,
+                    blending: THREE.AdditiveBlending,
+                    transparent: true,
+                    opacity: 0.7
+                });
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+
+                camera.position.z = 45;
+
+                const clock = new THREE.Clock();
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    const elapsedTime = clock.getElapsedTime();
+
+                    // Animate objects
+                    core.rotation.y = .2 * elapsedTime;
+                    core.rotation.x = .2 * elapsedTime;
+                    ring1.rotation.z = -.1 * elapsedTime;
+                    ring2.rotation.z = .08 * elapsedTime;
+                    particlesMesh.rotation.y = -.03 * elapsedTime;
+
+                    renderer.render(scene, camera);
+                }
+                animate();
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = container.clientWidth / container.clientHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                });
+            }
+
+            function handleTransactionFeed() {
+                const container = document.getElementById('transactionFeedContainer');
+                const template = document.getElementById('transactionItemTemplate');
+                const statusEl = document.getElementById('tx-feed-status');
+                if (!container || !template || !statusEl) return;
+
+                const config = {
+                    maxTransactions: 6,
+                    minInterval: 2500,
+                    maxInterval: 12000,
+                    vibePerSol: 1000000,
+                };
+                
+                const accentColors = [
+                    { hex: '#A855F7', rgb: '168, 85, 247' },
+                    { hex: '#06B6D4', rgb: '6, 182, 212' },
+                    { hex: '#EC4899', rgb: '236, 72, 153' },
+                    { hex: '#10B981', rgb: '16, 185, 129' },
+                    { hex: '#F97316', rgb: '249, 115, 22' }
+                ];
+                let simulationIntervalId = null;
+
+                function getRandom(min, max) { return Math.random() * (max - min) + min; }
+                function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+                
+                function generateRandomString(length) {
+                    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
+                    let result = '';
+                    for (let i = 0; i < length; i++) {
+                        result += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    return result;
                 }
 
-                return { load: loadChart };
+                function createTransactionElement() {
+                    const clone = template.content.cloneNode(true);
+                    const item = clone.querySelector('.transaction-item');
+                    const randomAccent = getRandomItem(accentColors);
+                    
+                    const solSpent = getRandom(0.5, 10);
+                    const vibeAmount = solSpent * config.vibePerSol * getRandom(0.9, 1.1);
+                    
+                    item.style.setProperty('--item-accent-rgb', randomAccent.rgb);
+                    clone.querySelector('.tx-action').style.color = randomAccent.hex;
+                    clone.querySelector('.tx-action svg').style.color = randomAccent.hex;
+                    
+                    clone.querySelector('.tx-time').textContent = new Date().toLocaleTimeString();
+                    clone.querySelector('.tx-amount').textContent = solSpent.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4});
+                    clone.querySelector('.tx-currency').textContent = 'SOL';
+                    clone.querySelector('.tx-for-vibe').innerHTML = `for <span class="font-bold" style="color:${randomAccent.hex}">${vibeAmount.toLocaleString(undefined, {maximumFractionDigits:0})} $VIBE</span>`;
+                    clone.querySelector('.tx-wallet').textContent = `${generateRandomString(4)}...${generateRandomString(4)}`;
+
+                    return item;
+                }
+
+                function addTransaction() {
+                    const transactionElement = createTransactionElement();
+                    if (container.children.length >= config.maxTransactions) {
+                        const oldestChild = container.lastElementChild;
+                        oldestChild.style.animation = 'transaction-fade-out-down 0.6s ease-out forwards';
+                        setTimeout(() => {
+                            if(oldestChild.parentNode === container) {
+                                oldestChild.remove()
+                            }
+                        }, 600);
+                    }
+                    container.prepend(transactionElement);
+                }
+                
+                function startSimulation() {
+                    if (simulationIntervalId) return;
+                    statusEl.textContent = 'Live network activity simulation...';
+                    statusEl.classList.remove('animate-pulse');
+                    
+                    for (let i = 0; i < config.maxTransactions; i++) {
+                        setTimeout(addTransaction, i * 500);
+                    }
+
+                    function scheduleNext() {
+                        simulationIntervalId = setTimeout(() => {
+                            addTransaction();
+                            scheduleNext();
+                        }, getRandom(config.minInterval, config.maxInterval));
+                    }
+                    scheduleNext();
+                }
+
+                return { start: startSimulation };
             }
 
             document.addEventListener('DOMContentLoaded', () => {
@@ -630,20 +800,21 @@
                 handleAnimatedFavicon();
                 handleHeader();
                 handleCopyAddress();
+                handle3DLogo();
                 
-                const liveChart = handleLiveChart();
+                const transactionSimulator = handleTransactionFeed();
                 const addressNode = document.getElementById('contractAddress');
-                let chartLoaded = false;
+                let simStarted = false;
 
                 if (addressNode) {
                     addressNode.addEventListener('input', () => {
-                        if (chartLoaded) return;
+                        if (simStarted) return;
 
                         const currentAddress = addressNode.value.trim();
                         
                         if (currentAddress.length > 30 && currentAddress.length < 50 && !currentAddress.includes(" ")) {
-                            chartLoaded = true;
-                            liveChart.load(currentAddress);
+                            simStarted = true;
+                            transactionSimulator.start();
                         }
                     });
                 }
