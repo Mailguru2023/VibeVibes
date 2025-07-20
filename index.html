@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>VibeVibes</title> 
-    <meta name="description" content="">
-    
-    <!-- Animated Favicon -->
-    <link id="favicon" rel="icon" href="">
-
+    <title>VibeVibes ($VIBE) - Invest in the Future of Digital Vibes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        html { scroll-behavior: smooth; }
+        /* --- GENERAL STYLES --- */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827;
-            color: #E5E7EB;
-            overflow-x: hidden;
-            padding-top: 4rem; /* 64px, which is the height of the header (h-16) */
+            background-color: #111827; /* Very dark blue-gray */
+            color: #E5E7EB; /* Light gray for text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
+
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .font-roboto { font-family: 'Roboto', sans-serif; }
         .font-roboto-mono { font-family: 'Roboto Mono', monospace; }
+
+        /* --- NEON EFFECTS --- */
         .neon-text-accent {
             text-shadow:
                 0 0 4px rgba(255, 255, 255, 0.6),
@@ -34,6 +30,9 @@
         .neon-cyan-accent { --neon-glow-color: #06B6D4; color: #67E8F9; }
         .neon-pink-accent { --neon-glow-color: #EC4899; color: #F9A8D4; }
         .neon-green-accent { --neon-glow-color: #10B981; color: #34D399; }
+        .neon-orange-accent { --neon-glow-color: #F97316; color: #FB923C; }
+
+        /* --- BUTTONS --- */
         .pro-button {
             border: 1px solid var(--btn-color, #A855F7);
             box-shadow: 0 0 8px -2px var(--btn-color, #A855F7), 0 0 5px var(--btn-color, #A855F7) inset;
@@ -42,159 +41,391 @@
             background-color: rgba(var(--btn-rgb-color, 168, 85, 247), 0.1);
             transform: perspective(1px) translateZ(0);
         }
-        .pro-button:hover, .pro-button:focus {
+        .pro-button:hover {
             background-color: var(--btn-color, #A855F7);
             color: #111827;
             box-shadow: 0 0 15px 0px var(--btn-color, #A855F7), 0 0 10px var(--btn-color, #A855F7) inset;
             transform: scale(1.05);
-            outline: none;
         }
         .pro-button-primary { --btn-color: #A855F7; --btn-rgb-color: 168, 85, 247; }
         .pro-button-secondary { --btn-color: #06B6D4; --btn-rgb-color: 6, 182, 212; }
         .pro-button-green { --btn-color: #10B981; --btn-rgb-color: 16, 185, 129; }
-        .exchange-button {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            margin: 0.25rem;
-            border-radius: 0.375rem;
+
+        /* --- NEW EXCHANGE BUTTON STYLE --- */
+        .exchange-button-pro {
+            position: relative;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Orbitron', sans-serif;
             font-weight: 600;
-            transition: all 0.2s ease-in-out;
-            border: 1px solid var(--exchange-color);
-            color: var(--exchange-text-color);
-            background-color: var(--exchange-bg-color);
-            box-shadow: 0 0 8px -2px var(--exchange-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #E5E7EB;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+            border: 1px solid var(--exchange-color, #A855F7);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            z-index: 1;
         }
-        .exchange-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px 0px var(--exchange-color);
+        .exchange-button-pro span {
+            position: relative;
+            z-index: 2;
+            transition: color 0.4s ease;
         }
-        .exchange-button.binance { 
-            --exchange-color: #F0B90B;
-            --exchange-text-color: #1E2329;
-            --exchange-bg-color: #F0B90B;
+        .exchange-button-pro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--exchange-color);
+            transition: left 0.5s ease;
+            z-index: 1;
         }
-        .exchange-button.binance:hover { background-color: #f3c33a; }
-        .exchange-button.bybit { 
-            --exchange-color: #FFD111;
-            --exchange-text-color: #FFD111;
-            --exchange-bg-color: rgba(10, 10, 10, 0.4);
-            border-width: 2px;
+        .exchange-button-pro:hover {
+             box-shadow: 0 0 20px var(--exchange-color);
         }
-        .exchange-button.bybit:hover { background-color: rgba(255, 209, 17, 0.1); }
-        .exchange-button.coinbase { 
-            --exchange-color: #0052FF;
-            --exchange-text-color: white;
-            --exchange-bg-color: #0052FF;
+        .exchange-button-pro:hover span {
+            color: #111827; /* Dark text on hover */
         }
-        .exchange-button.coinbase:hover { background-color: #2a71ff; }
-        .wallet-link-placeholder {
-            position: relative; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; padding: 0.75rem 1.25rem; border-radius: 0.5rem; transition: all 0.3s ease; width: 140px; height: 56px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 600; text-align: center; overflow: hidden; 
+        .exchange-button-pro:hover::before {
+            left: 0;
         }
+
+        .exchange-button-binance { --exchange-color: #F0B90B; }
+        .exchange-button-bybit { --exchange-color: #F7A600; }
+        .exchange-button-coinbase { --exchange-color: #0052FF; }
+
+
+        /* --- BACKGROUND & LAYERS --- */
+        .hero-bg-pro {
+            background: #0c0f1a;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg-pro::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            width: 250%; height: 250%;
+            background:
+                radial-gradient(circle at center, rgba(168, 85, 247, 0.12) 0%, transparent 25%),
+                radial-gradient(circle at 20% 30%, rgba(6, 182, 212, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.09) 0%, transparent 20%);
+            transform: translateX(-50%) translateY(-50%);
+            animation: rotateBackground 90s linear infinite;
+            opacity: 0.6;
+            filter: blur(5px);
+        }
+        @keyframes rotateBackground {
+            from { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+        }
+        .content-layer-pro { position: relative; z-index: 1; }
+
+        /* --- SECTION STYLES --- */
+        .section-title-pro {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #F3F4F6;
+        }
+        .section-subtitle-pro {
+            font-family: 'Roboto', sans-serif;
+            color: #9CA3AF;
+            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem;
+        }
+
+        /* --- INFO CARDS --- */
+        .info-card {
+            background-color: rgba(31, 41, 55, 0.6);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.5);
+        }
+        .info-card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            color: #C084FC;
+            margin-bottom: 1rem;
+        }
+
+        /* --- PROFESSIONAL ROADMAP --- */
+        .pro-roadmap-container {
+            position: relative;
+            padding: 2rem 0;
+        }
+        .pro-roadmap-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-image: linear-gradient(to bottom, #A855F7, #06B6D4, #EC4899);
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+            border-radius: 2px;
+        }
+        .pro-roadmap-item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 50%;
+        }
+        .pro-roadmap-item:nth-child(odd) {
+            left: 0;
+            padding-right: 3rem;
+        }
+        .pro-roadmap-item:nth-child(even) {
+            left: 50%;
+            padding-left: 3rem;
+        }
+        .pro-roadmap-content {
+            background-color: rgba(31, 41, 55, 0.75);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+        .pro-roadmap-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px -5px rgba(var(--phase-color, 168, 85, 247), 0.6);
+            border-color: rgba(var(--phase-color, 168, 85, 247), 0.8);
+        }
+        .pro-roadmap-item:nth-child(odd) .pro-roadmap-content { text-align: right; }
+        .pro-roadmap-item:nth-child(even) .pro-roadmap-content { text-align: left; }
+
+        .pro-roadmap-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #111827;
+            border: 4px solid var(--phase-color, #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 0 15px var(--phase-color, #A855F7);
+            transition: all 0.3s ease;
+        }
+        .pro-roadmap-item:hover .pro-roadmap-icon {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .pro-roadmap-item:nth-child(odd) .pro-roadmap-icon { right: -24px; }
+        .pro-roadmap-item:nth-child(even) .pro-roadmap-icon { left: -24px; }
+        .pro-roadmap-icon svg { width: 24px; height: 24px; color: var(--phase-color, #A855F7); }
+
+        .pro-roadmap-phase {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #9CA3AF;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        .pro-roadmap-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #E5E7EB;
+            margin-bottom: 0.75rem;
+        }
+        .pro-roadmap-status {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.85rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .status-completed { background-color: #059669; color: #D1FAE5; box-shadow: 0 0 8px #059669; }
+        .status-inprogress { background-color: #F59E0B; color: #FFFBEB; box-shadow: 0 0 8px #F59E0B; animation: pulse-inprogress 2s infinite; }
+        .status-planned { background-color: #60A5FA; color: #EFF6FF; box-shadow: 0 0 8px #60A5FA; }
+
+        @keyframes pulse-inprogress {
+            0%, 100% { box-shadow: 0 0 8px #F59E0B; }
+            50% { box-shadow: 0 0 16px #F59E0B; }
+        }
+
+        /* --- COPY ADDRESS BLOCK --- */
+        .copy-address-block {
+            background-color: rgba(31, 41, 55, 0.7);
+            border: 1px solid rgba(6, 182, 212, 0.5);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        .contract-address {
+            font-family: 'Roboto Mono', monospace;
+            color: #9CA3AF; /* Changed to gray for placeholder text */
+            background-color: rgba(12, 15, 26, 0.5);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            word-break: break-all;
+            display: block;
+            margin-bottom: 1rem;
+            min-height: 40px; /* Ensure consistent height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #copyFeedback { min-height: 20px; transition: color 0.3s ease; }
+
+        /* --- STICKY HEADER --- */
+        #stickyHeader {
+            position: fixed;
+            top: -100px;
+            left: 0; right: 0;
+            z-index: 1000;
+            background-color: rgba(12, 15, 26, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: top 0.4s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        #stickyHeader.visible { top: 0; }
+        .header-logo svg { height: 30px; width: auto; animation: rotateHeaderLogo 10s linear infinite; }
+        @keyframes rotateHeaderLogo { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+        .header-nav a { color: #D1D5DB; margin-left: 0.75rem; margin-right: 0.75rem; font-size: 0.875rem; font-weight: 500; transition: color 0.3s ease; }
+        .header-nav a:hover, .header-nav a.active { color: #A855F7; }
+        .header-buy-button { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+
+
+        /* --- LIVE TRANSACTIONS --- */
+        #live-transactions-placeholder {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(31, 41, 55, 0.7);
+            border: 1px dashed rgba(6, 182, 212, 0.5);
+            border-radius: 0.5rem;
+            color: #9CA3AF;
+        }
+        .transaction-item {
+            background-color: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
+            border: 1px solid rgba(var(--item-accent-rgb, 168, 85, 247), 0.35);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 15px rgba(var(--item-accent-rgb, 168, 85, 247), 0.15);
+            opacity: 0;
+            animation: transaction-fade-in-up 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        @keyframes transaction-fade-in-up {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes transaction-fade-out-down {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(15px); }
+        }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 767px) {
+            .header-nav { display: none; }
+            .pro-roadmap-line { left: 24px; transform: translateX(0); }
+            .pro-roadmap-item, .pro-roadmap-item:nth-child(even) {
+                width: 100%;
+                left: 0;
+                padding-left: 3rem;
+                padding-right: 0;
+            }
+            .pro-roadmap-item:nth-child(odd) .pro-roadmap-content,
+            .pro-roadmap-item:nth-child(even) .pro-roadmap-content {
+                text-align: left;
+            }
+            .pro-roadmap-icon, .pro-roadmap-item:nth-child(odd) .pro-roadmap-icon, .pro-roadmap-item:nth-child(even) .pro-roadmap-icon {
+                left: 0;
+            }
+            .hero-bg-pro .flex-col.sm\\:flex-row { flex-direction: column; }
+            .hero-bg-pro .flex-col.sm\\:flex-row > * + * { margin-left: 0; margin-top: 1rem; }
+        }
+        @media (min-width: 768px) {
+             #stickyHeader { padding: 0.75rem 1.5rem; }
+            .header-logo svg { height: 36px; }
+            .header-buy-button { font-size: 0.875rem; padding: 0.5rem 1rem; }
+        }
+        
+        /* Other styles from original file for completeness */
+        .wallet-link-placeholder { position: relative; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; padding: 0.75rem 1.25rem; border-radius: 0.5rem; transition: all 0.3s ease; width: 140px; height: 56px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 600; text-align: center; overflow: hidden; }
         .wallet-link-placeholder > span { position: relative; z-index: 2; }
-        .wallet-link-placeholder::before { content: ""; position: absolute; top: 0; left: -150%; width: 70%; height: 100%; background: linear-gradient(100deg, transparent 25%, rgba(255, 230, 180, 0.05) 35%, rgba(255, 255, 255, 0.7) 45%, #FFDE7A 50%, rgba(255, 255, 255, 0.7) 55%, rgba(255, 230, 180, 0.05) 65%, transparent 75%); opacity: 0; transform: skewX(-20deg); transition: all 0s; z-index: 1; }
+        .wallet-link-placeholder::before { content: ""; position: absolute; top: 0; left: -150%; width: 70%; height: 100%; background: linear-gradient( 100deg, transparent 25%, rgba(255, 230, 180, 0.05) 35%, rgba(255, 255, 255, 0.7) 45%, #FFDE7A 50%, rgba(255, 255, 255, 0.7) 55%, rgba(255, 230, 180, 0.05) 65%, transparent 75% ); opacity: 0; transform: skewX(-20deg); transition: all 0s; z-index: 1; }
         .wallet-link-placeholder:hover::before { animation: crystal-glint 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
         @keyframes crystal-glint { 0% { left: -100%; opacity: 0; } 20% { opacity: 0.7; } 100% { left: 170%; opacity: 0; } }
         .wallet-link-placeholder.phantom { border: 2px solid rgba(168, 85, 247, 0.7); color: #D8B4FE; background-color: rgba(168, 85, 247, 0.05); }
         .wallet-link-placeholder.phantom:hover { border-color: #A855F7; color: #C084FC; background-color: rgba(168, 85, 247, 0.2); box-shadow: 0 0 15px rgba(168, 85, 247, 0.5), 0 0 25px rgba(168, 85, 247, 0.3); }
         .wallet-link-placeholder.solflare { border: 2px solid rgba(6, 182, 212, 0.7); color: #67E8F9; background-color: rgba(6, 182, 212, 0.05); }
         .wallet-link-placeholder.solflare:hover { border-color: #06B6D4; color: #22D3EE; background-color: rgba(6, 182, 212, 0.2); box-shadow: 0 0 15px rgba(6, 182, 212, 0.5), 0 0 25px rgba(6, 182, 212, 0.3); }
-        .hero-bg-pro { background: #0c0f1a; position: relative; overflow: hidden; }
-        .hero-bg-pro::before { content: ''; position: absolute; top: 0; left: 50%; width: 250%; height: 250%; background: radial-gradient(circle at center, rgba(168, 85, 247, 0.12) 0%, transparent 25%), radial-gradient(circle at 20% 30%, rgba(6, 182, 212, 0.1) 0%, transparent 20%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.09) 0%, transparent 20%); transform: translateX(-50%) translateY(-50%) rotate(0deg); animation: rotateBackground 90s linear infinite; opacity: 0.6; filter: blur(5px); }
-        @keyframes rotateBackground { from { transform: translateX(-50%) translateY(-50%) rotate(0deg); } to { transform: translateX(-50%) translateY(-50%) rotate(360deg); } }
-        .section-title-pro { font-family: 'Orbitron', sans-serif; font-weight: 700; margin-bottom: 1.5rem; text-align: center; color: #F3F4F6; }
-        .section-subtitle-pro { font-family: 'Roboto', sans-serif; color: #9CA3AF; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto; margin-bottom: 3rem; }
-        .content-layer-pro { position: relative; z-index: 1; }
-        .info-card { background-color: rgba(31, 41, 55, 0.6); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; }
-        .info-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.5); }
-        .info-card-title { font-family: 'Orbitron', sans-serif; font-weight: 600; color: #C084FC; margin-bottom: 1rem; }
-        .roadmap-item { position: relative; padding: 1.5rem; padding-left: 3.5rem; border-left: 4px solid #4B5563; }
-        .roadmap-item:last-child { border-left-color: transparent; }
-        .roadmap-icon { position: absolute; left: -18px; top: 1.75rem; width: 32px; height: 32px; border-radius: 50%; background-color: #111827; border: 4px solid var(--icon-color, #4B5563); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px var(--icon-color, #4B5563); }
-        .roadmap-icon svg { width: 16px; height: 16px; color: var(--icon-color, #4B5563); }
-        .roadmap-item.completed { border-left-color: #10B981; }
-        .roadmap-item.completed .roadmap-icon { --icon-color: #10B981; }
-        .roadmap-item.inprogress { border-left-color: #F59E0B; }
-        .roadmap-item.inprogress .roadmap-icon { --icon-color: #F59E0B; }
-        .roadmap-item.planned { border-left-color: #3B82F6; }
-        .roadmap-item.planned .roadmap-icon { --icon-color: #3B82F6; }
-        .roadmap-status { font-size: 0.875rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 600; }
-        .status-completed { background-color: rgba(16, 185, 129, 0.2); color: #34D399; }
-        .status-inprogress { background-color: rgba(245, 158, 11, 0.2); color: #FBBF24; }
-        .status-planned { background-color: rgba(59, 130, 246, 0.2); color: #60A5FA; }
-        #stickyHeader { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background-color: rgba(12, 15, 26, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        #copyFeedback { transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out; }
-        #mobile-menu { background-color: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-        .transaction-item { background-color: rgba(31, 41, 55, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; border-radius: 0.375rem; border: 1px solid rgba(var(--item-accent-rgb, 168, 85, 247), 0.35); box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 15px rgba(var(--item-accent-rgb, 168, 85, 247), 0.15); opacity: 0; animation: transaction-fade-in-up 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; display: flex; flex-direction: column; gap: 0.15rem; transition: transform 0.25s ease, box-shadow 0.25s ease; }
-        .transaction-item:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 4px 12px rgba(0,0,0,0.25), 0 0 20px rgba(var(--item-accent-rgb, 168, 85, 247), 0.3); }
-        @keyframes transaction-fade-in-up { from { opacity: 0; transform: translateY(15px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes transaction-fade-out-down { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(15px) scale(0.98); } }
-        @keyframes subtle-pulse-hero-svg {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.03); opacity: 1; }
-        }
-        .animate-subtle-pulse-hero-svg {
-            animation: subtle-pulse-hero-svg 4s infinite ease-in-out;
-        }
+        .wallet-link-placeholder.metamask { border: 2px solid rgba(236, 72, 153, 0.7); color: #F9A8D4; background-color: rgba(236, 72, 153, 0.05); }
+        .wallet-link-placeholder.metamask:hover { border-color: #EC4899; color: #F472B6; background-color: rgba(236, 72, 153, 0.2); box-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 25px rgba(236, 72, 153, 0.3); }
+        .hero-logo-aurora-container { position: relative; display: inline-block; z-index: 1; }
+        .aurora-effect { position: absolute; top: 50%; left: 50%; width: 250%; height: 250%; transform: translate(-50%, -50%); background: radial-gradient(ellipse farthest-corner at 50% 50%, rgba(168, 85, 247, 0.3) 0%, transparent 50%), radial-gradient(ellipse farthest-corner at 40% 40%, rgba(6, 182, 212, 0.25) 0%, transparent 55%), radial-gradient(ellipse farthest-corner at 60% 60%, rgba(236, 72, 153, 0.25) 0%, transparent 55%), radial-gradient(ellipse farthest-corner at 50% 50%, rgba(16, 185, 129, 0.2) 0%, transparent 60%); border-radius: 50%; opacity: 0; animation: aurora-flow 15s ease-in-out infinite, aurora-fade-in 2s ease-out 0.5s forwards; z-index: -1; filter: blur(25px); mix-blend-mode: lighten; }
+        @keyframes aurora-flow { 0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); } 25% { transform: translate(-45%, -55%) rotate(45deg) scale(1.1); } 50% { transform: translate(-50%, -50%) rotate(90deg) scale(1.2); } 75% { transform: translate(-55%, -45%) rotate(135deg) scale(1.1); } 100% { transform: translate(-50%, -50%) rotate(180deg) scale(1); } }
+        @keyframes aurora-fade-in { to { opacity: 0.6; } }
+        .animate-subtle-pulse-hero-svg { animation: subtle-pulse-hero-svg 3s infinite ease-in-out; }
+        @keyframes subtle-pulse-hero-svg { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.03); opacity: 1; } }
+        .animate-text-focus-in { animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both; }
+        @keyframes text-focus-in { 0% { filter: blur(12px); opacity: 0; } 100% { filter: blur(0px); opacity: 1; } }
+        .animate-text-focus-in-delay-1 { animation-delay: 0.3s; }
+        .animate-text-focus-in-delay-2 { animation-delay: 0.6s; }
     </style>
 </head>
 <body class="antialiased">
 
-    <header id="stickyHeader">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <a href="#" class="header-logo flex-shrink-0" aria-label="VibeVibes Home"> 
-                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" class="h-8 md:h-9 w-auto">
-                            <circle cx="50" cy="50" r="40" stroke="url(#headerStickyLogoGradient)" stroke-width="5"/>
-                            <text x="50" y="58" font-family="'Orbitron', sans-serif" font-size="24" fill="#A855F7" text-anchor="middle" class="neon-text-accent neon-purple-accent">$V</text>
-                            <defs>
-                                <linearGradient id="headerStickyLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </a>
-                </div>
-                <div class="hidden md:block">
-                    <nav id="desktop-nav" class="ml-10 flex items-baseline space-x-4">
-                        <!-- Desktop navigation links will be inserted here -->
-                    </nav>
-                </div>
-                <div class="hidden md:block">
-                     <a href="#how-to-buy" class="pro-button pro-button-primary text-xs md:text-sm py-2 px-4 rounded-lg">
-                        Buy $VIBE
-                    </a>
-                </div>
-                <div class="-mr-2 flex md:hidden">
-                    <!-- Mobile menu button -->
-                    <button type="button" id="menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Mobile menu, show/hide based on menu state. -->
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div id="mobile-nav" class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <!-- Mobile navigation links will be inserted here -->
-            </div>
-        </div>
-    </header>
-
+    <div id="stickyHeader">
+        <a href="#" class="header-logo"> <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" stroke="url(#headerStickyLogoGradient)" stroke-width="5"/>
+                <text x="50" y="58" font-family="'Orbitron', sans-serif" font-size="24" fill="#A855F7" text-anchor="middle" class="neon-text-accent neon-purple-accent">$V</text>
+                <defs>
+                    <linearGradient id="headerStickyLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </a>
+        <nav class="header-nav">
+            <a href="#vision">Vision</a>
+            <a href="#tokenomics-pro">Tokenomics</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#community-pro">Community</a>
+        </nav>
+        <a href="#how-to-invest" class="pro-button pro-button-primary header-buy-button">
+            Buy $VIBE
+        </a>
+    </div>
 
     <header class="hero-bg-pro min-h-screen flex flex-col items-center justify-center text-center p-4 sm:p-6 relative">
         <div class="content-layer-pro">
-             <div class="mb-8 relative inline-block"> 
-                <svg class="w-32 h-32 sm:w-36 sm:h-36 md:w-48 md:h-48 mx-auto opacity-90 animate-subtle-pulse-hero-svg relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="heroLogoTitle"> 
-                    <title id="heroLogoTitle">VibeVibes Logo</title>
-                    <circle cx="50" cy="50" r="45" stroke="url(#heroStaticLogoGradient)" stroke-width="3.5"/> 
+             <div class="mb-8 hero-logo-aurora-container">
+                <svg class="w-32 h-32 sm:w-36 sm:h-36 md:w-48 md:h-48 mx-auto opacity-90 animate-subtle-pulse-hero-svg relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" stroke="url(#heroStaticLogoGradient)" stroke-width="3.5"/>
                     <path d="M50 10 V90 M10 50 H90 M20 20 L80 80 M20 80 L80 20" stroke="url(#heroStaticLogoGradient)" stroke-width="1.5" opacity="0.4"/>
                     <text x="50" y="57" font-family="'Orbitron', sans-serif" font-size="20" fill="#A855F7" text-anchor="middle" class="neon-text-accent neon-purple-accent">$VIBE</text>
                     <defs>
@@ -204,15 +435,20 @@
                         </linearGradient>
                     </defs>
                 </svg>
+                <div class="aurora-effect"></div>
             </div>
 
-            <h1 id="hero-title" class="font-orbitron text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold neon-text-accent neon-purple-accent mb-4 sm:mb-6 animate-text-focus-in"></h1>
-            <p id="hero-subtitle" class="font-roboto text-base sm:text-lg md:text-xl text-gray-300 max-w-md md:max-w-2xl mx-auto mb-8 sm:mb-10 animate-text-focus-in animate-text-focus-in-delay-1"></p>
+            <h1 class="font-orbitron text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold neon-text-accent neon-purple-accent mb-4 sm:mb-6 animate-text-focus-in">
+                VibeVibes: Pioneering Digital Assets
+            </h1>
+            <p class="font-roboto text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto mb-8 sm:mb-10 animate-text-focus-in animate-text-focus-in-delay-1">
+                Discover $VIBE: A unique token on the Solana blockchain, merging cutting-edge technology, a strong community, and a social mission.
+            </p>
             <div class="mt-8 sm:mt-10 space-y-4 sm:space-y-0 sm:space-x-6 flex flex-col sm:flex-row items-center justify-center animate-text-focus-in animate-text-focus-in-delay-2">
-                <a href="#how-to-buy" class="w-full sm:w-auto font-orbitron text-base md:text-lg pro-button pro-button-primary py-3 sm:py-3.5 px-8 sm:px-12 rounded-lg"> 
+                <a href="#how-to-invest" class="w-full sm:w-auto font-orbitron text-sm sm:text-base md:text-lg pro-button pro-button-primary py-3 sm:py-3.5 px-8 sm:px-12 rounded-lg">
                     Buy $VIBE
                 </a>
-                <a href="#vision" class="w-full sm:w-auto font-orbitron text-base md:text-lg pro-button pro-button-secondary py-3 sm:py-3.5 px-8 sm:px-12 rounded-lg"> 
+                <a href="#vision" class="w-full sm:w-auto font-orbitron text-sm sm:text-base md:text-lg pro-button pro-button-secondary py-3 sm:py-3.5 px-8 sm:px-12 rounded-lg">
                     Learn More
                 </a>
             </div>
@@ -220,563 +456,529 @@
     </header>
 
     <main>
-        <section id="vision" class="py-16 md:py-24 px-4 sm:px-6 bg-gray-800/40">
-            <div id="vision-content" class="content-layer-pro max-w-screen-xl mx-auto">
-                <!-- Vision content will be inserted here -->
-            </div>
-        </section>
-
-        <section id="tokenomics" class="py-16 md:py-24 px-4 sm:px-6">
-            <div class="content-layer-pro max-w-screen-xl mx-auto">
-                <h2 class="section-title-pro text-3xl md:text-4xl">Tokenomics</h2>
-                 <p id="tokenomics-subtitle" class="section-subtitle-pro text-lg"></p>
-                <div id="tokenomics-cards" class="grid lg:grid-cols-2 gap-6 lg:gap-8 items-start"> 
-                    <!-- Tokenomics cards will be inserted here -->
+        <section id="vision" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto bg-gray-800/40">
+            <div class="content-layer-pro">
+                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Our Vision</h2>
+                <p class="section-subtitle-pro text-base sm:text-lg">
+                    VibeVibes aims to create more than just a cryptocurrency; we're building an entire ecosystem powered by positive vibrations, technological innovation, and tangible social impact. We believe in the power of decentralized technology to forge a brighter future.
+                </p>
+                <div class="grid md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 text-center">
+                    <div class="info-card">
+                        <h3 class="info-card-title text-xl sm:text-2xl">Solana Innovation</h3>
+                        <p class="text-gray-400 text-sm sm:text-base">Leveraging the high-performance Solana blockchain for lightning-fast transactions, low fees, and a scalable $VIBE ecosystem.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3 class="info-card-title text-xl sm:text-2xl">Community Power</h3>
+                        <p class="text-gray-400 text-sm sm:text-base">Cultivating an active, engaged global community that shares our values and drives the project's organic growth.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3 class="info-card-title text-xl sm:text-2xl">Social Responsibility</h3>
+                        <p class="text-gray-400 text-sm sm:text-base">Committing a portion of proceeds to support mental health initiatives, demonstrating our dedication to positive global impact.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="roadmap" class="py-16 md:py-24 px-4 sm:px-6 bg-gray-800/40">
-            <div class="content-layer-pro max-w-screen-xl mx-auto">
-                <h2 class="section-title-pro text-3xl md:text-4xl">Our Roadmap</h2>
-                <p id="roadmap-subtitle" class="section-subtitle-pro text-lg"></p>
-                <div id="roadmap-container" class="max-w-3xl mx-auto">
-                    <!-- Roadmap items will be inserted here -->
+        <section id="tokenomics-pro" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto">
+             <div class="content-layer-pro">
+                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Tokenomics: Transparent Token Economy</h2>
+                <p class="section-subtitle-pro text-base sm:text-lg">
+                    The well-defined tokenomics of $VIBE are designed for long-term project sustainability, holder incentives, and support for key development areas.
+                </p>
+                <div class="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-start">
+                    <div class="info-card">
+                        <h3 class="info-card-title text-xl sm:text-2xl">Token Distribution</h3>
+                        <p class="text-gray-400 mb-4 text-sm sm:text-base">Total Supply: 1,000,000,000 $VIBE</p>
+                        <div class="text-gray-300 text-sm sm:text-base space-y-2">
+                            <p><strong class="neon-text-accent neon-pink-accent">Fair Launch via Pump.fun:</strong> 100% of the $VIBE supply is committed to the bonding curve on Pump.fun.</p>
+                            <p>This ensures a transparent and community-driven launch. Once the bonding curve is filled, liquidity will be automatically established and locked on Raydium.</p>
+                            <p>No team tokens, no presale - just pure vibes for everyone from the start!</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h3 class="info-card-title text-xl sm:text-2xl">Transaction Mechanics</h3>
+                        <p class="text-gray-400 mb-4 text-sm sm:text-base">Each transaction contributes to the ecosystem's growth and sustainability:</p>
+                        <ul class="space-y-3 text-gray-300 text-sm sm:text-base">
+                            <li><strong class="neon-text-accent neon-cyan-accent">Burn (2%):</strong> A deflationary mechanism reducing total supply, potentially increasing token value.</li>
+                            <li><strong class="neon-text-accent neon-cyan-accent">Charity (1%):</strong> Automatic allocation to the mental health support fund.</li>
+                            <li><strong class="neon-text-accent neon-cyan-accent">Development (1%):</strong> Reinvestment into marketing, partnerships, and further ecosystem development.</li>
+                        </ul>
+                        <p class="text-xs text-gray-500 mt-4">These mechanics ensure self-sufficiency and long-term project development.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="community" class="py-16 md:py-24 px-4 sm:px-6">
-            <div class="content-layer-pro max-w-screen-xl mx-auto">
-                <h2 class="section-title-pro text-3xl md:text-4xl">Join Our Community</h2>
-                <p id="community-subtitle" class="section-subtitle-pro text-lg"></p>
-                <div id="social-links-container" class="flex justify-center space-x-6 md:space-x-8"> 
-                    <!-- Social links will be inserted here -->
+        <section id="roadmap" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto bg-gray-800/40">
+            <div class="content-layer-pro">
+                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Our Roadmap</h2>
+                <p class="section-subtitle-pro text-base sm:text-lg">Strategic goals and key milestones for the VibeVibes project.</p>
+
+                <div class="pro-roadmap-container max-w-4xl mx-auto">
+                    <div class="pro-roadmap-line"></div>
+
+                    <div class="pro-roadmap-item" style="--phase-color: #10B981;">
+                        <div class="pro-roadmap-icon">
+                            <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <div class="pro-roadmap-content">
+                            <p class="pro-roadmap-phase">Phase 1</p>
+                            <h3 class="pro-roadmap-title">Launch & Foundation</h3>
+                            <span class="pro-roadmap-status status-completed">Completed</span>
+                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1.5 text-left">
+                                <li>$VIBE Smart Contract development on Solana.</li>
+                                <li>Website launch & initial branding.</li>
+                                <li>Launch on Pump.fun & Raydium LP creation.</li>
+                                <li>Social media channel setup & early community building.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="pro-roadmap-item" style="--phase-color: #F59E0B;">
+                        <div class="pro-roadmap-icon">
+                           <svg fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
+                        </div>
+                        <div class="pro-roadmap-content">
+                            <p class="pro-roadmap-phase">Phase 2</p>
+                            <h3 class="pro-roadmap-title">Growth & Expansion</h3>
+                            <span class="pro-roadmap-status status-inprogress">In Progress</span>
+                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1.5 text-left">
+                                <li>Targeted marketing campaigns for audience growth.</li>
+                                <li>Partnerships with influencers and synergistic projects.</li>
+                                <li>Listings on CoinGecko & CoinMarketCap.</li>
+                                <li>First round of charitable contributions.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="pro-roadmap-item" style="--phase-color: #60A5FA;">
+                         <div class="pro-roadmap-icon">
+                            <svg fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"></path></svg>
+                        </div>
+                        <div class="pro-roadmap-content">
+                            <p class="pro-roadmap-phase">Phase 3</p>
+                            <h3 class="pro-roadmap-title">Ecosystem Development</h3>
+                            <span class="pro-roadmap-status status-planned">Planned</span>
+                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1.5 text-left">
+                                <li>Development of additional utilities for the $VIBE token.</li>
+                                <li>Establishment of a DAO for community governance.</li>
+                                <li>Exploration of staking and yield farming opportunities.</li>
+                                <li>Expansion of the charitable program and partnerships.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="how-to-buy" class="py-16 md:py-24 px-4 sm:px-6 bg-gray-800/40">
-            <div class="content-layer-pro max-w-screen-xl mx-auto">
-                <h2 class="section-title-pro text-3xl md:text-4xl">How to Buy $VIBE</h2>
+        <section id="technology" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto">
+             <div class="content-layer-pro">
+                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Technological Backbone</h2>
+                <p class="section-subtitle-pro text-base sm:text-lg">VibeVibes is built on the cutting-edge Solana blockchain, renowned for its speed, efficiency, and low transaction costs. This empowers us to create a scalable and user-friendly ecosystem.</p>
+                <div class="max-w-2xl mx-auto p-6 sm:p-8 info-card">
+                    <h3 class="info-card-title text-xl sm:text-2xl text-center">Solana Advantages for $VIBE</h3>
+                    <ul class="space-y-3 text-gray-300 text-sm sm:text-base">
+                        <li><strong class="neon-text-accent neon-pink-accent">High Performance:</strong> Capable of processing thousands of transactions per second.</li>
+                        <li><strong class="neon-text-accent neon-pink-accent">Low Fees:</strong> Making $VIBE interactions affordable for everyone.</li>
+                        <li><strong class="neon-text-accent neon-pink-accent">Scalability:</strong> Ready for ecosystem growth and an increasing user base.</li>
+                        <li><strong class="neon-text-accent neon-pink-accent">Thriving Ecosystem:</strong> Integration with numerous wallets, DEXs, and other DeFi tools.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section id="community-pro" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto bg-gray-800/40">
+             <div class="content-layer-pro">
+                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Our Community & Impact</h2>
+                <p class="section-subtitle-pro text-base sm:text-lg">
+                    Join our global community of enthusiasts, investors, and positive individuals. Together, we're creating good vibes and making a difference.
+                </p>
+                <div class="flex justify-center space-x-4 sm:space-x-6 md:space-x-10">
+                    <a id="socialLinkTwitter" href="#" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-cyan-500/70 hover:bg-cyan-500/20 transition-all duration-300 group transform hover:scale-110">
+                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                        </svg>
+                        <span class="sr-only">X (Twitter)</span>
+                    </a>
+                    <a id="socialLinkTelegram" href="#" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-purple-500/70 hover:bg-purple-500/20 transition-all duration-300 group transform hover:scale-110">
+                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-purple-400 group-hover:text-purple-300 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M22 2L11.167 12.833L2 14.833L5.667 8.5L2 2L22 2ZM11.167 12.833L18.333 6.5L5.667 8.5L11.167 12.833Z" transform="translate(0 -0.000488281)"></path><path d="M22.0002 2.00049L14.8335 18.3338L11.1668 12.8338L18.3335 6.50049L22.0002 2.00049Z"></path></g></svg>
+                        <span class="sr-only">Telegram</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section id="how-to-invest" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto">
+            <div class="content-layer-pro">
+                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">How to Buy $VIBE</h2>
                 <div class="max-w-2xl mx-auto space-y-6">
                     <div class="info-card">
                         <h3 class="info-card-title text-xl sm:text-2xl">Step 1: Get a Wallet</h3>
                         <p class="text-gray-400 mb-4 text-sm sm:text-base">
-                            We recommend Solana-native wallets like Phantom or Solflare.
+                            You need a Solana-compatible wallet. We recommend Phantom or Solflare. MetaMask is also a popular choice.
                         </p>
-                        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center justify-items-center">
-                            <a href="https://phantom.app/" target="_blank" rel="noopener noreferrer" class="wallet-link-placeholder phantom w-full">
+                         <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 items-center justify-items-center">
+                            <a id="walletLinkPhantom" href="#" target="_blank" rel="noopener noreferrer" class="wallet-link-placeholder phantom w-full">
                                 <span class="relative z-10">PHANTOM</span>
                             </a>
-                            <a href="https://solflare.com/" target="_blank" rel="noopener noreferrer" class="wallet-link-placeholder solflare w-full">
+                            <a id="walletLinkSolflare" href="#" target="_blank" rel="noopener noreferrer" class="wallet-link-placeholder solflare w-full">
                                 <span class="relative z-10">SOLFLARE</span>
+                            </a>
+                             <a id="walletLinkMetamask" href="#" target="_blank" rel="noopener noreferrer" class="wallet-link-placeholder metamask w-full">
+                                <span class="relative z-10">METAMASK</span>
                             </a>
                         </div>
                     </div>
                     <div class="info-card">
                         <h3 class="info-card-title text-xl sm:text-2xl">Step 2: Fund Your Wallet with SOL</h3>
                         <p class="text-gray-400 text-sm sm:text-base mb-3">
-                            Purchase SOL from a major cryptocurrency exchange and transfer it to your Solana wallet address.
+                            Purchase SOL (Solana's native currency) from a major cryptocurrency exchange and transfer it to your wallet address.
                         </p>
-                        <div id="exchange-links-container" class="mt-4 flex flex-wrap justify-center gap-3">
-                            <!-- Exchange links will be inserted here -->
+                         <p class="text-gray-400 text-sm sm:text-base mb-3">
+                           Use reputable exchanges like <strong class="neon-text-accent" style="--neon-glow-color: #F0B90B; color: #F0B90B;">Binance</strong>, <strong class="neon-text-accent" style="--neon-glow-color: #F7A600; color: #F7A600;">Bybit</strong>, or <strong class="neon-text-accent" style="--neon-glow-color: #0052FF; color: #699CFF;">Coinbase</strong>.
+                        </p>
+                        <div class="mt-4 flex flex-wrap justify-center gap-4">
+                            <a id="exchangeLinkBinance" href="#" target="_blank" rel="noopener noreferrer" class="exchange-button-pro exchange-button-binance"><span>Binance</span></a>
+                            <a id="exchangeLinkBybit" href="#" target="_blank" rel="noopener noreferrer" class="exchange-button-pro exchange-button-bybit"><span>Bybit</span></a>
+                            <a id="exchangeLinkCoinbase" href="#" target="_blank" rel="noopener noreferrer" class="exchange-button-pro exchange-button-coinbase"><span>Coinbase</span></a>
                         </div>
+                        <p class="text-xs text-gray-500 mt-4 text-center">Note: VibeVibes is not affiliated with these exchanges. Please ensure you are using their official and secure websites.</p>
                     </div>
                     <div class="info-card">
                         <h3 class="info-card-title text-xl sm:text-2xl">Step 3: Get the Contract Address</h3>
-                         <div class="bg-gray-900/50 border border-cyan-500/30 p-4 rounded-lg text-center mt-4">
-                            <p class="text-gray-300 mb-3 text-sm sm:text-base">Official $VIBE Token Contract Address:</p>
-                            <input type="text" id="contractAddress" class="font-roboto-mono text-cyan-300 bg-gray-900/70 p-3 rounded-md w-full text-center placeholder-cyan-300/50 border-2 border-transparent focus:border-cyan-500 focus:outline-none transition" placeholder="Will be available after launch">
-                            <button id="copyAddressButton" class="font-orbitron pro-button pro-button-secondary py-2.5 px-6 rounded-lg text-sm w-full sm:w-auto mt-4">
+                         <div class="copy-address-block mt-4">
+                            <p class="text-gray-300 mb-2 text-sm sm:text-base">Official $VIBE Token Contract Address:</p>
+                            <code id="contractAddress" class="contract-address"></code>
+                            <button id="copyAddressButton" class="font-orbitron pro-button pro-button-secondary py-2.5 px-6 rounded-lg text-xs sm:text-sm w-full sm:w-auto">
                                 Copy Address
                             </button>
-                            <p id="copyFeedback" class="text-xs mt-3 h-4 opacity-0">Feedback</p>
+                            <p id="copyFeedback" class="text-xs mt-3"></p>
                         </div>
                     </div>
                     <div class="info-card">
                         <h3 class="info-card-title text-xl sm:text-2xl">Step 4: Acquire $VIBE</h3>
-                        <p class="text-gray-400 mb-4 text-sm sm:text-base">
-                            Once you have the contract address, you can trade for $VIBE on decentralized exchanges (DEXs).
+                        <p class="text-gray-400 mb-2 text-sm sm:text-base">
+                            $VIBE will be launching on <strong class="neon-text-accent neon-green-accent">Pump.fun</strong>! This is the primary platform to get $VIBE at launch.
                         </p>
-                        <div id="dex-links-container" class="mt-6 flex flex-col sm:flex-row justify-center sm:space-x-4 space-y-3 sm:space-y-0">
-                             <!-- DEX links will be inserted here -->
+                        <p class="text-gray-400 mb-4 text-sm sm:text-base">
+                            After launch, you can track $VIBE and trade on various DEXs via <strong class="neon-text-accent neon-cyan-accent">DexScreener</strong>.
+                        </p>
+                        <div class="mt-6 flex flex-col sm:flex-row justify-center sm:space-x-4 space-y-3 sm:space-y-0">
+                             <a id="dexLinkPump" href="#" target="_blank" rel="noopener noreferrer" class="font-orbitron pro-button pro-button-green py-3 px-6 sm:px-8 rounded-lg text-sm sm:text-base w-full sm:w-auto">
+                                Buy on Pump.fun
+                            </a>
+                            <a id="dexLinkScreener" href="#" target="_blank" rel="noopener noreferrer" class="font-orbitron pro-button pro-button-secondary py-3 px-6 sm:px-8 rounded-lg text-sm sm:text-base w-full sm:w-auto">
+                                Check on DexScreener
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="live-transactions" class="py-16 md:py-24 px-4 sm:px-6">
-            <div class="content-layer-pro max-w-screen-xl mx-auto">
-                <h2 class="section-title-pro text-3xl md:text-4xl neon-text-accent neon-green-accent">Live $VIBE Activity</h2>
-                <div class="max-w-2xl mx-auto text-center">
-                    <p id="tx-feed-status" class="font-orbitron text-lg text-gray-400 neon-text-accent neon-cyan-accent animate-pulse p-10">
-                        First transactions will appear after project launch
-                    </p>
-                    <div id="transactionFeedContainer" class="transaction-feed-container mt-4">
-                        <!-- Transactions will be added here by JavaScript -->
+        <section id="live-transactions" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto">
+            <div class="content-layer-pro">
+                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl neon-text-accent neon-green-accent">Live $VIBE Activity</h2>
+                <div class="max-w-2xl mx-auto">
+                    <div id="transactionFeedContainer" class="transaction-feed-container">
+                        <!-- Placeholder or feed will be inserted here by JS -->
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-gray-900 py-8 sm:py-12 text-center border-t border-gray-700/50"> 
+    <footer class="bg-gray-900 py-8 sm:py-12 text-center border-t border-gray-700/50">
         <div class="content-layer-pro px-4 sm:px-6">
+            <div class="flex justify-center space-x-6 mb-6">
+                 <a id="footerLinkTwitter" href="#" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan-400 transition transform hover:scale-125">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                    </svg>
+                    <span class="sr-only">X (Twitter)</span>
+                </a>
+                <a id="footerLinkTelegram" href="#" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-purple-400 transition transform hover:scale-125">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M22 2L11.167 12.833L2 14.833L5.667 8.5L2 2L22 2ZM11.167 12.833L18.333 6.5L5.667 8.5L11.167 12.833Z" transform="translate(0 -0.000488281)"></path><path d="M22.0002 2.00049L14.8335 18.3338L11.1668 12.8338L18.3335 6.50049L22.0002 2.00049Z"></path></g></svg>
+                    <span class="sr-only">Telegram</span>
+                </a>
+            </div>
             <p class="text-gray-500 text-sm mb-4">© 2025 VibeVibes Protocol. All Rights Reserved.</p>
-            <p id="disclaimer" class="text-xs text-gray-600 mt-2 max-w-xl mx-auto"></p>
+            <p class="text-xs text-gray-600 mt-2 max-w-xl mx-auto" id="risk-disclaimer-pro">
+                Disclaimer: Investing in cryptocurrencies involves significant risk. VibeVibes ($VIBE) is a digital asset with high volatility. Please conduct your own research (DYOR) and only invest funds you are willing to lose. This website does not constitute financial advice.
+            </p>
         </div>
     </footer>
-    
-    <template id="transactionItemTemplate">
-        <div class="transaction-item">
-            <div class="flex justify-between items-baseline mb-1">
-                <span class="tx-time font-roboto-mono text-xs text-gray-400"></span>
-                <span class="tx-action font-orbitron text-sm font-bold flex items-center">
-                    <svg class="w-4 h-4 mr-1.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L12 11.586l3.293-3.293A1 1 0 0116 8V7h-4z" clip-rule="evenodd"></path></svg>
-                    BOUGHT
-                </span>
-            </div>
-            <div class="flex justify-between items-baseline flex-wrap gap-x-4">
-                <div>
-                    <span class="tx-amount font-bold text-base text-white"></span>
-                    <span class="tx-currency font-bold text-base"></span>
-                    <span class="tx-for-vibe text-sm text-gray-400"></span>
-                </div>
-                <div class="tx-actor-info text-sm text-gray-400 font-roboto-mono">
-                    <span class="tx-wallet text-cyan-400"></span>
-                </div>
-            </div>
-        </div>
-    </template>
 
     <script>
-        // ===================================================================================
-        // CONFIGURATION OBJECT
-        // ===================================================================================
-        // TODO: CHANGE THIS - This block contains all the data you need to change.
-        const projectConfig = {
-            // TODO: CHANGE THIS - Main project information (for titles and meta tags)
-            meta: {
-                title: "VibeVibes ($VIBE) - Invest in the Future of Digital Vibes",
-                description: "Discover $VIBE: A unique token on the Solana blockchain, merging cutting-edge technology, a strong community, and a social mission.",
-                heroTitle: "VibeVibes: Pioneering Digital Assets",
-                heroSubtitle: "Discover $VIBE: A unique token on the Solana blockchain, merging cutting-edge technology, a strong community, and a social mission.",
-            },
+        document.addEventListener('DOMContentLoaded', () => {
 
-            // TODO: CHANGE THIS - Links to your social networks
-            socials: {
-                twitter: "https://twitter.com/",
-                telegram: "https://telegram.org/",
-            },
-            
-            // TODO: CHANGE THIS - Navigation links in the site header
-            navigation: [
-                { name: "Vision", href: "#vision" },
-                { name: "Tokenomics", href: "#tokenomics" },
-                { name: "Roadmap", href: "#roadmap" },
-                { name: "Community", href: "#community" },
-            ],
+            // =================================================================
+            //                  --- PRE-LAUNCH CONFIGURATION ---
+            //      All data that needs to be changed before launch is here.
+            // =================================================================
+            const CONFIG = {
+                // Set the real contract address here to activate the transaction feed.
+                // Leave as "" to show the placeholder text.
+                contractAddress: "4mAKVgyAP7DGmQA9fcskevDWkpfoEgbnak1w6nTrbonk", 
 
-            // TODO: CHANGE THIS - Information for the Vision section
-            vision: {
-                title: "Our Vision",
-                subtitle: "VibeVibes aims to create more than just a cryptocurrency; we're building an entire ecosystem powered by positive vibrations, technological innovation, and tangible social impact.",
-                cards: [
-                    { title: "Solana Innovation", text: "Leveraging the high-performance Solana blockchain for lightning-fast transactions, low fees, and a scalable $VIBE ecosystem." },
-                    { title: "Community Power", text: "Cultivating an active, engaged global community that shares our values and drives the project's organic growth." },
-                    { title: "Social Responsibility", text: "Committing a portion of proceeds to support mental health initiatives, demonstrating our dedication to positive global impact." }
-                ]
-            },
+                // Text to display when the contract address is not set.
+                contractAddressPlaceholder: "Address will be available after launch",
 
-            // TODO: CHANGE THIS - Information for the Tokenomics section
-            tokenomics: {
-                subtitle: "The $VIBE tokenomics are designed for sustainability, holder incentives, and ecosystem growth.",
-                distribution: {
-                    title: "Token Distribution",
-                    totalSupply: "1,000,000,000 $VIBE",
-                    details: [
-                        "<strong>Fair Launch via Pump.fun:</strong> 100% of the $VIBE supply is committed to the bonding curve on Pump.fun.",
-                        "This ensures a transparent and community-driven launch. Once the bonding curve is filled, liquidity will be automatically established and locked on Raydium.",
-                        "No team tokens, no presale - just pure vibes for everyone from the start!"
-                    ]
+                // Social media and community links
+                socials: {
+                    twitter: "https://x.com/your-twitter-handle",
+                    telegram: "https://t.me/your-telegram-group"
                 },
-                mechanics: {
-                    title: "Transaction Mechanics",
-                    description: "Each transaction contributes to the ecosystem's growth and sustainability:",
-                    taxes: [
-                        "<strong>Burn (2%):</strong> A deflationary mechanism reducing total supply, potentially increasing token value.",
-                        "<strong>Charity (1%):</strong> Automatic allocation to the mental health support fund.",
-                        "<strong>Development (1%):</strong> Reinvestment into marketing, partnerships, and further ecosystem development."
-                    ]
+
+                // Wallet provider links
+                wallets: {
+                    phantom: "https://phantom.app/",
+                    solflare: "https://solflare.com/",
+                    metamask: "https://metamask.io/"
+                },
+
+                // Exchange links
+                exchanges: {
+                    binance: "https://www.binance.com/",
+                    bybit: "https://www.bybit.com/",
+                    coinbase: "https://www.coinbase.com/"
+                },
+
+                // DEX and tracking links
+                dex: {
+                    pumpFun: "https://pump.fun/",
+                    dexScreener: "https://dexscreener.com/"
                 }
-            },
-
-            // TODO: CHANGE THIS - Project roadmap
-            roadmap: {
-                subtitle: "Strategic goals and key milestones for the VibeVibes project.",
-                phases: [
-                    { 
-                        title: "Phase 1: Launch & Foundation", 
-                        status: "Completed",
-                        items: [
-                            "$VIBE Smart Contract development on Solana.",
-                            "Website launch & initial branding.",
-                            "Launch on Pump.fun & Raydium LP creation."
-                        ] 
-                    },
-                    { 
-                        title: "Phase 2: Growth & Expansion", 
-                        status: "In Progress",
-                        items: [
-                            "Targeted marketing campaigns for audience growth.",
-                            "Listings on CoinGecko & CoinMarketCap.",
-                            "First round of charitable contributions."
-                        ] 
-                    },
-                    { 
-                        title: "Phase 3: Ecosystem Development", 
-                        status: "Planned",
-                        items: [
-                            "Development of additional utilities for the $VIBE token.",
-                            "Establishment of a DAO for community governance.",
-                            "Exploration of staking and yield farming opportunities."
-                        ] 
-                    }
-                ]
-            },
-            
-            // TODO: CHANGE THIS - Information for the Community section
-            community: {
-                subtitle: "Connect with us, share the vibe, and be part of our journey to make a positive impact."
-            },
-
-            // TODO: CHANGE THIS - Links to exchanges and DEXs
-            links: {
-                // IMPORTANT: Paste your REAL contract address here when it's ready. Leave empty to show the placeholder.
-                contractAddress: "", 
-                placeholderAddress: "AK9BC2ztodsSy7GXnvLJTgo3KQJTWzpLd466NuTCwVT1",
-                // Links to centralized exchanges (CEX)
-                exchanges: [
-                    { name: "Binance", url: "https://www.binance.com/", style: "binance" },
-                    { name: "Bybit", url: "https://www.bybit.com/", style: "bybit" },
-                    { name: "Coinbase", url: "https://www.coinbase.com/", style: "coinbase" }
-                ],
-                // Links to decentralized exchanges (DEX)
-                dex: [
-                    { name: "Trade on Raydium", url: "https://raydium.io/", style: "pro-button-green" },
-                    { name: "Trade on Jupiter", url: "https://jup.ag/", style: "pro-button-secondary" }
-                ]
-            },
-            
-            // TODO: CHANGE THIS - Disclaimer text in the footer
-            disclaimer: "Disclaimer: Investing in cryptocurrencies involves significant risk. This is a fictional project for demonstration purposes. Always conduct your own research (DYOR) and consult with a financial advisor."
-        };
-        // ===================================================================================
-        // END OF CONFIGURATION
-        // ===================================================================================
+            };
+            // =================================================================
+            //                --- END OF CONFIGURATION ---
+            // =================================================================
 
 
-        (function() {
-            'use strict';
-
-            function populateContent() {
-                document.title = projectConfig.meta.title;
-                document.querySelector('meta[name="description"]').setAttribute('content', projectConfig.meta.description);
-                document.getElementById('hero-title').innerText = projectConfig.meta.heroTitle;
-                document.getElementById('hero-subtitle').innerText = projectConfig.meta.heroSubtitle;
-                const desktopNav = document.getElementById('desktop-nav');
-                const mobileNav = document.getElementById('mobile-nav');
-                desktopNav.innerHTML = '';
-                mobileNav.innerHTML = '';
-                projectConfig.navigation.forEach(link => {
-                    desktopNav.innerHTML += `<a href="${link.href}" class="text-gray-300 hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">${link.name}</a>`;
-                    mobileNav.innerHTML += `<a href="${link.href}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">${link.name}</a>`;
-                });
-                 mobileNav.innerHTML += `<a href="#how-to-buy" class="text-cyan-400 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">How to Buy</a>`;
-                const visionContainer = document.getElementById('vision-content');
-                let visionHTML = `<h2 class="section-title-pro text-3xl md:text-4xl">${projectConfig.vision.title}</h2><p class="section-subtitle-pro text-lg">${projectConfig.vision.subtitle}</p><div class="grid md:grid-cols-3 gap-6 lg:gap-8 text-center">`;
-                projectConfig.vision.cards.forEach(card => {
-                    visionHTML += `<div class="info-card"><h3 class="info-card-title text-xl sm:text-2xl">${card.title}</h3><p class="text-gray-400 text-sm sm:text-base">${card.text}</p></div>`;
-                });
-                visionHTML += `</div>`;
-                visionContainer.innerHTML = visionHTML;
-                document.getElementById('tokenomics-subtitle').innerText = projectConfig.tokenomics.subtitle;
-                const tokenomicsContainer = document.getElementById('tokenomics-cards');
-                tokenomicsContainer.innerHTML = `
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">${projectConfig.tokenomics.distribution.title}</h3>
-                        <p class="text-gray-400 mb-4 text-sm sm:text-base">Total Supply: ${projectConfig.tokenomics.distribution.totalSupply}</p>
-                        <div class="text-gray-300 text-sm sm:text-base space-y-2">
-                            ${projectConfig.tokenomics.distribution.details.map(d => `<p>${d}</p>`).join('')}
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">${projectConfig.tokenomics.mechanics.title}</h3>
-                        <p class="text-gray-400 mb-4 text-sm sm:text-base">${projectConfig.tokenomics.mechanics.description}</p>
-                        <ul class="space-y-3 text-gray-300 text-sm sm:text-base">
-                            ${projectConfig.tokenomics.mechanics.taxes.map(t => `<li>${t}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
-                document.getElementById('roadmap-subtitle').innerText = projectConfig.roadmap.subtitle;
-                const roadmapContainer = document.getElementById('roadmap-container');
-                roadmapContainer.innerHTML = '';
-                const statusClasses = {
-                    "Completed": "completed",
-                    "In Progress": "inprogress",
-                    "Planned": "planned"
-                };
-                const statusIcons = {
-                    "Completed": `<svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>`,
-                    "In Progress": `<svg fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>`,
-                    "Planned": `<svg fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"></path></svg>`
-                };
-                projectConfig.roadmap.phases.forEach(phase => {
-                    const statusClass = statusClasses[phase.status] || 'planned';
-                    const iconSvg = statusIcons[phase.status] || statusIcons['Planned'];
-                    roadmapContainer.innerHTML += `
-                        <div class="roadmap-item ${statusClass}">
-                            <div class="roadmap-icon">${iconSvg}</div>
-                            <div class="flex justify-between items-center mb-2 flex-wrap gap-2">
-                                <h4 class="text-lg sm:text-xl font-bold text-gray-200">${phase.title}</h4>
-                                <span class="roadmap-status status-${statusClass}">${phase.status}</span>
-                            </div>
-                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1.5">
-                                ${phase.items.map(item => `<li>${item}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                });
-                document.getElementById('community-subtitle').innerText = projectConfig.community.subtitle;
-                const socialsContainer = document.getElementById('social-links-container');
-                socialsContainer.innerHTML = `
-                    <a href="${projectConfig.socials.twitter}" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-cyan-500/70 hover:bg-cyan-500/20 transition-all duration-300 group transform hover:scale-110" aria-label="X (formerly Twitter)">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-                    </a>
-                    <a href="${projectConfig.socials.telegram}" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-purple-500/70 hover:bg-purple-500/20 transition-all duration-300 group transform hover:scale-110" aria-label="Telegram">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-purple-400 group-hover:text-purple-300 transition-colors" fill="currentColor" viewBox="0 0 24 24"><g><path d="M22 2L11.167 12.833L2 14.833L5.667 8.5L2 2L22 2ZM11.167 12.833L18.333 6.5L5.667 8.5L11.167 12.833Z" transform="translate(0 -0.000488281)"></path><path d="M22.0002 2.00049L14.8335 18.3338L11.1668 12.8338L18.3335 6.50049L22.0002 2.00049Z"></path></g></svg>
-                    </a>
-                `;
-                const exchangeContainer = document.getElementById('exchange-links-container');
-                exchangeContainer.innerHTML = '';
-                projectConfig.links.exchanges.forEach(link => {
-                    exchangeContainer.innerHTML += `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="exchange-button ${link.style}">${link.name}</a>`;
-                });
-                const dexContainer = document.getElementById('dex-links-container');
-                dexContainer.innerHTML = '';
-                 projectConfig.links.dex.forEach(link => {
-                    dexContainer.innerHTML += `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="font-orbitron pro-button ${link.style} py-3 px-8 rounded-lg text-sm sm:text-base w-full sm:w-auto">${link.name}</a>`;
-                });
-                const addressInput = document.getElementById('contractAddress');
-                if (projectConfig.links.contractAddress) {
-                    addressInput.value = projectConfig.links.contractAddress;
-                    addressInput.dispatchEvent(new Event('input', { bubbles: true }));
-                } else {
-                    addressInput.placeholder = projectConfig.links.placeholderAddress;
-                }
-                document.getElementById('disclaimer').innerText = projectConfig.disclaimer;
-            }
-
-            function handleAnimatedFavicon() {
-                const favicon = document.getElementById('favicon');
-                if (!favicon) return;
-                const canvas = document.createElement('canvas');
-                canvas.width = 32;
-                canvas.height = 32;
-                const ctx = canvas.getContext('2d');
-                let t = 0;
-                function draw() {
-                    t += 0.05;
-                    const radius = 8 + Math.sin(t) * 2;
-                    ctx.clearRect(0, 0, 32, 32);
-                    ctx.beginPath();
-                    ctx.arc(16, 16, radius, 0, Math.PI * 2);
-                    ctx.fillStyle = '#A855F7';
-                    ctx.fill();
-                    try {
-                        favicon.href = canvas.toDataURL('image/png');
-                    } catch (e) { console.error("Could not update favicon:", e); }
-                    requestAnimationFrame(draw);
-                }
-                draw();
-            }
-
-            function handleHeader() {
-                const menuButton = document.getElementById('menu-button');
-                const mobileMenu = document.getElementById('mobile-menu');
-                const openIcon = document.getElementById('menu-icon-open');
-                const closeIcon = document.getElementById('menu-icon-close');
-                if(menuButton && mobileMenu && openIcon && closeIcon) {
-                    menuButton.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                        openIcon.classList.toggle('hidden');
-                        closeIcon.classList.toggle('hidden');
-                    });
-                    mobileMenu.querySelectorAll('a').forEach(link => {
-                        link.addEventListener('click', () => {
-                            mobileMenu.classList.add('hidden');
-                            openIcon.classList.remove('hidden');
-                            closeIcon.classList.add('hidden');
-                        });
-                    });
-                }
-            }
-
-            function handleCopyAddress() {
-                const copyButton = document.getElementById('copyAddressButton');
-                const addressElement = document.getElementById('contractAddress');
-                const feedbackElement = document.getElementById('copyFeedback');
-                if (!copyButton || !addressElement || !feedbackElement) return;
-                let feedbackTimeout;
-                copyButton.addEventListener('click', () => {
-                    clearTimeout(feedbackTimeout);
-                    const addressToCopy = addressElement.value;
-                    feedbackElement.style.opacity = '1';
-                    if (!addressToCopy || addressToCopy.trim() === '' || addressToCopy.trim() === projectConfig.links.placeholderAddress) {
-                        feedbackElement.textContent = 'Address not available yet!';
-                        feedbackElement.style.color = '#F59E0B';
+            // --- INITIALIZE UI FROM CONFIG ---
+            function initializeUI() {
+                // Set contract address text
+                const contractAddressElement = document.getElementById('contractAddress');
+                if (contractAddressElement) {
+                    contractAddressElement.textContent = CONFIG.contractAddress || CONFIG.contractAddressPlaceholder;
+                    if (!CONFIG.contractAddress) {
+                        contractAddressElement.style.color = '#9CA3AF'; // Gray for placeholder
                     } else {
-                        try {
-                            const textArea = document.createElement('textarea');
-                            textArea.value = addressToCopy;
-                            textArea.style.position = 'fixed';
-                            textArea.style.top = '-9999px';
-                            textArea.style.left = '-9999px';
-                            document.body.appendChild(textArea);
-                            textArea.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(textArea);
-                            feedbackElement.textContent = 'Address Copied!';
-                            feedbackElement.style.color = '#22D3EE';
-                        } catch (err) {
-                            feedbackElement.textContent = 'Failed to copy!';
-                            feedbackElement.style.color = '#F472B6';
-                            console.error('Fallback copy failed: ', err);
-                        }
+                        contractAddressElement.style.color = '#67E8F9'; // Cyan for real address
                     }
-                    feedbackTimeout = setTimeout(() => {
-                        feedbackElement.style.opacity = '0';
-                    }, 2000);
-                });
-            }
-            
-            function handleTransactionFeed() {
-                const container = document.getElementById('transactionFeedContainer');
-                const template = document.getElementById('transactionItemTemplate');
-                const statusEl = document.getElementById('tx-feed-status');
-                if (!container || !template || !statusEl) return;
-
-                const config = {
-                    maxTransactions: 6,
-                    minInterval: 2500,
-                    maxInterval: 12000,
-                    vibePerSol: 1000000,
-                };
-                
-                const accentColors = [
-                    { hex: '#A855F7', rgb: '168, 85, 247' },
-                    { hex: '#06B6D4', rgb: '6, 182, 212' },
-                    { hex: '#EC4899', rgb: '236, 72, 153' },
-                    { hex: '#10B981', rgb: '16, 185, 129' },
-                    { hex: '#F97316', rgb: '249, 115, 22' }
-                ];
-                let simulationIntervalId = null;
-
-                function getRandom(min, max) { return Math.random() * (max - min) + min; }
-                function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-                
-                function generateRandomString(length) {
-                    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
-                    let result = '';
-                    for (let i = 0; i < length; i++) {
-                        result += chars.charAt(Math.floor(Math.random() * chars.length));
-                    }
-                    return result;
                 }
 
-                function createTransactionElement() {
-                    const clone = template.content.cloneNode(true);
-                    const item = clone.querySelector('.transaction-item');
-                    const randomAccent = getRandomItem(accentColors);
-                    
-                    const solSpent = getRandom(0.5, 10);
-                    const vibeAmount = solSpent * config.vibePerSol * getRandom(0.9, 1.1);
-                    
-                    item.style.setProperty('--item-accent-rgb', randomAccent.rgb);
-                    clone.querySelector('.tx-action').style.color = randomAccent.hex;
-                    clone.querySelector('.tx-action svg').style.color = randomAccent.hex;
-                    
-                    clone.querySelector('.tx-time').textContent = new Date().toLocaleTimeString();
-                    clone.querySelector('.tx-amount').textContent = solSpent.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4});
-                    clone.querySelector('.tx-currency').textContent = 'SOL';
-                    clone.querySelector('.tx-for-vibe').innerHTML = `for <span class="font-bold" style="color:${randomAccent.hex}">${vibeAmount.toLocaleString(undefined, {maximumFractionDigits:0})} $VIBE</span>`;
-                    clone.querySelector('.tx-wallet').textContent = `${generateRandomString(4)}...${generateRandomString(4)}`;
+                // Set links
+                document.getElementById('socialLinkTwitter')?.setAttribute('href', CONFIG.socials.twitter);
+                document.getElementById('socialLinkTelegram')?.setAttribute('href', CONFIG.socials.telegram);
+                document.getElementById('footerLinkTwitter')?.setAttribute('href', CONFIG.socials.twitter);
+                document.getElementById('footerLinkTelegram')?.setAttribute('href', CONFIG.socials.telegram);
+                
+                document.getElementById('walletLinkPhantom')?.setAttribute('href', CONFIG.wallets.phantom);
+                document.getElementById('walletLinkSolflare')?.setAttribute('href', CONFIG.wallets.solflare);
+                document.getElementById('walletLinkMetamask')?.setAttribute('href', CONFIG.wallets.metamask);
 
+                document.getElementById('exchangeLinkBinance')?.setAttribute('href', CONFIG.exchanges.binance);
+                document.getElementById('exchangeLinkBybit')?.setAttribute('href', CONFIG.exchanges.bybit);
+                document.getElementById('exchangeLinkCoinbase')?.setAttribute('href', CONFIG.exchanges.coinbase);
+
+                document.getElementById('dexLinkPump')?.setAttribute('href', CONFIG.dex.pumpFun);
+                document.getElementById('dexLinkScreener')?.setAttribute('href', CONFIG.dex.dexScreener);
+            }
+
+
+            // --- STICKY HEADER LOGIC ---
+            const stickyHeader = document.getElementById('stickyHeader');
+            if (stickyHeader) {
+                let lastScrollTop = 0;
+                const scrollThreshold = 100;
+                window.addEventListener('scroll', function() {
+                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+                        stickyHeader.classList.remove('visible');
+                    } else if (scrollTop < lastScrollTop && scrollTop > scrollThreshold) {
+                        stickyHeader.classList.add('visible');
+                    } else if (scrollTop <= scrollThreshold) {
+                        stickyHeader.classList.remove('visible');
+                    }
+                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                }, false);
+            }
+
+            // --- COPY ADDRESS LOGIC ---
+            const copyAddressButton = document.getElementById('copyAddressButton');
+            const copyFeedbackElement = document.getElementById('copyFeedback');
+
+            if (copyAddressButton) {
+                copyAddressButton.addEventListener('click', () => {
+                    const addressToCopy = CONFIG.contractAddress;
+                    if (!addressToCopy) {
+                        copyFeedbackElement.textContent = 'Address not available yet!';
+                        copyFeedbackElement.style.color = '#F59E0B'; // Orange
+                        setTimeout(() => { copyFeedbackElement.textContent = ''; }, 2000);
+                        return;
+                    }
+                    navigator.clipboard.writeText(addressToCopy).then(() => {
+                        copyFeedbackElement.textContent = 'Address Copied!';
+                        copyFeedbackElement.style.color = '#22D3EE'; // Cyan
+                        setTimeout(() => { copyFeedbackElement.textContent = ''; }, 2000);
+                    }).catch(err => {
+                        copyFeedbackElement.textContent = 'Failed to copy!';
+                        copyFeedbackElement.style.color = '#F472B6'; // Pink
+                        console.error('Failed to copy address: ', err);
+                    });
+                });
+            }
+
+            // --- SMOOTH SCROLL LOGIC ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href === "#") { e.preventDefault(); return; }
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        e.preventDefault();
+                        const headerHeight = (stickyHeader && stickyHeader.classList.contains('visible')) ? stickyHeader.offsetHeight : 0;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }
+                });
+            });
+
+            // --- INTERSECTION OBSERVER FOR ANIMATIONS ---
+            const animatedElements = document.querySelectorAll('.info-card, .pro-roadmap-item, .section-title-pro, .section-subtitle-pro');
+            const observerPro = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) scale(1)';
+                        entry.target.style.filter = 'blur(0px)';
+                        observerPro.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px) scale(0.95)';
+                el.style.filter = 'blur(5px)';
+                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out';
+                observerPro.observe(el);
+            });
+
+            // --- CONDITIONAL TRANSACTION FEED LOGIC ---
+            const transactionFeedContainer = document.getElementById('transactionFeedContainer');
+            let feedInitialized = false;
+
+            function startTransactionFeed() {
+                if (feedInitialized || !transactionFeedContainer) return;
+                feedInitialized = true;
+                
+                transactionFeedContainer.innerHTML = ''; // Clear placeholder
+
+                const maxTransactions = 5;
+                const minInterval = 2000;
+                const maxInterval = 15000;
+                const SIMULATED_VIBE_PER_SOL = 1000000;
+
+                function getSimulatedVibeToSolRate() {
+                    const fluctuation = (Math.random() - 0.5) * 0.2;
+                    return SIMULATED_VIBE_PER_SOL * (1 + fluctuation);
+                }
+
+                function generateRandomWallet() {
+                    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                    let address = '';
+                    for (let i = 0; i < 4; i++) { address += chars.charAt(Math.floor(Math.random() * chars.length)); }
+                    address += '...';
+                    for (let i = 0; i < 4; i++) { address += chars.charAt(Math.floor(Math.random() * chars.length)); }
+                    return address;
+                }
+
+                function generateRandomSolAmount() {
+                    const r = Math.random();
+                    if (r < 0.7) return (Math.random() * (2 - 0.5) + 0.5);
+                    if (r < 0.9) return (Math.random() * (5 - 2) + 2);
+                    return (Math.random() * (10 - 5) + 5);
+                }
+
+                function createTransactionElement(wallet, vibeAmount, solSpent) {
+                    const item = document.createElement('div');
+                    item.classList.add('transaction-item');
+                    const accentColorsRGB = [
+                        { hex: '#A855F7', rgb: '168, 85, 247' }, { hex: '#06B6D4', rgb: '6, 182, 212' },
+                        { hex: '#EC4899', rgb: '236, 72, 153' }, { hex: '#10B981', rgb: '16, 185, 129' },
+                        { hex: '#F97316', rgb: '249, 115, 22' }
+                    ];
+                    const randomAccent = accentColorsRGB[Math.floor(Math.random() * accentColorsRGB.length)];
+                    item.style.setProperty('--item-accent-color', randomAccent.hex);
+                    item.style.setProperty('--item-accent-rgb', randomAccent.rgb);
+                    
+                    item.innerHTML = `
+                        <div class="flex items-baseline">
+                            <span class="tx-action" style="font-size:0.9rem; font-family: 'Orbitron', sans-serif;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L12 11.586l3.293-3.293A1 1 0 0116 8V7h-4z" clip-rule="evenodd"></path></svg>
+                                BUY
+                            </span>
+                        </div>
+                        <div class="flex items-baseline flex-wrap">
+                            <span class="tx-amount text-lg font-bold text-white">${parseFloat(solSpent).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 4})}</span>
+                            <span class="tx-currency font-bold ml-1" style="color: ${randomAccent.hex};">SOL</span>
+                            <span class="tx-for-vibe ml-2">for</span>
+                            <span class="tx-vibe-amount ml-1 font-medium" style="color: ${randomAccent.hex};">${parseFloat(vibeAmount).toLocaleString('en-US', {maximumFractionDigits:0})} $VIBE</span>
+                        </div>
+                        <div class="flex items-baseline text-xs text-gray-400">
+                             <span class="tx-actor">by</span>
+                             <span class="tx-wallet ml-1 font-roboto-mono">${wallet}</span>
+                        </div>`;
                     return item;
                 }
 
                 function addTransaction() {
-                    const transactionElement = createTransactionElement();
-                    if (container.children.length >= config.maxTransactions) {
-                        const oldestChild = container.lastElementChild;
+                    const solSpent = generateRandomSolAmount();
+                    const vibeAmount = solSpent * getSimulatedVibeToSolRate();
+                    const transactionElement = createTransactionElement(generateRandomWallet(), vibeAmount, solSpent);
+
+                    if (transactionFeedContainer.children.length >= maxTransactions) {
+                        const oldestChild = transactionFeedContainer.lastElementChild;
                         oldestChild.style.animation = 'transaction-fade-out-down 0.6s ease-out forwards';
                         setTimeout(() => {
-                            if(oldestChild.parentNode === container) {
-                                oldestChild.remove()
+                            if (transactionFeedContainer.contains(oldestChild)) {
+                                transactionFeedContainer.removeChild(oldestChild);
                             }
                         }, 600);
                     }
-                    container.prepend(transactionElement);
+                    setTimeout(() => {
+                        transactionFeedContainer.insertBefore(transactionElement, transactionFeedContainer.firstChild);
+                    }, 100);
                 }
                 
-                function startSimulation() {
-                    if (simulationIntervalId) return;
-                    statusEl.textContent = 'Live network activity simulation...';
-                    statusEl.classList.remove('animate-pulse');
-                    
-                    for (let i = 0; i < config.maxTransactions; i++) {
-                        setTimeout(addTransaction, i * 500);
-                    }
-
-                    function scheduleNext() {
-                        simulationIntervalId = setTimeout(() => {
-                            addTransaction();
-                            scheduleNext();
-                        }, getRandom(config.minInterval, config.maxInterval));
-                    }
-                    scheduleNext();
+                // Initial burst of transactions
+                for(let i=0; i < maxTransactions; i++) {
+                    setTimeout(addTransaction, i * 500);
                 }
-
-                return { start: startSimulation };
+                // Continuous transactions
+                setInterval(addTransaction, minInterval + Math.random() * (maxInterval - minInterval));
             }
 
-            document.addEventListener('DOMContentLoaded', () => {
-                populateContent();
-                handleAnimatedFavicon();
-                handleHeader();
-                handleCopyAddress();
-                
-                const transactionSimulator = handleTransactionFeed();
-                const addressNode = document.getElementById('contractAddress');
-                let simStarted = false;
+            function checkTransactionFeedStatus() {
+                if (!transactionFeedContainer) return;
 
-                if (addressNode) {
-                    addressNode.addEventListener('input', () => {
-                        if (simStarted) return;
-
-                        const currentAddress = addressNode.value.trim();
-                        
-                        if (currentAddress.length > 30 && currentAddress.length < 50 && !currentAddress.includes(" ")) {
-                            simStarted = true;
-                            transactionSimulator.start();
-                        }
-                    });
+                if (CONFIG.contractAddress && CONFIG.contractAddress.trim() !== "") {
+                    startTransactionFeed();
+                } else {
+                    transactionFeedContainer.innerHTML = `
+                        <div id="live-transactions-placeholder">
+                            <p class="font-orbitron text-lg text-cyan-400">Awaiting Launch...</p>
+                            <p class="mt-2 text-sm">Live on-chain activity will be displayed here once the project is live.</p>
+                        </div>
+                    `;
                 }
-            });
+            }
+            
+            // --- RUN ON PAGE LOAD ---
+            initializeUI();
+            checkTransactionFeedStatus();
 
-        })();
+        });
     </script>
 </body>
 </html>
