@@ -398,6 +398,15 @@
         .tx-wallet-info a:hover, .tx-hash-info a:hover {
             color: #67e8f9;
         }
+        
+        .animate-pulse-placeholder {
+            animation: pulse-placeholder 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-placeholder {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
 
         /* --- RESPONSIVENESS --- */
         @media (max-width: 767px) {
@@ -1031,8 +1040,7 @@
                 } else {
                     transactionFeedContainer.innerHTML = `
                         <div id="live-transactions-placeholder">
-                            <p class="font-orbitron text-lg text-cyan-400">Awaiting Launch...</p>
-                            <p class="mt-2 text-sm">Live on-chain activity will be displayed here once the project is live.</p>
+                            <p class="font-orbitron text-lg text-cyan-400 animate-pulse-placeholder">Transaction information will be available after launch</p>
                         </div>
                     `;
                 }
