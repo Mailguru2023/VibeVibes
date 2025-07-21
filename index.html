@@ -6,6 +6,8 @@
     <title>VibeVibes ($VIBE) - Invest in the Future of Digital Vibes</title>
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23A855F7;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2306B6D4;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' stroke='url(%23grad)' stroke-width='8' fill='%23111827'/%3E%3Ctext x='50' y='68' font-family='Orbitron, sans-serif' font-size='40' fill='%23D8B4FE' text-anchor='middle' style='text-shadow: 0 0 4px %23A855F7, 0 0 8px %23A855F7;'%3E$V%3C/text%3E%3C/svg%3E">
+    <!-- Solana Web3.js Library -->
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -388,8 +390,13 @@
             color: #6B7280;
             margin-top: 0.25rem;
         }
-        .tx-wallet-info span, .tx-hash-info span {
+        .tx-wallet-info a, .tx-hash-info a {
             color: #9CA3AF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .tx-wallet-info a:hover, .tx-hash-info a:hover {
+            color: #67e8f9;
         }
 
         /* --- RESPONSIVENESS --- */
@@ -761,9 +768,13 @@
             //      All data that needs to be changed before launch is here.
             // =================================================================
             const CONFIG = {
-                // Set the real contract address here to activate the transaction feed.
-                // Leave as "" to show the placeholder text.
-                contractAddress: "Bzx6NPUUSukdSy9jCwsTJFeHwpuZtuh4ffgasb69bonk", 
+                // IMPORTANT: Replace with your TOKEN MINT ADDRESS to activate the real transaction feed.
+                // Example: "So11111111111111111111111111111111111111112"
+                tokenMintAddress: "", 
+
+                // IMPORTANT: You can use a free public RPC endpoint.
+                // Using a dedicated one from Helius, QuickNode, etc., is recommended for production.
+                rpcEndpoint: "https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY_HERE", // Replace with your key
 
                 // Text to display when the contract address is not set.
                 contractAddressPlaceholder: "Address will be available after launch",
@@ -804,8 +815,8 @@
                 // Set contract address text
                 const contractAddressElement = document.getElementById('contractAddress');
                 if (contractAddressElement) {
-                    contractAddressElement.textContent = CONFIG.contractAddress || CONFIG.contractAddressPlaceholder;
-                    if (!CONFIG.contractAddress) {
+                    contractAddressElement.textContent = CONFIG.tokenMintAddress || CONFIG.contractAddressPlaceholder;
+                    if (!CONFIG.tokenMintAddress) {
                         contractAddressElement.style.color = '#9CA3AF'; // Gray for placeholder
                     } else {
                         contractAddressElement.style.color = '#67E8F9'; // Cyan for real address
@@ -855,7 +866,7 @@
 
             if (copyAddressButton) {
                 copyAddressButton.addEventListener('click', () => {
-                    const addressToCopy = CONFIG.contractAddress;
+                    const addressToCopy = CONFIG.tokenMintAddress;
                     if (!addressToCopy) {
                         copyFeedbackElement.textContent = 'Address not available yet!';
                         copyFeedbackElement.style.color = '#F59E0B'; // Orange
@@ -910,109 +921,113 @@
                 observerPro.observe(el);
             });
 
-            // --- CONDITIONAL TRANSACTION FEED LOGIC ---
+            // --- REAL TRANSACTION FEED LOGIC ---
             const transactionFeedContainer = document.getElementById('transactionFeedContainer');
-            let feedInitialized = false;
+            const displayedSignatures = new Set();
+            const maxTransactions = 5;
 
-            function startTransactionFeed() {
-                if (feedInitialized || !transactionFeedContainer) return;
-                feedInitialized = true;
+            function createTransactionElement(time, vibeAmount, wallet, txHash) {
+                const item = document.createElement('div');
+                const borderColors = ['border-cyan', 'border-purple', 'border-pink', 'border-orange'];
+                const randomColorClass = borderColors[Math.floor(Math.random() * borderColors.length)];
+                item.className = `tx-item-pro ${randomColorClass}`;
                 
-                transactionFeedContainer.innerHTML = ''; // Clear placeholder
+                const shortWallet = `${wallet.slice(0, 6)}...${wallet.slice(-4)}`;
+                const shortTxHash = `${txHash.slice(0, 8)}...${txHash.slice(-4)}`;
 
-                const maxTransactions = 5;
-                const minInterval = 2000;
-                const maxInterval = 8000;
-
-                function formatSimulatedTime(date) {
-                    const h = String(date.getHours()).padStart(2, '0');
-                    const m = String(date.getMinutes()).padStart(2, '0');
-                    const s = String(date.getSeconds()).padStart(2, '0');
-                    return `[${h}:${m}:${s}]`;
-                }
-
-                function generateRandomWallet() {
-                    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                    let address = '';
-                    for (let i = 0; i < 6; i++) { address += chars.charAt(Math.floor(Math.random() * chars.length)); }
-                    address += '...';
-                    for (let i = 0; i < 2; i++) { address += chars.charAt(Math.floor(Math.random() * chars.length)); }
-                    return address;
-                }
-                
-                function generateRandomTxHash() {
-                    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                    let hash = '';
-                    for (let i = 0; i < 8; i++) { hash += chars.charAt(Math.floor(Math.random() * chars.length)); }
-                    hash += '...';
-                    for (let i = 0; i < 2; i++) { hash += chars.charAt(Math.floor(Math.random() * chars.length)); }
-                    return hash;
-                }
-
-                function generateRandomVibeAmount() {
-                    const r = Math.random();
-                    if (r < 0.6) return Math.floor(Math.random() * (2000000 - 500000) + 500000);
-                    if (r < 0.9) return Math.floor(Math.random() * (5000000 - 2000000) + 2000000);
-                    return Math.floor(Math.random() * (10000000 - 5000000) + 5000000);
-                }
-
-                function createTransactionElement(time, vibeAmount, wallet, txHash) {
-                    const item = document.createElement('div');
-                    const borderColors = ['border-cyan', 'border-purple', 'border-pink', 'border-orange'];
-                    const randomColorClass = borderColors[Math.floor(Math.random() * borderColors.length)];
-                    item.className = `tx-item-pro ${randomColorClass}`;
-                    
-                    item.innerHTML = `
-                        <div class="tx-left-col">
-                            <div class="tx-timestamp">${time}</div>
-                            <div class="tx-amount-vibe">
-                                ${vibeAmount.toLocaleString('en-US')} <span>$VIBE</span>
-                            </div>
+                item.innerHTML = `
+                    <div class="tx-left-col">
+                        <div class="tx-timestamp">${time}</div>
+                        <div class="tx-amount-vibe">
+                            ${parseFloat(vibeAmount).toLocaleString('en-US')} <span>$VIBE</span>
                         </div>
-                        <div class="tx-right-col">
-                            <div class="tx-bought-text">BOUGHT</div>
-                            <div class="tx-wallet-info">by <span>${wallet}</span></div>
-                            <div class="tx-hash-info">tx: <span>${txHash}</span></div>
-                        </div>`;
-                    return item;
-                }
-
-                function addTransaction() {
-                    const timeString = formatSimulatedTime(new Date());
-                    const vibeAmount = generateRandomVibeAmount();
-                    const wallet = generateRandomWallet();
-                    const txHash = generateRandomTxHash();
-                    const transactionElement = createTransactionElement(timeString, vibeAmount, wallet, txHash);
-
-                    if (transactionFeedContainer.children.length >= maxTransactions) {
-                        const oldestChild = transactionFeedContainer.lastElementChild;
-                        oldestChild.style.animation = 'tx-fade-out 0.6s forwards';
-                        setTimeout(() => {
-                            if (transactionFeedContainer.contains(oldestChild)) {
-                                transactionFeedContainer.removeChild(oldestChild);
-                            }
-                        }, 600);
-                    }
-                    
-                    // Insert new element after a short delay to allow the old one to fade out
-                    setTimeout(() => {
-                        transactionFeedContainer.insertBefore(transactionElement, transactionFeedContainer.firstChild);
-                    }, 100);
-                }
-                
-                // Initial burst of transactions
-                for(let i = 0; i < maxTransactions; i++) {
-                    setTimeout(addTransaction, i * 500);
-                }
-                // Continuous transactions
-                setInterval(addTransaction, minInterval + Math.random() * (maxInterval - minInterval));
+                    </div>
+                    <div class="tx-right-col">
+                        <div class="tx-bought-text">BOUGHT</div>
+                        <div class="tx-wallet-info">by <a href="https://solscan.io/account/${wallet}" target="_blank" rel="noopener noreferrer">${shortWallet}</a></div>
+                        <div class="tx-hash-info">tx: <a href="https://solscan.io/tx/${txHash}" target="_blank" rel="noopener noreferrer">${shortTxHash}</a></div>
+                    </div>`;
+                return item;
             }
 
-            function checkTransactionFeedStatus() {
+            async function fetchAndDisplayTransactions() {
+                if (!CONFIG.tokenMintAddress || !CONFIG.rpcEndpoint) return;
+
+                try {
+                    const connection = new solanaWeb3.Connection(CONFIG.rpcEndpoint, 'confirmed');
+                    const tokenMintPublicKey = new solanaWeb3.PublicKey(CONFIG.tokenMintAddress);
+
+                    const signatures = await connection.getSignaturesForAddress(tokenMintPublicKey, { limit: 15 });
+                    
+                    if (!signatures.length) return;
+
+                    for (const sigInfo of signatures) {
+                        if (displayedSignatures.has(sigInfo.signature)) {
+                            continue;
+                        }
+
+                        const tx = await connection.getParsedTransaction(sigInfo.signature, { maxSupportedTransactionVersion: 0 });
+                        if (!tx || !tx.meta) continue;
+
+                        // Find the relevant token transfer
+                        const tokenTransfers = tx.meta.postTokenBalances.filter(tb => tb.mint === CONFIG.tokenMintAddress);
+                        const preTokenTransfers = tx.meta.preTokenBalances.filter(tb => tb.mint === CONFIG.tokenMintAddress);
+
+                        if (tokenTransfers.length < 2) continue; // Need at least a sender and receiver
+
+                        // Heuristic to find a "buy": look for a transfer where a new owner appears or amount increases
+                        for (const postBalance of tokenTransfers) {
+                            const preBalance = preTokenTransfers.find(pb => pb.owner === postBalance.owner);
+                            const preAmount = preBalance ? parseFloat(preBalance.uiTokenAmount.uiAmountString) : 0;
+                            const postAmount = parseFloat(postBalance.uiTokenAmount.uiAmountString);
+
+                            if (postAmount > preAmount) {
+                                const amountBought = postAmount - preAmount;
+                                
+                                // Avoid showing tiny dust amounts or huge liquidity pool movements
+                                if (amountBought < 1) continue;
+
+                                const time = new Date(tx.blockTime * 1000).toLocaleTimeString();
+                                const wallet = postBalance.owner;
+                                const txHash = sigInfo.signature;
+
+                                if (!displayedSignatures.has(txHash)) {
+                                    const transactionElement = createTransactionElement(time, amountBought, wallet, txHash);
+                                    
+                                    if (transactionFeedContainer.children.length >= maxTransactions) {
+                                        const oldestChild = transactionFeedContainer.lastElementChild;
+                                        oldestChild.style.animation = 'tx-fade-out 0.6s forwards';
+                                        setTimeout(() => {
+                                            if (transactionFeedContainer.contains(oldestChild)) {
+                                                transactionFeedContainer.removeChild(oldestChild);
+                                            }
+                                        }, 600);
+                                    }
+
+                                    setTimeout(() => {
+                                        transactionFeedContainer.insertBefore(transactionElement, transactionFeedContainer.firstChild);
+                                    }, 100);
+
+                                    displayedSignatures.add(txHash);
+                                }
+                                // Break after finding one relevant transfer per transaction
+                                break; 
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch transactions:", error);
+                }
+            }
+
+            function checkAndStartFeed() {
                 if (!transactionFeedContainer) return;
 
-                if (CONFIG.contractAddress && CONFIG.contractAddress.trim() !== "") {
-                    startTransactionFeed();
+                if (CONFIG.tokenMintAddress && CONFIG.rpcEndpoint) {
+                    transactionFeedContainer.innerHTML = ''; // Clear placeholder
+                    fetchAndDisplayTransactions();
+                    // Fetch new transactions periodically
+                    setInterval(fetchAndDisplayTransactions, 20000); // every 20 seconds
                 } else {
                     transactionFeedContainer.innerHTML = `
                         <div id="live-transactions-placeholder">
@@ -1025,7 +1040,7 @@
             
             // --- RUN ON PAGE LOAD ---
             initializeUI();
-            checkTransactionFeedStatus();
+            checkAndStartFeed();
 
         });
     </script>
