@@ -1,1056 +1,635 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeVibes ($VIBE) - Invest in the Future of Digital Vibes</title>
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23A855F7;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2306B6D4;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' stroke='url(%23grad)' stroke-width='8' fill='%23111827'/%3E%3Ctext x='50' y='68' font-family='Orbitron, sans-serif' font-size='40' fill='%23D8B4FE' text-anchor='middle' style='text-shadow: 0 0 4px %23A855F7, 0 0 8px %23A855F7;'%3E$V%3C/text%3E%3C/svg%3E">
-    <!-- Solana Web3.js Library -->
-    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <title>BauMeister - Professionelle Sanierung & Renovierung in Österreich</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <style>
-        /* --- GENERAL STYLES --- */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Very dark blue-gray */
-            color: #E5E7EB; /* Light gray for text */
-            overflow-x: hidden; /* Prevent horizontal scroll */
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Roboto', sans-serif; }
+        .accent-yellow { background-color: #f9c800; }
+        .accent-yellow-text { color: #f9c800; }
+        .accent-yellow-border { border-color: #f9c800; }
+        .accent-yellow:hover { background-color: #e0b400; }
+        
+        #header.scrolled nav {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+        #header nav {
+            transition: padding 0.3s ease-in-out, background-color 0.3s ease-in-out;
         }
 
-        .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .font-roboto { font-family: 'Roboto', sans-serif; }
-        .font-roboto-mono { font-family: 'Roboto Mono', monospace; }
-
-        /* --- NEON EFFECTS --- */
-        .neon-text-accent {
-            text-shadow:
-                0 0 4px rgba(255, 255, 255, 0.6),
-                0 0 8px var(--neon-glow-color, #A855F7),
-                0 0 12px var(--neon-glow-color, #A855F7);
-        }
-        .neon-purple-accent { --neon-glow-color: #A855F7; color: #D8B4FE; }
-        .neon-cyan-accent { --neon-glow-color: #06B6D4; color: #67E8F9; }
-        .neon-pink-accent { --neon-glow-color: #EC4899; color: #F9A8D4; }
-        .neon-green-accent { --neon-glow-color: #10B981; color: #34D399; }
-        .neon-orange-accent { --neon-glow-color: #F97316; color: #FB923C; }
-
-        /* --- BUTTONS --- */
-        .pro-button {
-            border: 1px solid var(--btn-color, #A855F7);
-            box-shadow: 0 0 8px -2px var(--btn-color, #A855F7), 0 0 5px var(--btn-color, #A855F7) inset;
-            transition: all 0.3s ease-in-out;
-            color: #E5E7EB;
-            background-color: rgba(var(--btn-rgb-color, 168, 85, 247), 0.1);
-            transform: perspective(1px) translateZ(0);
-        }
-        .pro-button:hover {
-            background-color: var(--btn-color, #A855F7);
-            color: #111827;
-            box-shadow: 0 0 15px 0px var(--btn-color, #A855F7), 0 0 10px var(--btn-color, #A855F7) inset;
-            transform: scale(1.05);
-        }
-        .pro-button-primary { --btn-color: #A855F7; --btn-rgb-color: 168, 85, 247; }
-        .pro-button-secondary { --btn-color: #06B6D4; --btn-rgb-color: 6, 182, 212; }
-        .pro-button-green { --btn-color: #10B981; --btn-rgb-color: 16, 185, 129; }
-
-        /* --- NEW EXCHANGE BUTTON STYLE --- */
-        .exchange-button-pro {
+        /* Эффект для навигации (без ховера) */
+        .nav-link {
             position: relative;
-            padding: 0.75rem 1.5rem;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #E5E7EB;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
-            border: 1px solid var(--exchange-color, #A855F7);
-            border-radius: 0.5rem;
-            overflow: hidden;
-            transition: all 0.4s ease;
+            padding: 8px 16px;
+            color: #4a5568; /* tailwind gray-700 */
             z-index: 1;
         }
-        .exchange-button-pro span {
-            position: relative;
-            z-index: 2;
-            transition: color 0.4s ease;
-        }
-        .exchange-button-pro::before {
+        .nav-link::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
+            bottom: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: var(--exchange-color);
-            transition: left 0.5s ease;
-            z-index: 1;
+            background-color: #f9c800;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+            z-index: -1;
+            border-radius: 0.375rem; /* rounded-md */
         }
-        .exchange-button-pro:hover {
-             box-shadow: 0 0 20px var(--exchange-color);
+        .nav-link.active {
+            color: #1a202c; /* tailwind gray-900 */
         }
-        .exchange-button-pro:hover span {
-            color: #111827; /* Dark text on hover */
-        }
-        .exchange-button-pro:hover::before {
-            left: 0;
+        .nav-link.active::before {
+            transform: scaleX(1);
+            transform-origin: bottom left;
         }
 
-        .exchange-button-binance { --exchange-color: #F0B90B; }
-        .exchange-button-bybit { --exchange-color: #F7A600; }
-        .exchange-button-coinbase { --exchange-color: #0052FF; }
-
-
-        /* --- BACKGROUND & LAYERS --- */
-        .hero-bg-pro {
-            background: #0c0f1a;
-            position: relative;
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .hero-bg { background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070&auto=format&fit=crop'); }
+        .cta-bg { background-image: linear-gradient(rgba(41, 51, 61, 0.85), rgba(41, 51, 61, 0.85)), url('https://images.unsplash.com/photo-1444723121867-7a241cacace9?q=80&w=2070&auto=format&fit=crop'); }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding-bottom: 1.25rem;
+        }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-icon { transition: transform 0.3s ease-in-out; }
+        
+        .portfolio-overlay {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .group:hover .portfolio-overlay { opacity: 1; }
+        .portfolio-item {
+            transition: transform 0.3s ease, opacity 0.4s ease, width 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+            transform-origin: center;
+        }
+        .portfolio-item.hidden {
+            transform: scale(0.8);
+            opacity: 0;
+            width: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
             overflow: hidden;
         }
-        .hero-bg-pro::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 50%;
-            width: 250%; height: 250%;
-            background:
-                radial-gradient(circle at center, rgba(168, 85, 247, 0.12) 0%, transparent 25%),
-                radial-gradient(circle at 20% 30%, rgba(6, 182, 212, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.09) 0%, transparent 20%);
-            transform: translateX(-50%) translateY(-50%);
-            animation: rotateBackground 90s linear infinite;
-            opacity: 0.6;
-            filter: blur(5px);
-        }
-        @keyframes rotateBackground {
-            from { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
-            to { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
-        }
-        .content-layer-pro { position: relative; z-index: 1; }
 
-        /* --- SECTION STYLES --- */
-        .section-title-pro {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            color: #F3F4F6;
+        .modal {
+            transition: opacity 0.3s ease-in-out;
         }
-        .section-subtitle-pro {
-            font-family: 'Roboto', sans-serif;
-            color: #9CA3AF;
-            text-align: center;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 3rem;
+        .modal .modal-content {
+            transition: transform 0.3s ease-in-out;
         }
-
-        /* --- INFO CARDS --- */
-        .info-card {
-            background-color: rgba(31, 41, 55, 0.6);
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        .modal.open .modal-content {
+            transform: scale(1) translateY(0);
         }
-        .info-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.5);
+        .lang-switcher .active {
+            color: #f9c800;
         }
-        .info-card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            color: #C084FC;
-            margin-bottom: 1rem;
-        }
-
-        /* --- PROFESSIONAL ROADMAP --- */
-        .pro-roadmap-container {
-            position: relative;
-            padding: 2rem 0;
-        }
-        .pro-roadmap-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background-image: linear-gradient(to bottom, #A855F7, #06B6D4, #EC4899);
-            transform: translateX(-50%);
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
-            border-radius: 2px;
-        }
-        .pro-roadmap-item {
-            position: relative;
-            margin-bottom: 3rem;
-            width: 50%;
-        }
-        .pro-roadmap-item:nth-child(odd) {
-            left: 0;
-            padding-right: 3rem;
-        }
-        .pro-roadmap-item:nth-child(even) {
-            left: 50%;
-            padding-left: 3rem;
-        }
-        .pro-roadmap-content {
-            background-color: rgba(31, 41, 55, 0.75);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(168, 85, 247, 0.5);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            position: relative;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            transition: all 0.3s ease;
-        }
-        .pro-roadmap-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px -5px rgba(var(--phase-color, 168, 85, 247), 0.6);
-            border-color: rgba(var(--phase-color, 168, 85, 247), 0.8);
-        }
-        .pro-roadmap-item:nth-child(odd) .pro-roadmap-content { text-align: right; }
-        .pro-roadmap-item:nth-child(even) .pro-roadmap-content { text-align: left; }
-
-        .pro-roadmap-icon {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background-color: #111827;
-            border: 4px solid var(--phase-color, #A855F7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            box-shadow: 0 0 15px var(--phase-color, #A855F7);
-            transition: all 0.3s ease;
-        }
-        .pro-roadmap-item:hover .pro-roadmap-icon {
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .pro-roadmap-item:nth-child(odd) .pro-roadmap-icon { right: -24px; }
-        .pro-roadmap-item:nth-child(even) .pro-roadmap-icon { left: -24px; }
-        .pro-roadmap-icon svg { width: 24px; height: 24px; color: var(--phase-color, #A855F7); }
-
-        .pro-roadmap-phase {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: #9CA3AF;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-        }
-        .pro-roadmap-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #E5E7EB;
-            margin-bottom: 0.75rem;
-        }
-        .pro-roadmap-status {
-            display: inline-block;
-            font-size: 0.8rem;
-            padding: 0.3rem 0.85rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        .status-completed { background-color: #059669; color: #D1FAE5; box-shadow: 0 0 8px #059669; }
-        .status-inprogress { background-color: #F59E0B; color: #FFFBEB; box-shadow: 0 0 8px #F59E0B; animation: pulse-inprogress 2s infinite; }
-        .status-planned { background-color: #60A5FA; color: #EFF6FF; box-shadow: 0 0 8px #60A5FA; }
-
-        @keyframes pulse-inprogress {
-            0%, 100% { box-shadow: 0 0 8px #F59E0B; }
-            50% { box-shadow: 0 0 16px #F59E0B; }
-        }
-
-        /* --- COPY ADDRESS BLOCK --- */
-        .copy-address-block {
-            background-color: rgba(31, 41, 55, 0.7);
-            border: 1px solid rgba(6, 182, 212, 0.5);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-        }
-        .contract-address {
-            font-family: 'Roboto Mono', monospace;
-            color: #9CA3AF; /* Changed to gray for placeholder text */
-            background-color: rgba(12, 15, 26, 0.5);
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.25rem;
-            word-break: break-all;
-            display: block;
-            margin-bottom: 1rem;
-            min-height: 40px; /* Ensure consistent height */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #copyFeedback { min-height: 20px; transition: color 0.3s ease; }
-
-        /* --- STICKY HEADER --- */
-        #stickyHeader {
-            position: fixed;
-            top: -100px;
-            left: 0; right: 0;
-            z-index: 1000;
-            background-color: rgba(12, 15, 26, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 0.75rem 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            transition: top 0.4s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        #stickyHeader.visible { top: 0; }
-        .header-logo svg { height: 30px; width: auto; animation: rotateHeaderLogo 10s linear infinite; }
-        @keyframes rotateHeaderLogo { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-        .header-nav a { color: #D1D5DB; margin-left: 0.75rem; margin-right: 0.75rem; font-size: 0.875rem; font-weight: 500; transition: color 0.3s ease; }
-        .header-nav a:hover, .header-nav a.active { color: #A855F7; }
-        .header-buy-button { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
-
-
-        /* --- NEW LIVE TRANSACTIONS STYLES --- */
-        #live-transactions-placeholder {
-            text-align: center;
-            padding: 2rem;
-            background-color: rgba(31, 41, 55, 0.7);
-            border: 1px dashed rgba(6, 182, 212, 0.5);
-            border-radius: 0.5rem;
-            color: #9CA3AF;
-        }
-        .tx-item-pro {
-            background-color: rgba(17, 24, 39, 0.7);
-            border: 1px solid;
-            border-image-slice: 1;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            border-radius: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            opacity: 0;
-            animation: tx-fade-in 0.6s forwards;
-        }
-        @keyframes tx-fade-in {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes tx-fade-out {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); }
-        }
-        .tx-item-pro.border-cyan { border-image-source: linear-gradient(to right, #06b6d4, #67e8f9); }
-        .tx-item-pro.border-purple { border-image-source: linear-gradient(to right, #8b5cf6, #c084fc); }
-        .tx-item-pro.border-pink { border-image-source: linear-gradient(to right, #ec4899, #f9a8d4); }
-        .tx-item-pro.border-orange { border-image-source: linear-gradient(to right, #f97316, #fb923c); }
-
-        .tx-left-col, .tx-right-col {
-            display: flex;
-            flex-direction: column;
-        }
-        .tx-right-col {
-            text-align: right;
-            align-items: flex-end;
-        }
-        .tx-timestamp {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.875rem;
-            color: #9CA3AF;
-        }
-        .tx-amount-vibe {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #E5E7EB;
-            margin-top: 0.25rem;
-        }
-        .tx-amount-vibe span {
-            font-weight: 400;
-            color: #9CA3AF;
-        }
-        .tx-bought-text {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            color: #34D399; /* Neon Green */
-            letter-spacing: 0.05em;
-        }
-        .tx-wallet-info, .tx-hash-info {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.875rem;
-            color: #6B7280;
-            margin-top: 0.25rem;
-        }
-        .tx-wallet-info a, .tx-hash-info a {
-            color: #9CA3AF;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .tx-wallet-info a:hover, .tx-hash-info a:hover {
-            color: #67e8f9;
-        }
-        
-        .animate-pulse-placeholder {
-            animation: pulse-placeholder 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse-placeholder {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-
-        /* --- RESPONSIVENESS --- */
-        @media (max-width: 767px) {
-            .header-nav { display: none; }
-            .pro-roadmap-line { left: 24px; transform: translateX(0); }
-            .pro-roadmap-item, .pro-roadmap-item:nth-child(even) {
-                width: 100%;
-                left: 0;
-                padding-left: 3rem;
-                padding-right: 0;
-            }
-            .pro-roadmap-item:nth-child(odd) .pro-roadmap-content,
-            .pro-roadmap-item:nth-child(even) .pro-roadmap-content {
-                text-align: left;
-            }
-            .pro-roadmap-icon, .pro-roadmap-item:nth-child(odd) .pro-roadmap-icon, .pro-roadmap-item:nth-child(even) .pro-roadmap-icon {
-                left: 0;
-            }
-            .hero-bg-pro .flex-col.sm\\:flex-row { flex-direction: column; }
-            .hero-bg-pro .flex-col.sm\\:flex-row > * + * { margin-left: 0; margin-top: 1rem; }
-        }
-        @media (min-width: 768px) {
-             #stickyHeader { padding: 0.75rem 1.5rem; }
-            .header-logo svg { height: 36px; }
-            .header-buy-button { font-size: 0.875rem; padding: 0.5rem 1rem; }
-        }
-        
-        /* Other styles from original file for completeness */
-        .wallet-link-placeholder { position: relative; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; padding: 0.75rem 1.25rem; border-radius: 0.5rem; transition: all 0.3s ease; width: 140px; height: 56px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 600; text-align: center; overflow: hidden; }
-        .wallet-link-placeholder > span { position: relative; z-index: 2; }
-        .wallet-link-placeholder::before { content: ""; position: absolute; top: 0; left: -150%; width: 70%; height: 100%; background: linear-gradient( 100deg, transparent 25%, rgba(255, 230, 180, 0.05) 35%, rgba(255, 255, 255, 0.7) 45%, #FFDE7A 50%, rgba(255, 255, 255, 0.7) 55%, rgba(255, 230, 180, 0.05) 65%, transparent 75% ); opacity: 0; transform: skewX(-20deg); transition: all 0s; z-index: 1; }
-        .wallet-link-placeholder:hover::before { animation: crystal-glint 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
-        @keyframes crystal-glint { 0% { left: -100%; opacity: 0; } 20% { opacity: 0.7; } 100% { left: 170%; opacity: 0; } }
-        .wallet-link-placeholder.phantom { border: 2px solid rgba(168, 85, 247, 0.7); color: #D8B4FE; background-color: rgba(168, 85, 247, 0.05); }
-        .wallet-link-placeholder.phantom:hover { border-color: #A855F7; color: #C084FC; background-color: rgba(168, 85, 247, 0.2); box-shadow: 0 0 15px rgba(168, 85, 247, 0.5), 0 0 25px rgba(168, 85, 247, 0.3); }
-        .wallet-link-placeholder.solflare { border: 2px solid rgba(6, 182, 212, 0.7); color: #67E8F9; background-color: rgba(6, 182, 212, 0.05); }
-        .wallet-link-placeholder.solflare:hover { border-color: #06B6D4; color: #22D3EE; background-color: rgba(6, 182, 212, 0.2); box-shadow: 0 0 15px rgba(6, 182, 212, 0.5), 0 0 25px rgba(6, 182, 212, 0.3); }
-        .wallet-link-placeholder.metamask { border: 2px solid rgba(236, 72, 153, 0.7); color: #F9A8D4; background-color: rgba(236, 72, 153, 0.05); }
-        .wallet-link-placeholder.metamask:hover { border-color: #EC4899; color: #F472B6; background-color: rgba(236, 72, 153, 0.2); box-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 25px rgba(236, 72, 153, 0.3); }
-        .hero-logo-aurora-container { position: relative; display: inline-block; z-index: 1; }
-        .aurora-effect { position: absolute; top: 50%; left: 50%; width: 250%; height: 250%; transform: translate(-50%, -50%); background: radial-gradient(ellipse farthest-corner at 50% 50%, rgba(168, 85, 247, 0.3) 0%, transparent 50%), radial-gradient(ellipse farthest-corner at 40% 40%, rgba(6, 182, 212, 0.25) 0%, transparent 55%), radial-gradient(ellipse farthest-corner at 60% 60%, rgba(236, 72, 153, 0.25) 0%, transparent 55%), radial-gradient(ellipse farthest-corner at 50% 50%, rgba(16, 185, 129, 0.2) 0%, transparent 60%); border-radius: 50%; opacity: 0; animation: aurora-flow 15s ease-in-out infinite, aurora-fade-in 2s ease-out 0.5s forwards; z-index: -1; filter: blur(25px); mix-blend-mode: lighten; }
-        @keyframes aurora-flow { 0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); } 25% { transform: translate(-45%, -55%) rotate(45deg) scale(1.1); } 50% { transform: translate(-50%, -50%) rotate(90deg) scale(1.2); } 75% { transform: translate(-55%, -45%) rotate(135deg) scale(1.1); } 100% { transform: translate(-50%, -50%) rotate(180deg) scale(1); } }
-        @keyframes aurora-fade-in { to { opacity: 0.6; } }
-        .animate-subtle-pulse-hero-svg { animation: subtle-pulse-hero-svg 3s infinite ease-in-out; }
-        @keyframes subtle-pulse-hero-svg { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.03); opacity: 1; } }
-        .animate-text-focus-in { animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both; }
-        @keyframes text-focus-in { 0% { filter: blur(12px); opacity: 0; } 100% { filter: blur(0px); opacity: 1; } }
-        .animate-text-focus-in-delay-1 { animation-delay: 0.3s; }
-        .animate-text-focus-in-delay-2 { animation-delay: 0.6s; }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-white text-gray-700">
 
-    <div id="stickyHeader">
-        <a href="#" class="header-logo"> <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="40" stroke="url(#headerStickyLogoGradient)" stroke-width="5"/>
-                <text x="50" y="58" font-family="'Orbitron', sans-serif" font-size="24" fill="#A855F7" text-anchor="middle" class="neon-text-accent neon-purple-accent">$V</text>
-                <defs>
-                    <linearGradient id="headerStickyLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-            </svg>
-        </a>
-        <nav class="header-nav">
-            <a href="#vision">Vision</a>
-            <a href="#tokenomics-pro">Tokenomics</a>
-            <a href="#roadmap">Roadmap</a>
-            <a href="#community-pro">Community</a>
+    <!-- Header -->
+    <header id="header" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+        <!-- Top Bar -->
+        <div class="bg-gray-800 text-gray-300">
+            <div class="container mx-auto px-6 py-2 flex justify-between items-center text-xs md:text-sm">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-1.5">
+                        <i data-feather="phone" class="w-4 h-4 accent-yellow-text"></i>
+                        <a href="tel:+436641234567" class="hover:text-white transition-colors" data-translate="phone_number">+43 664 1234567</a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-1.5">
+                        <i data-feather="mail" class="w-4 h-4 accent-yellow-text"></i>
+                        <a href="mailto:info@baumeister.at" class="hover:text-white transition-colors" data-translate="email">info@baumeister.at</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="lang-switcher flex items-center space-x-2 font-medium">
+                        <button id="lang-de" class="hover:text-white transition-colors">DE</button>
+                        <span>/</span>
+                        <button id="lang-en" class="hover:text-white transition-colors">EN</button>
+                    </div>
+                    <a href="#" class="hover:text-white transition-colors"><i data-feather="facebook" class="w-4 h-4"></i></a>
+                    <a href="#" class="hover:text-white transition-colors" title="X (Twitter)">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                           <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.602.75Zm-1.7 12.95h1.9l-7.48-10.74h-2.06l7.64 10.74Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Main Navigation -->
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-3xl font-black text-gray-900 tracking-wider">BAUMEISTER</a>
+            <div id="main-nav" class="hidden lg:flex items-center space-x-2 font-bold text-sm uppercase">
+                <a href="#hero" data-scroll-to="hero" class="nav-link" data-translate="nav_home">Startseite</a>
+                <a href="#services" data-scroll-to="services" class="nav-link" data-translate="nav_services">Leistungen</a>
+                <a href="#about" data-scroll-to="about" class="nav-link" data-translate="nav_about">Über uns</a>
+                <a href="#portfolio" data-scroll-to="portfolio" class="nav-link" data-translate="nav_projects">Projekte</a>
+                <a href="#contact" data-scroll-to="contact" class="nav-link" data-translate="nav_contact">Kontakt</a>
+            </div>
+            <button id="callback-modal-trigger" class="hidden lg:inline-block accent-yellow text-gray-900 font-bold px-6 py-3 rounded-md hover:shadow-lg transform hover:-translate-y-0.5 transition" data-translate="request_callback_btn">Rückruf anfordern</button>
+            <button id="mobile-menu-button" class="lg:hidden text-gray-800 focus:outline-none">
+                <i data-feather="menu" class="w-8 h-8"></i>
+            </button>
         </nav>
-        <a href="#how-to-invest" class="pro-button pro-button-primary header-buy-button">
-            Buy $VIBE
-        </a>
-    </div>
-
-    <header class="hero-bg-pro min-h-screen flex flex-col items-center justify-center text-center p-4 sm:p-6 relative">
-        <div class="content-layer-pro">
-             <div class="mb-8 hero-logo-aurora-container">
-                <svg class="w-32 h-32 sm:w-36 sm:h-36 md:w-48 md:h-48 mx-auto opacity-90 animate-subtle-pulse-hero-svg relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="45" stroke="url(#heroStaticLogoGradient)" stroke-width="3.5"/>
-                    <path d="M50 10 V90 M10 50 H90 M20 20 L80 80 M20 80 L80 20" stroke="url(#heroStaticLogoGradient)" stroke-width="1.5" opacity="0.4"/>
-                    <text x="50" y="57" font-family="'Orbitron', sans-serif" font-size="20" fill="#A855F7" text-anchor="middle" class="neon-text-accent neon-purple-accent">$VIBE</text>
-                    <defs>
-                        <linearGradient id="heroStaticLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <div class="aurora-effect"></div>
-            </div>
-
-            <h1 class="font-orbitron text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold neon-text-accent neon-purple-accent mb-4 sm:mb-6 animate-text-focus-in">
-                VibeVibes: Pioneering Digital Assets
-            </h1>
-            <p class="font-roboto text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto mb-8 sm:mb-10 animate-text-focus-in animate-text-focus-in-delay-1">
-                Discover $VIBE: A unique token on the Solana blockchain, merging cutting-edge technology, a strong community, and a social mission.
-            </p>
-            <div class="mt-8 sm:mt-10 space-y-4 sm:space-y-0 sm:space-x-6 flex flex-col sm:flex-row items-center justify-center animate-text-focus-in animate-text-focus-in-delay-2">
-                <a href="#how-to-invest" class="w-full sm:w-auto font-orbitron text-sm sm:text-base md:text-lg pro-button pro-button-primary py-3 sm:py-3.5 px-8 sm:px-12 rounded-lg">
-                    Buy $VIBE
-                </a>
-                <a href="#vision" class="w-full sm:w-auto font-orbitron text-sm sm:text-base md:text-lg pro-button pro-button-secondary py-3 sm:py-3.5 px-8 sm:px-12 rounded-lg">
-                    Learn More
-                </a>
-            </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-200">
+             <a href="#hero" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_home_mobile">Startseite</a>
+             <a href="#services" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_services_mobile">Leistungen</a>
+             <a href="#about" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_about_mobile">Über uns</a>
+             <a href="#portfolio" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_projects_mobile">Projekte</a>
+             <a href="#contact" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_contact_mobile">Kontakt</a>
+             <button id="callback-modal-trigger-mobile" class="block w-full m-4 text-center accent-yellow text-gray-900 font-bold py-3 rounded-md" data-translate="request_callback_btn_mobile">Rückruf anfordern</button>
         </div>
     </header>
 
     <main>
-        <section id="vision" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto bg-gray-800/40">
-            <div class="content-layer-pro">
-                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Our Vision</h2>
-                <p class="section-subtitle-pro text-base sm:text-lg">
-                    VibeVibes aims to create more than just a cryptocurrency; we're building an entire ecosystem powered by positive vibrations, technological innovation, and tangible social impact. We believe in the power of decentralized technology to forge a brighter future.
-                </p>
-                <div class="grid md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 text-center">
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Solana Innovation</h3>
-                        <p class="text-gray-400 text-sm sm:text-base">Leveraging the high-performance Solana blockchain for lightning-fast transactions, low fees, and a scalable $VIBE ecosystem.</p>
-                    </div>
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Community Power</h3>
-                        <p class="text-gray-400 text-sm sm:text-base">Cultivating an active, engaged global community that shares our values and drives the project's organic growth.</p>
-                    </div>
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Social Responsibility</h3>
-                        <p class="text-gray-400 text-sm sm:text-base">Committing a portion of proceeds to support mental health initiatives, demonstrating our dedication to positive global impact.</p>
+        <!-- Hero Section -->
+        <section id="hero" class="relative h-[60vh] md:h-[80vh] text-white parallax-bg hero-bg">
+            <div class="container mx-auto px-6 h-full flex flex-col justify-center items-start text-left">
+                <div class="max-w-2xl">
+                    <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4 uppercase reveal" data-translate="hero_title">Wir gestalten <br>Ihre Räume neu</h1>
+                    <p class="text-lg md:text-xl mb-8 reveal" style="transition-delay: 150ms;" data-translate="hero_subtitle">Zuverlässigkeit, Qualität und Termintreue sind unsere Grundprinzipien. Vertrauen Sie Ihr Projekt den Profis an.</p>
+                    <div class="flex flex-wrap gap-4 reveal" style="transition-delay: 300ms;">
+                        <a href="#services" class="accent-yellow text-gray-900 font-bold px-8 py-4 rounded-md uppercase transform hover:-translate-y-1 transition" data-translate="hero_btn_1">Unsere Leistungen</a>
+                        <a href="#contact" class="bg-transparent border-2 border-white text-white font-bold px-8 py-4 rounded-md uppercase hover:bg-white hover:text-gray-900 transition transform hover:-translate-y-1" data-translate="hero_btn_2">Kontakt</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="tokenomics-pro" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto">
-             <div class="content-layer-pro">
-                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Tokenomics: Transparent Token Economy</h2>
-                <p class="section-subtitle-pro text-base sm:text-lg">
-                    The well-defined tokenomics of $VIBE are designed for long-term project sustainability, holder incentives, and support for key development areas.
-                </p>
-                <div class="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-start">
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Token Distribution</h3>
-                        <p class="text-gray-400 mb-4 text-sm sm:text-base">Total Supply: 1,000,000,000 $VIBE</p>
-                        <div class="text-gray-300 text-sm sm:text-base space-y-2">
-                            <p><strong class="neon-text-accent neon-pink-accent">Fair Launch via Pump.fun:</strong> 100% of the $VIBE supply is committed to the bonding curve on Pump.fun.</p>
-                            <p>This ensures a transparent and community-driven launch. Once the bonding curve is filled, liquidity will be automatically established and locked on Raydium.</p>
-                            <p>No team tokens, no presale - just pure vibes for everyone from the start!</p>
+        <!-- Services Section -->
+        <section id="services" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                     <h2 class="text-3xl md:text-4xl font-black mb-4 uppercase reveal" data-translate="services_title">Unsere Leistungen</h2>
+                     <p class="text-lg text-gray-600 mb-12 reveal" data-translate="services_subtitle">Wir bieten ein komplettes Spektrum an Renovierungs- und Ausbauarbeiten, von der Planung bis zur schlüsselfertigen Übergabe.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 text-center border-t-4 accent-yellow-border shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal">
+                        <i data-feather="edit" class="w-16 h-16 accent-yellow-text mx-auto mb-6"></i>
+                        <h3 class="text-xl font-bold mb-3 uppercase" data-translate="service_1_title">Komplettsanierung</h3>
+                        <p class="text-gray-600 mb-4" data-translate="service_1_desc">Wir führen alle Arten von Ausbauarbeiten mit hochwertigen Materialien durch.</p>
+                        <a href="#" class="font-bold text-gray-800 hover:accent-yellow-text transition" data-translate="learn_more">Mehr erfahren &rarr;</a>
+                    </div>
+                    <div class="bg-white p-8 text-center border-t-4 accent-yellow-border shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 150ms;">
+                         <i data-feather="home" class="w-16 h-16 accent-yellow-text mx-auto mb-6"></i>
+                        <h3 class="text-xl font-bold mb-3 uppercase" data-translate="service_2_title">Wohnungsrenovierung</h3>
+                        <p class="text-gray-600 mb-4" data-translate="service_2_desc">Von kosmetischen Reparaturen bis zur Kernsanierung Ihrer Wohnung oder Ihres Hauses.</p>
+                         <a href="#" class="font-bold text-gray-800 hover:accent-yellow-text transition" data-translate="learn_more">Mehr erfahren &rarr;</a>
+                    </div>
+                    <div class="bg-white p-8 text-center border-t-4 accent-yellow-border shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 300ms;">
+                         <i data-feather="pen-tool" class="w-16 h-16 accent-yellow-text mx-auto mb-6"></i>
+                        <h3 class="text-xl font-bold mb-3 uppercase" data-translate="service_3_title">Design & Planung</h3>
+                        <p class="text-gray-600 mb-4" data-translate="service_3_desc">Erstellung einzigartiger Designprojekte mit 3D-Visualisierung und Materialauswahl.</p>
+                         <a href="#" class="font-bold text-gray-800 hover:accent-yellow-text transition" data-translate="learn_more">Mehr erfahren &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Us Section -->
+        <section id="about" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                 <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="reveal">
+                        <h2 class="text-3xl md:text-4xl font-black mb-6 uppercase" data-translate="about_title">Warum Sie uns wählen sollten</h2>
+                        <p class="text-gray-600 mb-8" data-translate="about_desc">Wir sind stolz auf unseren Ruf als zuverlässiger Partner. Unser Ansatz basiert auf Ehrlichkeit, Professionalität und Liebe zum Detail in jeder Phase der Arbeit.</p>
+                        <div class="space-y-2">
+                            <div class="faq-item bg-gray-50 border border-gray-200 rounded">
+                                <button class="faq-question w-full flex justify-between items-center text-left p-5 font-bold">
+                                    <span data-translate="faq_1_q"><i class="accent-yellow-text mr-3" data-feather="shield"></i>Unsere Mission</span>
+                                    <i data-feather="chevron-down" class="faq-icon w-5 h-5"></i>
+                                </button>
+                                <div class="faq-answer px-5 text-gray-600" data-translate="faq_1_a">Wir streben danach, langlebige und komfortable Räume zu schaffen, die unsere Kunden viele Jahre lang erfreuen werden.</div>
+                            </div>
+                            <div class="faq-item bg-gray-50 border border-gray-200 rounded">
+                                <button class="faq-question w-full flex justify-between items-center text-left p-5 font-bold">
+                                    <span data-translate="faq_2_q"><i class="accent-yellow-text mr-3" data-feather="eye"></i>Unsere Vision</span>
+                                    <i data-feather="chevron-down" class="faq-icon w-5 h-5"></i>
+                                </button>
+                                <div class="faq-answer px-5 text-gray-600" data-translate="faq_2_a">Das führende Renovierungsunternehmen zu werden, bekannt für seinen innovativen Ansatz, makellose Qualität und außergewöhnlichen Service.</div>
+                            </div>
+                             <div class="faq-item bg-gray-50 border border-gray-200 rounded">
+                                <button class="faq-question w-full flex justify-between items-center text-left p-5 font-bold">
+                                    <span data-translate="faq_3_q"><i class="accent-yellow-text mr-3" data-feather="award"></i>Unsere Garantien</span>
+                                    <i data-feather="chevron-down" class="faq-icon w-5 h-5"></i>
+                                </button>
+                                <div class="faq-answer px-5 text-gray-600" data-translate="faq_3_a">Wir bieten eine offizielle Garantie auf alle Arbeiten, verwenden nur zertifizierte Materialien und halten uns strikt an alle Baunormen.</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Transaction Mechanics</h3>
-                        <p class="text-gray-400 mb-4 text-sm sm:text-base">Each transaction contributes to the ecosystem's growth and sustainability:</p>
-                        <ul class="space-y-3 text-gray-300 text-sm sm:text-base">
-                            <li><strong class="neon-text-accent neon-cyan-accent">Burn (2%):</strong> A deflationary mechanism reducing total supply, potentially increasing token value.</li>
-                            <li><strong class="neon-text-accent neon-cyan-accent">Charity (1%):</strong> Automatic allocation to the mental health support fund.</li>
-                            <li><strong class="neon-text-accent neon-cyan-accent">Development (1%):</strong> Reinvestment into marketing, partnerships, and further ecosystem development.</li>
-                        </ul>
-                        <p class="text-xs text-gray-500 mt-4">These mechanics ensure self-sufficiency and long-term project development.</p>
+                    <div class="reveal" style="transition-delay: 150ms;">
+                        <img src="https://images.unsplash.com/photo-1574366622362-715a3a35825b?q=80&w=1974&auto=format&fit=crop" class="rounded-lg shadow-2xl w-full h-full object-cover" alt="Bauprozess">
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="roadmap" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto bg-gray-800/40">
-            <div class="content-layer-pro">
-                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Our Roadmap</h2>
-                <p class="section-subtitle-pro text-base sm:text-lg">Strategic goals and key milestones for the VibeVibes project.</p>
-
-                <div class="pro-roadmap-container max-w-4xl mx-auto">
-                    <div class="pro-roadmap-line"></div>
-
-                    <div class="pro-roadmap-item" style="--phase-color: #10B981;">
-                        <div class="pro-roadmap-icon">
-                            <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        </div>
-                        <div class="pro-roadmap-content">
-                            <p class="pro-roadmap-phase">Phase 1</p>
-                            <h3 class="pro-roadmap-title">Launch & Foundation</h3>
-                            <span class="pro-roadmap-status status-completed">Completed</span>
-                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1.5 text-left">
-                                <li>$VIBE Smart Contract development on Solana.</li>
-                                <li>Website launch & initial branding.</li>
-                                <li>Launch on Pump.fun & Raydium LP creation.</li>
-                                <li>Social media channel setup & early community building.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="pro-roadmap-item" style="--phase-color: #F59E0B;">
-                        <div class="pro-roadmap-icon">
-                           <svg fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
-                        </div>
-                        <div class="pro-roadmap-content">
-                            <p class="pro-roadmap-phase">Phase 2</p>
-                            <h3 class="pro-roadmap-title">Growth & Expansion</h3>
-                            <span class="pro-roadmap-status status-inprogress">In Progress</span>
-                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1.5 text-left">
-                                <li>Targeted marketing campaigns for audience growth.</li>
-                                <li>Partnerships with influencers and synergistic projects.</li>
-                                <li>Listings on CoinGecko & CoinMarketCap.</li>
-                                <li>First round of charitable contributions.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="pro-roadmap-item" style="--phase-color: #60A5FA;">
-                         <div class="pro-roadmap-icon">
-                            <svg fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"></path></svg>
-                        </div>
-                        <div class="pro-roadmap-content">
-                            <p class="pro-roadmap-phase">Phase 3</p>
-                            <h3 class="pro-roadmap-title">Ecosystem Development</h3>
-                            <span class="pro-roadmap-status status-planned">Planned</span>
-                            <ul class="list-disc list-inside text-gray-400 text-sm space-y-1.5 text-left">
-                                <li>Development of additional utilities for the $VIBE token.</li>
-                                <li>Establishment of a DAO for community governance.</li>
-                                <li>Exploration of staking and yield farming opportunities.</li>
-                                <li>Expansion of the charitable program and partnerships.</li>
-                            </ul>
-                        </div>
-                    </div>
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-black text-center mb-4 uppercase reveal" data-translate="portfolio_title">Aktuelle Projekte</h2>
+                <div id="portfolio-filter" class="flex justify-center flex-wrap gap-2 md:gap-4 mb-12 reveal">
+                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded transition-colors" data-filter="all" data-translate="filter_all">Alle</button>
+                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded transition-colors" data-filter="houses" data-translate="filter_houses">Häuser & Villen</button>
+                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded transition-colors" data-filter="apartments" data-translate="filter_apartments">Wohnungen</button>
+                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded transition-colors" data-filter="offices" data-translate="filter_offices">Büros</button>
+                </div>
+                <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">
+                    <!-- Projects will be dynamically populated by JS -->
                 </div>
             </div>
         </section>
 
-        <section id="technology" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto">
-             <div class="content-layer-pro">
-                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Technological Backbone</h2>
-                <p class="section-subtitle-pro text-base sm:text-lg">VibeVibes is built on the cutting-edge Solana blockchain, renowned for its speed, efficiency, and low transaction costs. This empowers us to create a scalable and user-friendly ecosystem.</p>
-                <div class="max-w-2xl mx-auto p-6 sm:p-8 info-card">
-                    <h3 class="info-card-title text-xl sm:text-2xl text-center">Solana Advantages for $VIBE</h3>
-                    <ul class="space-y-3 text-gray-300 text-sm sm:text-base">
-                        <li><strong class="neon-text-accent neon-pink-accent">High Performance:</strong> Capable of processing thousands of transactions per second.</li>
-                        <li><strong class="neon-text-accent neon-pink-accent">Low Fees:</strong> Making $VIBE interactions affordable for everyone.</li>
-                        <li><strong class="neon-text-accent neon-pink-accent">Scalability:</strong> Ready for ecosystem growth and an increasing user base.</li>
-                        <li><strong class="neon-text-accent neon-pink-accent">Thriving Ecosystem:</strong> Integration with numerous wallets, DEXs, and other DeFi tools.</li>
-                    </ul>
-                </div>
+        <!-- CTA Section -->
+        <section class="py-20 parallax-bg cta-bg">
+            <div class="container mx-auto px-6 text-center text-white">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 uppercase reveal" data-translate="cta_title">Suchen Sie einen zuverlässigen Partner?</h2>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style="transition-delay: 150ms;" data-translate="cta_subtitle">Wir sind bereit, Ihr Traumprojekt zu verwirklichen. Erhalten Sie noch heute eine kostenlose Beratung und einen detaillierten Kostenvoranschlag.</p>
+                <a href="#contact-form-main" class="accent-yellow text-gray-900 font-bold px-10 py-4 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-1 transition reveal" style="transition-delay: 300ms;" data-translate="cta_btn">Angebot anfordern</a>
             </div>
         </section>
-        <section id="community-pro" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto bg-gray-800/40">
-             <div class="content-layer-pro">
-                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">Our Community & Impact</h2>
-                <p class="section-subtitle-pro text-base sm:text-lg">
-                    Join our global community of enthusiasts, investors, and positive individuals. Together, we're creating good vibes and making a difference.
-                </p>
-                <div class="flex justify-center space-x-4 sm:space-x-6 md:space-x-10">
-                    <a id="socialLinkTwitter" href="#" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-cyan-500/70 hover:bg-cyan-500/20 transition-all duration-300 group transform hover:scale-110">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                        </svg>
-                        <span class="sr-only">X (Twitter)</span>
-                    </a>
-                    <a id="socialLinkTelegram" href="#" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 rounded-lg border-2 border-purple-500/70 hover:bg-purple-500/20 transition-all duration-300 group transform hover:scale-110">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-purple-400 group-hover:text-purple-300 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M22 2L11.167 12.833L2 14.833L5.667 8.5L2 2L22 2ZM11.167 12.833L18.333 6.5L5.667 8.5L11.167 12.833Z" transform="translate(0 -0.000488281)"></path><path d="M22.0002 2.00049L14.8335 18.3338L11.1668 12.8338L18.3335 6.50049L22.0002 2.00049Z"></path></g></svg>
-                        <span class="sr-only">Telegram</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-        <section id="how-to-invest" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto">
-            <div class="content-layer-pro">
-                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl">How to Buy $VIBE</h2>
-                <div class="max-w-2xl mx-auto space-y-6">
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Step 1: Get a Wallet</h3>
-                        <p class="text-gray-400 mb-4 text-sm sm:text-base">
-                            You need a Solana-compatible wallet. We recommend Phantom or Solflare. MetaMask is also a popular choice.
-                        </p>
-                         <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 items-center justify-items-center">
-                            <a id="walletLinkPhantom" href="#" target="_blank" rel="noopener noreferrer" class="wallet-link-placeholder phantom w-full">
-                                <span class="relative z-10">PHANTOM</span>
-                            </a>
-                            <a id="walletLinkSolflare" href="#" target="_blank" rel="noopener noreferrer" class="wallet-link-placeholder solflare w-full">
-                                <span class="relative z-10">SOLFLARE</span>
-                            </a>
-                             <a id="walletLinkMetamask" href="#" target="_blank" rel="noopener noreferrer" class="wallet-link-placeholder metamask w-full">
-                                <span class="relative z-10">METAMASK</span>
-                            </a>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                 <div id="contact-form-main" class="bg-white p-8 md:p-12 rounded-lg shadow-2xl max-w-4xl mx-auto reveal">
+                    <h2 class="text-3xl md:text-4xl font-black text-center mb-2 uppercase" data-translate="contact_title">Kontaktieren Sie uns</h2>
+                    <p class="text-center text-gray-600 mb-10" data-translate="contact_subtitle">Hinterlassen Sie eine Nachricht, und wir werden uns in Kürze bei Ihnen melden.</p>
+                    <form action="#" method="POST">
+                        <div class="grid md:grid-cols-2 gap-6 mb-5">
+                            <input type="text" name="name" class="w-full p-4 border-2 border-gray-200 rounded-md focus:border-yellow-400 focus:ring-0 transition" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
+                            <input type="tel" name="phone" class="w-full p-4 border-2 border-gray-200 rounded-md focus:border-yellow-400 focus:ring-0 transition" data-translate="form_phone_placeholder" placeholder="Ihre Telefonnummer" required>
                         </div>
-                    </div>
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Step 2: Fund Your Wallet with SOL</h3>
-                        <p class="text-gray-400 text-sm sm:text-base mb-3">
-                            Purchase SOL (Solana's native currency) from a major cryptocurrency exchange and transfer it to your wallet address.
-                        </p>
-                         <p class="text-gray-400 text-sm sm:text-base mb-3">
-                           Use reputable exchanges like <strong class="neon-text-accent" style="--neon-glow-color: #F0B90B; color: #F0B90B;">Binance</strong>, <strong class="neon-text-accent" style="--neon-glow-color: #F7A600; color: #F7A600;">Bybit</strong>, or <strong class="neon-text-accent" style="--neon-glow-color: #0052FF; color: #699CFF;">Coinbase</strong>.
-                        </p>
-                        <div class="mt-4 flex flex-wrap justify-center gap-4">
-                            <a id="exchangeLinkBinance" href="#" target="_blank" rel="noopener noreferrer" class="exchange-button-pro exchange-button-binance"><span>Binance</span></a>
-                            <a id="exchangeLinkBybit" href="#" target="_blank" rel="noopener noreferrer" class="exchange-button-pro exchange-button-bybit"><span>Bybit</span></a>
-                            <a id="exchangeLinkCoinbase" href="#" target="_blank" rel="noopener noreferrer" class="exchange-button-pro exchange-button-coinbase"><span>Coinbase</span></a>
+                        <div class="mb-5">
+                            <textarea name="message" rows="5" class="w-full p-4 border-2 border-gray-200 rounded-md focus:border-yellow-400 focus:ring-0 transition" data-translate="form_message_placeholder" placeholder="Beschreiben Sie kurz Ihr Projekt..."></textarea>
                         </div>
-                        <p class="text-xs text-gray-500 mt-4 text-center">Note: VibeVibes is not affiliated with these exchanges. Please ensure you are using their official and secure websites.</p>
-                    </div>
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Step 3: Get the Contract Address</h3>
-                         <div class="copy-address-block mt-4">
-                            <p class="text-gray-300 mb-2 text-sm sm:text-base">Official $VIBE Token Contract Address:</p>
-                            <code id="contractAddress" class="contract-address"></code>
-                            <button id="copyAddressButton" class="font-orbitron pro-button pro-button-secondary py-2.5 px-6 rounded-lg text-xs sm:text-sm w-full sm:w-auto">
-                                Copy Address
-                            </button>
-                            <p id="copyFeedback" class="text-xs mt-3"></p>
+                        <div class="text-center">
+                            <button type="submit" class="w-full md:w-auto accent-yellow text-gray-900 font-bold py-4 px-10 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-1 transition" data-translate="form_send_btn">Senden</button>
                         </div>
-                    </div>
-                    <div class="info-card">
-                        <h3 class="info-card-title text-xl sm:text-2xl">Step 4: Acquire $VIBE</h3>
-                        <p class="text-gray-400 mb-2 text-sm sm:text-base">
-                            $VIBE will be launching on <strong class="neon-text-accent neon-green-accent">Pump.fun</strong>! This is the primary platform to get $VIBE at launch.
-                        </p>
-                        <p class="text-gray-400 mb-4 text-sm sm:text-base">
-                            After launch, you can track $VIBE and trade on various DEXs via <strong class="neon-text-accent neon-cyan-accent">DexScreener</strong>.
-                        </p>
-                        <div class="mt-6 flex flex-col sm:flex-row justify-center sm:space-x-4 space-y-3 sm:space-y-0">
-                             <a id="dexLinkPump" href="#" target="_blank" rel="noopener noreferrer" class="font-orbitron pro-button pro-button-green py-3 px-6 sm:px-8 rounded-lg text-sm sm:text-base w-full sm:w-auto">
-                                Buy on Pump.fun
-                            </a>
-                            <a id="dexLinkScreener" href="#" target="_blank" rel="noopener noreferrer" class="font-orbitron pro-button pro-button-secondary py-3 px-6 sm:px-8 rounded-lg text-sm sm:text-base w-full sm:w-auto">
-                                Check on DexScreener
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="live-transactions" class="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 max-w-screen-xl mx-auto">
-            <div class="content-layer-pro">
-                <h2 class="section-title-pro text-2xl sm:text-3xl md:text-4xl neon-text-accent neon-green-accent">Live $VIBE Activity</h2>
-                <div class="max-w-2xl mx-auto">
-                    <div id="transactionFeedContainer" class="transaction-feed-container">
-                        <!-- Placeholder or feed will be inserted here by JS -->
-                    </div>
+                    </form>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-gray-900 py-8 sm:py-12 text-center border-t border-gray-700/50">
-        <div class="content-layer-pro px-4 sm:px-6">
-            <div class="flex justify-center space-x-6 mb-6">
-                 <a id="footerLinkTwitter" href="#" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan-400 transition transform hover:scale-125">
-                    <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                    </svg>
-                    <span class="sr-only">X (Twitter)</span>
-                </a>
-                <a id="footerLinkTelegram" href="#" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-purple-400 transition transform hover:scale-125">
-                    <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M22 2L11.167 12.833L2 14.833L5.667 8.5L2 2L22 2ZM11.167 12.833L18.333 6.5L5.667 8.5L11.167 12.833Z" transform="translate(0 -0.000488281)"></path><path d="M22.0002 2.00049L14.8335 18.3338L11.1668 12.8338L18.3335 6.50049L22.0002 2.00049Z"></path></g></svg>
-                    <span class="sr-only">Telegram</span>
-                </a>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div>
+                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_about_title">Über uns</h4>
+                    <p class="text-sm" data-translate="footer_about_desc">"BauMeister" — Ihr zuverlässiger Partner in der Welt der Renovierung. Wir schaffen Qualität, der Sie seit über 15 Jahren vertrauen können.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_services_title">Unsere Leistungen</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_1">&raquo; Komplettsanierung</a></li>
+                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_2">&raquo; Wohnungsrenovierung</a></li>
+                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_3">&raquo; Bürosanierung</a></li>
+                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_4">&raquo; Design-Projekte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_contact_title">Kontakt</h4>
+                     <ul class="space-y-3 text-sm">
+                        <li class="flex items-start"><i data-feather="map-pin" class="w-4 h-4 mr-3 mt-1 flex-shrink-0 text-yellow-400"></i><span data-translate="address">Musterstraße 1, 1010 Wien</span></li>
+                        <li class="flex items-center"><i data-feather="phone" class="w-4 h-4 mr-3 flex-shrink-0 text-yellow-400"></i><a href="tel:+436641234567" class="hover:text-yellow-400" data-translate="phone_number_footer">+43 664 1234567</a></li>
+                        <li class="flex items-center"><i data-feather="mail" class="w-4 h-4 mr-3 flex-shrink-0 text-yellow-400"></i><a href="mailto:info@baumeister.at" class="hover:text-yellow-400" data-translate="email_footer">info@baumeister.at</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_projects_title">Aktuelle Projekte</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <a href="#"><img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=300" class="aspect-square object-cover rounded-sm hover:opacity-80 transition"></a>
+                        <a href="#"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=300" class="aspect-square object-cover rounded-sm hover:opacity-80 transition"></a>
+                        <a href="#"><img src="https://images.unsplash.com/photo-1521737852577-6848d81b9324?q=80&w=300" class="aspect-square object-cover rounded-sm hover:opacity-80 transition"></a>
+                    </div>
+                </div>
             </div>
-            <p class="text-gray-500 text-sm mb-4">© 2025 VibeVibes Protocol. All Rights Reserved.</p>
-            <p class="text-xs text-gray-600 mt-2 max-w-xl mx-auto" id="risk-disclaimer-pro">
-                Disclaimer: Investing in cryptocurrencies involves significant risk. VibeVibes ($VIBE) is a digital asset with high volatility. Please conduct your own research (DYOR) and only invest funds you are willing to lose. This website does not constitute financial advice.
-            </p>
+        </div>
+        <div class="bg-gray-900 py-4">
+             <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+                <p data-translate="copyright">&copy; 2024 BauMeister. Alle Rechte vorbehalten.</p>
+            </div>
         </div>
     </footer>
 
+    <!-- Lightbox -->
+    <div id="lightbox" class="modal fixed inset-0 bg-black bg-opacity-90 z-[100] flex justify-center items-center p-4 hidden opacity-0">
+        <div class="modal-content bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto relative transform scale-95 -translate-y-10">
+            <button id="lightbox-close" class="absolute top-0 right-0 mt-4 mr-4 text-white hover:text-yellow-400 text-5xl z-10">&times;</button>
+            <img id="lightbox-img" src="" alt="Projektbild" class="w-full h-auto rounded-t-lg">
+            <div class="p-6">
+                <h3 id="lightbox-title" class="text-2xl font-bold mb-2"></h3>
+                <p id="lightbox-desc" class="text-gray-600"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Callback Modal -->
+    <div id="callback-modal" class="modal fixed inset-0 bg-black bg-opacity-70 z-[100] flex justify-center items-center p-4 hidden opacity-0">
+        <div class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-md relative transform scale-95 -translate-y-10">
+            <button id="callback-modal-close" class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-3xl">&times;</button>
+            <div class="p-8 text-center">
+                <div id="callback-modal-form-container">
+                    <div class="mb-4">
+                        <i data-feather="phone-call" class="w-16 h-16 accent-yellow-text mx-auto"></i>
+                    </div>
+                    <h2 class="text-2xl font-black mb-2 uppercase" data-translate="callback_title_modal">Rückruf anfordern</h2>
+                    <p class="text-gray-600 mb-6" data-translate="callback_subtitle_modal">Hinterlassen Sie Ihre Nummer und wir rufen Sie innerhalb von 10 Minuten zurück!</p>
+                    <form id="callback-modal-form" class="flex flex-col gap-4">
+                        <div class="flex items-center border-2 border-gray-200 rounded-md focus-within:border-yellow-400 transition">
+                           <span class="px-4 text-gray-500">+43</span>
+                           <input type="tel" id="callback-modal-phone" class="w-full p-3 border-l border-gray-200 focus:ring-0 border-0" data-translate="phone_placeholder_modal" placeholder="Ihre Telefonnummer" required>
+                        </div>
+                        <button type="submit" class="accent-yellow text-gray-900 font-bold py-3 px-8 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-0.5 transition" data-translate="callback_btn_modal">Rückruf anfordern</button>
+                    </form>
+                </div>
+                <div id="callback-modal-success" class="hidden">
+                     <h2 class="text-2xl font-black mb-2 uppercase text-green-600" data-translate="callback_success_title_modal">Vielen Dank!</h2>
+                     <p class="text-gray-600 mb-4" data-translate="callback_success_msg_modal">Ihre Anfrage wurde erhalten. Wir werden Sie in Kürze kontaktieren.</p>
+                     <div class="text-5xl font-bold text-gray-800" id="modal-timer">10:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // --- Content for Language Switcher ---
+        const content = {
+            de: {
+                page_title: "BauMeister - Professionelle Sanierung & Renovierung in Österreich",
+                phone_number: "+43 664 1234567", email: "info@baumeister.at",
+                nav_home: "Startseite", nav_services: "Leistungen", nav_about: "Über uns", nav_projects: "Projekte", nav_contact: "Kontakt",
+                get_quote_btn: "Angebot anfordern", request_callback_btn: "Rückruf anfordern",
+                nav_home_mobile: "Startseite", nav_services_mobile: "Leistungen", nav_about_mobile: "Über uns", nav_projects_mobile: "Projekte", nav_contact_mobile: "Kontakt", request_callback_btn_mobile: "Rückruf anfordern",
+                hero_title: "Wir gestalten <br>Ihre Räume neu", hero_subtitle: "Zuverlässigkeit, Qualität und Termintreue sind unsere Grundprinzipien. Vertrauen Sie Ihr Projekt den Profis an.", hero_btn_1: "Unsere Leistungen", hero_btn_2: "Kontakt",
+                services_title: "Unsere Leistungen", services_subtitle: "Wir bieten ein komplettes Spektrum an Renovierungs- und Ausbauarbeiten, von der Planung bis zur schlüsselfertigen Übergabe.",
+                service_1_title: "Komplettsanierung", service_1_desc: "Wir führen alle Arten von Ausbauarbeiten mit hochwertigen Materialien durch.",
+                service_2_title: "Wohnungsrenovierung", service_2_desc: "Von kosmetischen Reparaturen bis zur Kernsanierung Ihrer Wohnung oder Ihres Hauses.",
+                service_3_title: "Design & Planung", service_3_desc: "Erstellung einzigartiger Designprojekte mit 3D-Visualisierung und Materialauswahl.",
+                learn_more: "Mehr erfahren &rarr;",
+                about_title: "Warum Sie uns wählen sollten", about_desc: "Wir sind stolz auf unseren Ruf als zuverlässiger Partner. Unser Ansatz basiert auf Ehrlichkeit, Professionalität und Liebe zum Detail in jeder Phase der Arbeit.",
+                faq_1_q: '<i class="accent-yellow-text mr-3" data-feather="shield"></i>Unsere Mission', faq_1_a: "Wir streben danach, langlebige und komfortable Räume zu schaffen, die unsere Kunden viele Jahre lang erfreuen werden.",
+                faq_2_q: '<i class="accent-yellow-text mr-3" data-feather="eye"></i>Unsere Vision', faq_2_a: "Das führende Renovierungsunternehmen zu werden, bekannt für seinen innovativen Ansatz, makellose Qualität und außergewöhnlichen Service.",
+                faq_3_q: '<i class="accent-yellow-text mr-3" data-feather="award"></i>Unsere Garantien', faq_3_a: "Wir bieten eine offizielle Garantie auf alle Arbeiten, verwenden nur zertifizierte Materialien und halten uns strikt an alle Baunormen.",
+                portfolio_title: "Aktuelle Projekte", filter_all: "Alle", filter_houses: "Häuser & Villen", filter_apartments: "Wohnungen", filter_offices: "Büros",
+                portfolio_items: [
+                    { category: "houses", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop", title: "Sanierung Landhaus", desc: "Komplettsanierung eines modernen Hauses mit Panoramafenstern und Ruhebereich am Pool." },
+                    { category: "apartments", img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop", title: "Loft-Wohnung", desc: "Modernes Loft mit industriellen Designelementen und offenem Grundriss." },
+                    { category: "offices", img: "https://images.unsplash.com/photo-1521737852577-6848d81b9324?q=80&w=2070&auto=format&fit=crop", title: "Büro für IT-Firma", desc: "Open-Space-Büro mit Besprechungsräumen, Loungebereichen und moderner Küche." },
+                    { category: "apartments", img: "https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2127&auto=format&fit=crop", title: "Modernes Badezimmer", desc: "Geräumiges und helles Badezimmer, ausgeführt in einem minimalistischen Stil." },
+                ],
+                callback_title_modal: "Rückruf anfordern", callback_subtitle_modal: "Hinterlassen Sie Ihre Nummer und wir rufen Sie innerhalb von 10 Minuten zurück!", phone_placeholder_modal: "Ihre Telefonnummer", callback_btn_modal: "Rückruf anfordern",
+                callback_success_title_modal: "Vielen Dank!", callback_success_msg_modal: "Ihre Anfrage wurde erhalten. Wir werden Sie in Kürze kontaktieren.", callback_timer_end: "Wir rufen an!",
+                cta_title: "Suchen Sie einen zuverlässigen Partner?", cta_subtitle: "Wir sind bereit, Ihr Traumprojekt zu verwirklichen. Erhalten Sie noch heute eine kostenlose Beratung und einen detaillierten Kostenvoranschlag.", cta_btn: "Angebot anfordern",
+                contact_title: "Kontaktieren Sie uns", contact_subtitle: "Hinterlassen Sie eine Nachricht, und wir werden uns in Kürze bei Ihnen melden.",
+                form_name_placeholder: "Ihr Name", form_phone_placeholder: "Ihre Telefonnummer", form_message_placeholder: "Beschreiben Sie kurz Ihr Projekt...", form_send_btn: "Senden",
+                footer_about_title: "Über uns", footer_about_desc: '"BauMeister" — Ihr zuverlässiger Partner in der Welt der Renovierung. Wir schaffen Qualität, der Sie seit über 15 Jahren vertrauen können.',
+                footer_services_title: "Unsere Leistungen", footer_service_1: "&raquo; Komplettsanierung", footer_service_2: "&raquo; Wohnungsrenovierung", footer_service_3: "&raquo; Bürosanierung", footer_service_4: "&raquo; Design-Projekte",
+                footer_contact_title: "Kontakt", address: "Musterstraße 1, 1010 Wien", phone_number_footer: "+43 664 1234567", email_footer: "info@baumeister.at",
+                footer_projects_title: "Aktuelle Projekte", copyright: "&copy; 2024 BauMeister. Alle Rechte vorbehalten."
+            },
+            en: {
+                page_title: "RenoMaster - Professional Renovation & Remodeling in Austria",
+                phone_number: "+43 664 1234567", email: "info@renomaster.at",
+                nav_home: "Home", nav_services: "Services", nav_about: "About Us", nav_projects: "Projects", nav_contact: "Contact",
+                get_quote_btn: "Get a Quote", request_callback_btn: "Request Callback",
+                nav_home_mobile: "Home", nav_services_mobile: "Services", nav_about_mobile: "About Us", nav_projects_mobile: "Projects", nav_contact_mobile: "Contact", request_callback_btn_mobile: "Request Callback",
+                hero_title: "We Reinvent <br>Your Living Space", hero_subtitle: "Reliability, quality, and timeliness are our core principles. Entrust your project to the professionals.", hero_btn_1: "Our Services", hero_btn_2: "Contact Us",
+                services_title: "Our Services", services_subtitle: "We provide a full range of renovation and remodeling services, from initial design to turnkey project completion.",
+                service_1_title: "Full Remodeling", service_1_desc: "We perform all types of finishing work using high-quality, durable materials.",
+                service_2_title: "Interior Renovation", service_2_desc: "From cosmetic repairs to complete gut renovations for your apartment or house.",
+                service_3_title: "Design & Planning", service_3_desc: "Creating unique interior design projects with 3D visualization and material selection.",
+                learn_more: "Learn More &rarr;",
+                about_title: "Why Choose Us?", about_desc: "We are proud of our reputation as a reliable contractor. Our approach is based on honesty, professionalism, and attention to detail at every stage of the project.",
+                faq_1_q: '<i class="accent-yellow-text mr-3" data-feather="shield"></i>Our Mission', faq_1_a: "We strive to create durable and comfortable spaces that will delight our clients for many years to come.",
+                faq_2_q: '<i class="accent-yellow-text mr-3" data-feather="eye"></i>Our Vision', faq_2_a: "To become the leading renovation company, known for our innovative approach, impeccable quality, and exceptional service.",
+                faq_3_q: '<i class="accent-yellow-text mr-3" data-feather="award"></i>Our Guarantees', faq_3_a: "We provide an official warranty for all work, use only certified materials, and strictly adhere to all building codes.",
+                portfolio_title: "Recent Projects", filter_all: "All", filter_houses: "Houses & Villas", filter_apartments: "Apartments", filter_offices: "Offices",
+                portfolio_items: [
+                    { category: "houses", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop", title: "Country House Renovation", desc: "Complete renovation of a modern house with panoramic windows and a poolside relaxation area." },
+                    { category: "apartments", img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop", title: "Loft Style Apartment", desc: "A modern loft featuring industrial design elements and an open-plan layout." },
+                    { category: "offices", img: "https://images.unsplash.com/photo-1521737852577-6848d81b9324?q=80&w=2070&auto=format&fit=crop", title: "IT Company Office", desc: "An open-space office with meeting rooms, lounge areas, and a modern kitchen." },
+                    { category: "apartments", img: "https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2127&auto=format&fit=crop", title: "Modern Bathroom", desc: "A spacious and bright bathroom, executed in a minimalist style." },
+                ],
+                callback_title_modal: "Request a Callback", callback_subtitle_modal: "Leave your number and we'll call you back within 10 minutes!", phone_placeholder_modal: "Your Phone Number", callback_btn_modal: "Request Call",
+                callback_success_title_modal: "Thank You!", callback_success_msg_modal: "Your request has been received. We will contact you shortly.", callback_timer_end: "Calling now!",
+                cta_title: "Looking for a Reliable Contractor?", cta_subtitle: "We are ready to bring your dream project to life. Get a free consultation and a detailed cost estimate today.", cta_btn: "Get a Quote",
+                contact_title: "Contact Us", contact_subtitle: "Leave a message, and we will get back to you shortly.",
+                form_name_placeholder: "Your Name", form_phone_placeholder: "Your Phone Number", form_message_placeholder: "Briefly describe your project...", form_send_btn: "Send Message",
+                footer_about_title: "About Us", footer_about_desc: '"RenoMaster" is your reliable partner in the world of renovation. We\'ve been creating quality you can trust for over 15 years.',
+                footer_services_title: "Our Services", footer_service_1: "&raquo; Full Remodeling", footer_service_2: "&raquo; Apartment Renovation", footer_service_3: "&raquo; Office Remodeling", footer_service_4: "&raquo; Design Projects",
+                footer_contact_title: "Contact Info", address: "Musterstraße 1, 1010 Vienna", phone_number_footer: "+43 664 1234567", email_footer: "info@renomaster.at",
+                footer_projects_title: "Recent Projects", copyright: "&copy; 2024 RenoMaster. All Rights Reserved."
+            }
+        };
+
+        // --- Initial Setup ---
         document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+            const savedLang = localStorage.getItem('language') || 'de';
+            setLanguage(savedLang);
 
-            // =================================================================
-            //                  --- PRE-LAUNCH CONFIGURATION ---
-            //      All data that needs to be changed before launch is here.
-            // =================================================================
-            const CONFIG = {
-                // IMPORTANT: Replace with your TOKEN MINT ADDRESS to activate the real transaction feed.
-                // Example: "So11111111111111111111111111111111111111112"
-                tokenMintAddress: "EFkiR1hE91BkqbxA3YxvYuvDxXTTEMea3zQs8ndbyTQY", 
-
-                // IMPORTANT: You can use a free public RPC endpoint.
-                // Using a dedicated one from Helius, QuickNode, etc., is recommended for production.
-                rpcEndpoint: "https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY_HERE", // Replace with your key
-
-                // Text to display when the contract address is not set.
-                contractAddressPlaceholder: "Address will be available after launch",
-
-                // Social media and community links
-                socials: {
-                    twitter: "https://x.com/your-twitter-handle",
-                    telegram: "https://t.me/your-telegram-group"
-                },
-
-                // Wallet provider links
-                wallets: {
-                    phantom: "https://phantom.app/",
-                    solflare: "https://solflare.com/",
-                    metamask: "https://metamask.io/"
-                },
-
-                // Exchange links
-                exchanges: {
-                    binance: "https://www.binance.com/",
-                    bybit: "https://www.bybit.com/",
-                    coinbase: "https://www.coinbase.com/"
-                },
-
-                // DEX and tracking links
-                dex: {
-                    pumpFun: "https://pump.fun/",
-                    dexScreener: "https://dexscreener.com/"
-                }
-            };
-            // =================================================================
-            //                --- END OF CONFIGURATION ---
-            // =================================================================
-
-
-            // --- INITIALIZE UI FROM CONFIG ---
-            function initializeUI() {
-                // Set contract address text
-                const contractAddressElement = document.getElementById('contractAddress');
-                if (contractAddressElement) {
-                    contractAddressElement.textContent = CONFIG.tokenMintAddress || CONFIG.contractAddressPlaceholder;
-                    if (!CONFIG.tokenMintAddress) {
-                        contractAddressElement.style.color = '#9CA3AF'; // Gray for placeholder
-                    } else {
-                        contractAddressElement.style.color = '#67E8F9'; // Cyan for real address
-                    }
-                }
-
-                // Set links
-                document.getElementById('socialLinkTwitter')?.setAttribute('href', CONFIG.socials.twitter);
-                document.getElementById('socialLinkTelegram')?.setAttribute('href', CONFIG.socials.telegram);
-                document.getElementById('footerLinkTwitter')?.setAttribute('href', CONFIG.socials.twitter);
-                document.getElementById('footerLinkTelegram')?.setAttribute('href', CONFIG.socials.telegram);
-                
-                document.getElementById('walletLinkPhantom')?.setAttribute('href', CONFIG.wallets.phantom);
-                document.getElementById('walletLinkSolflare')?.setAttribute('href', CONFIG.wallets.solflare);
-                document.getElementById('walletLinkMetamask')?.setAttribute('href', CONFIG.wallets.metamask);
-
-                document.getElementById('exchangeLinkBinance')?.setAttribute('href', CONFIG.exchanges.binance);
-                document.getElementById('exchangeLinkBybit')?.setAttribute('href', CONFIG.exchanges.bybit);
-                document.getElementById('exchangeLinkCoinbase')?.setAttribute('href', CONFIG.exchanges.coinbase);
-
-                document.getElementById('dexLinkPump')?.setAttribute('href', CONFIG.dex.pumpFun);
-                document.getElementById('dexLinkScreener')?.setAttribute('href', CONFIG.dex.dexScreener);
-            }
-
-
-            // --- STICKY HEADER LOGIC ---
-            const stickyHeader = document.getElementById('stickyHeader');
-            if (stickyHeader) {
-                let lastScrollTop = 0;
-                const scrollThreshold = 100;
-                window.addEventListener('scroll', function() {
-                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-                        stickyHeader.classList.remove('visible');
-                    } else if (scrollTop < lastScrollTop && scrollTop > scrollThreshold) {
-                        stickyHeader.classList.add('visible');
-                    } else if (scrollTop <= scrollThreshold) {
-                        stickyHeader.classList.remove('visible');
-                    }
-                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-                }, false);
-            }
-
-            // --- COPY ADDRESS LOGIC ---
-            const copyAddressButton = document.getElementById('copyAddressButton');
-            const copyFeedbackElement = document.getElementById('copyFeedback');
-
-            if (copyAddressButton) {
-                copyAddressButton.addEventListener('click', () => {
-                    const addressToCopy = CONFIG.tokenMintAddress;
-                    if (!addressToCopy) {
-                        copyFeedbackElement.textContent = 'Address not available yet!';
-                        copyFeedbackElement.style.color = '#F59E0B'; // Orange
-                        setTimeout(() => { copyFeedbackElement.textContent = ''; }, 2000);
-                        return;
-                    }
-                    navigator.clipboard.writeText(addressToCopy).then(() => {
-                        copyFeedbackElement.textContent = 'Address Copied!';
-                        copyFeedbackElement.style.color = '#22D3EE'; // Cyan
-                        setTimeout(() => { copyFeedbackElement.textContent = ''; }, 2000);
-                    }).catch(err => {
-                        copyFeedbackElement.textContent = 'Failed to copy!';
-                        copyFeedbackElement.style.color = '#F472B6'; // Pink
-                        console.error('Failed to copy address: ', err);
-                    });
-                });
-            }
-
-            // --- SMOOTH SCROLL LOGIC ---
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const href = this.getAttribute('href');
-                    if (href === "#") { e.preventDefault(); return; }
-                    const targetElement = document.querySelector(href);
-                    if (targetElement) {
-                        e.preventDefault();
-                        const headerHeight = (stickyHeader && stickyHeader.classList.contains('visible')) ? stickyHeader.offsetHeight : 0;
-                        const elementPosition = targetElement.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                    }
-                });
+            // --- Header & Nav Logic ---
+            const header = document.getElementById('header');
+            const mobileMenu = document.getElementById('mobile-menu');
+            document.getElementById('mobile-menu-button').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            mobileMenu.querySelectorAll('a, button').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
             });
+            window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50));
 
-            // --- INTERSECTION OBSERVER FOR ANIMATIONS ---
-            const animatedElements = document.querySelectorAll('.info-card, .pro-roadmap-item, .section-title-pro, .section-subtitle-pro');
-            const observerPro = new IntersectionObserver(entries => {
+            const navObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0) scale(1)';
-                        entry.target.style.filter = 'blur(0px)';
-                        observerPro.unobserve(entry.target);
+                        const id = entry.target.getAttribute('id');
+                        document.querySelectorAll('#main-nav .nav-link').forEach(link => {
+                            link.classList.toggle('active', link.dataset.scrollTo === id);
+                        });
+                    }
+                });
+            }, { rootMargin: "-40% 0px -60% 0px" });
+            document.querySelectorAll('main section').forEach(section => navObserver.observe(section));
+            
+            // --- Reveal on Scroll ---
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.1 });
-            animatedElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px) scale(0.95)';
-                el.style.filter = 'blur(5px)';
-                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out';
-                observerPro.observe(el);
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+            // --- Accordion Logic ---
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.querySelector('.faq-question').addEventListener('click', () => item.classList.toggle('active'));
             });
 
-            // --- REAL TRANSACTION FEED LOGIC ---
-            const transactionFeedContainer = document.getElementById('transactionFeedContainer');
-            const displayedSignatures = new Set();
-            const maxTransactions = 5;
+            // --- Portfolio Filter Logic ---
+            const filterButtons = document.querySelectorAll('#portfolio-filter .filter-btn');
+            filterButtons[0].classList.add('bg-yellow-400', 'text-gray-900');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+                    filterButtons.forEach(btn => btn.classList.remove('bg-yellow-400', 'text-gray-900'));
+                    button.classList.add('bg-yellow-400', 'text-gray-900');
+                    document.querySelectorAll('#portfolio-grid .portfolio-item').forEach(item => {
+                        item.classList.toggle('hidden', filter !== 'all' && item.dataset.category !== filter);
+                    });
+                });
+            });
 
-            function createTransactionElement(time, vibeAmount, wallet, txHash) {
-                const item = document.createElement('div');
-                const borderColors = ['border-cyan', 'border-purple', 'border-pink', 'border-orange'];
-                const randomColorClass = borderColors[Math.floor(Math.random() * borderColors.length)];
-                item.className = `tx-item-pro ${randomColorClass}`;
-                
-                const shortWallet = `${wallet.slice(0, 6)}...${wallet.slice(-4)}`;
-                const shortTxHash = `${txHash.slice(0, 8)}...${txHash.slice(-4)}`;
+            // --- Modal Open/Close Logic ---
+            const openModal = (modal) => {
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.add('open', 'opacity-100'), 10);
+                document.body.style.overflow = 'hidden';
+            };
+            const closeModal = (modal) => {
+                modal.classList.remove('open', 'opacity-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            };
 
-                item.innerHTML = `
-                    <div class="tx-left-col">
-                        <div class="tx-timestamp">${time}</div>
-                        <div class="tx-amount-vibe">
-                            ${parseFloat(vibeAmount).toLocaleString('en-US')} <span>$VIBE</span>
+            // --- Lightbox Logic ---
+            const lightbox = document.getElementById('lightbox');
+            document.getElementById('lightbox-close').addEventListener('click', () => closeModal(lightbox));
+            lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeModal(lightbox); });
+
+            // --- Callback Modal Logic ---
+            const callbackModal = document.getElementById('callback-modal');
+            document.getElementById('callback-modal-trigger').addEventListener('click', () => openModal(callbackModal));
+            document.getElementById('callback-modal-trigger-mobile').addEventListener('click', () => openModal(callbackModal));
+            document.getElementById('callback-modal-close').addEventListener('click', () => closeModal(callbackModal));
+            callbackModal.addEventListener('click', (e) => { if (e.target === callbackModal) closeModal(callbackModal); });
+
+            // --- Callback Timer Logic ---
+            const callbackForm = document.getElementById('callback-modal-form');
+            let timerInterval;
+            callbackForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (document.getElementById('callback-modal-phone').value) {
+                    document.getElementById('callback-modal-form-container').classList.add('hidden');
+                    document.getElementById('callback-modal-success').classList.remove('hidden');
+                    let duration = 600;
+                    clearInterval(timerInterval);
+                    timerInterval = setInterval(() => {
+                        const minutes = Math.floor(duration / 60).toString().padStart(2, '0');
+                        const seconds = (duration % 60).toString().padStart(2, '0');
+                        document.getElementById('modal-timer').textContent = `${minutes}:${seconds}`;
+                        if (--duration < 0) {
+                            clearInterval(timerInterval);
+                            const lang = document.documentElement.lang;
+                            document.getElementById('modal-timer').textContent = content[lang].callback_timer_end;
+                        }
+                    }, 1000);
+                }
+            });
+
+            // --- Language Switcher Logic ---
+            document.getElementById('lang-de').addEventListener('click', () => setLanguage('de'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+        });
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (content[lang][key]) {
+                    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = content[lang][key];
+                    } else {
+                        el.innerHTML = content[lang][key];
+                    }
+                }
+            });
+            
+            document.getElementById('lang-de').classList.toggle('active', lang === 'de');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.title = content[lang].page_title;
+            populatePortfolio(lang);
+            feather.replace();
+        }
+
+        function populatePortfolio(lang) {
+            const portfolioGrid = document.getElementById('portfolio-grid');
+            const portfolioData = content[lang].portfolio_items;
+            portfolioGrid.innerHTML = '';
+
+            portfolioData.forEach(item => {
+                const portfolioItem = document.createElement('div');
+                portfolioItem.className = "portfolio-item group relative overflow-hidden cursor-pointer";
+                portfolioItem.dataset.category = item.category;
+                portfolioItem.dataset.img = item.img;
+                portfolioItem.dataset.title = item.title;
+                portfolioItem.dataset.desc = item.desc;
+                portfolioItem.innerHTML = `
+                    <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    <div class="portfolio-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div class="p-4 text-center text-white">
+                            <div class="block w-14 h-14 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-2"><i data-feather="eye" class="w-7 h-7"></i></div>
+                            <h3 class="font-bold uppercase">${item.title}</h3>
                         </div>
                     </div>
-                    <div class="tx-right-col">
-                        <div class="tx-bought-text">BOUGHT</div>
-                        <div class="tx-wallet-info">by <a href="https://solscan.io/account/${wallet}" target="_blank" rel="noopener noreferrer">${shortWallet}</a></div>
-                        <div class="tx-hash-info">tx: <a href="https://solscan.io/tx/${txHash}" target="_blank" rel="noopener noreferrer">${shortTxHash}</a></div>
-                    </div>`;
-                return item;
-            }
+                `;
+                portfolioGrid.appendChild(portfolioItem);
+            });
 
-            async function fetchAndDisplayTransactions() {
-                if (!CONFIG.tokenMintAddress || !CONFIG.rpcEndpoint) return;
-
-                try {
-                    const connection = new solanaWeb3.Connection(CONFIG.rpcEndpoint, 'confirmed');
-                    const tokenMintPublicKey = new solanaWeb3.PublicKey(CONFIG.tokenMintAddress);
-
-                    const signatures = await connection.getSignaturesForAddress(tokenMintPublicKey, { limit: 15 });
-                    
-                    if (!signatures.length) return;
-
-                    for (const sigInfo of signatures) {
-                        if (displayedSignatures.has(sigInfo.signature)) {
-                            continue;
-                        }
-
-                        const tx = await connection.getParsedTransaction(sigInfo.signature, { maxSupportedTransactionVersion: 0 });
-                        if (!tx || !tx.meta) continue;
-
-                        // Find the relevant token transfer
-                        const tokenTransfers = tx.meta.postTokenBalances.filter(tb => tb.mint === CONFIG.tokenMintAddress);
-                        const preTokenTransfers = tx.meta.preTokenBalances.filter(tb => tb.mint === CONFIG.tokenMintAddress);
-
-                        if (tokenTransfers.length < 2) continue; // Need at least a sender and receiver
-
-                        // Heuristic to find a "buy": look for a transfer where a new owner appears or amount increases
-                        for (const postBalance of tokenTransfers) {
-                            const preBalance = preTokenTransfers.find(pb => pb.owner === postBalance.owner);
-                            const preAmount = preBalance ? parseFloat(preBalance.uiTokenAmount.uiAmountString) : 0;
-                            const postAmount = parseFloat(postBalance.uiTokenAmount.uiAmountString);
-
-                            if (postAmount > preAmount) {
-                                const amountBought = postAmount - preAmount;
-                                
-                                // Avoid showing tiny dust amounts or huge liquidity pool movements
-                                if (amountBought < 1) continue;
-
-                                const time = new Date(tx.blockTime * 1000).toLocaleTimeString();
-                                const wallet = postBalance.owner;
-                                const txHash = sigInfo.signature;
-
-                                if (!displayedSignatures.has(txHash)) {
-                                    const transactionElement = createTransactionElement(time, amountBought, wallet, txHash);
-                                    
-                                    if (transactionFeedContainer.children.length >= maxTransactions) {
-                                        const oldestChild = transactionFeedContainer.lastElementChild;
-                                        oldestChild.style.animation = 'tx-fade-out 0.6s forwards';
-                                        setTimeout(() => {
-                                            if (transactionFeedContainer.contains(oldestChild)) {
-                                                transactionFeedContainer.removeChild(oldestChild);
-                                            }
-                                        }, 600);
-                                    }
-
-                                    setTimeout(() => {
-                                        transactionFeedContainer.insertBefore(transactionElement, transactionFeedContainer.firstChild);
-                                    }, 100);
-
-                                    displayedSignatures.add(txHash);
-                                }
-                                // Break after finding one relevant transfer per transaction
-                                break; 
-                            }
-                        }
-                    }
-                } catch (error) {
-                    console.error("Failed to fetch transactions:", error);
-                }
-            }
-
-            function checkAndStartFeed() {
-                if (!transactionFeedContainer) return;
-
-                if (CONFIG.tokenMintAddress && CONFIG.rpcEndpoint) {
-                    transactionFeedContainer.innerHTML = ''; // Clear placeholder
-                    fetchAndDisplayTransactions();
-                    // Fetch new transactions periodically
-                    setInterval(fetchAndDisplayTransactions, 20000); // every 20 seconds
-                } else {
-                    transactionFeedContainer.innerHTML = `
-                        <div id="live-transactions-placeholder">
-                            <p class="font-orbitron text-lg text-cyan-400 animate-pulse-placeholder">Transaction information will be available after launch</p>
-                        </div>
-                    `;
-                }
-            }
-            
-            // --- RUN ON PAGE LOAD ---
-            initializeUI();
-            checkAndStartFeed();
-
-        });
+            const lightbox = document.getElementById('lightbox');
+            document.querySelectorAll('.portfolio-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.getElementById('lightbox-img').src = item.dataset.img;
+                    document.getElementById('lightbox-title').textContent = item.dataset.title;
+                    document.getElementById('lightbox-desc').textContent = item.dataset.desc;
+                    lightbox.classList.remove('hidden');
+                    setTimeout(() => lightbox.classList.add('open', 'opacity-100'), 10);
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+        }
     </script>
 </body>
 </html>
