@@ -32,7 +32,7 @@
         html.dark {
             --color-primary: 59 130 246; /* blue-500 */
             --color-primary-hover: 96 165 250; /* blue-400 */
-            --color-text: 156 163 175; /* gray-400 */
+            --color-text: 209 213 219; /* gray-300 - Increased contrast */
             --color-heading: 243 244 246; /* gray-100 */
             --color-bg: 17 24 39; /* gray-900 */
             --color-bg-alt: 31 41 55; /* gray-800 */
@@ -1122,15 +1122,21 @@
                     el.style.transform = `translateX(${slider.currentX}px)`;
 
                     // Parallax & Progress
-                    const progress = -slider.currentX / maxScroll;
+                    const progress = maxScroll > 0 ? -slider.currentX / maxScroll : 0;
                     this.elements.portfolioProgressIndicator.style.width = `${progress * 100}%`;
 
                     this.elements.portfolioSlides.forEach(slide => {
                         const image = slide.querySelector('.portfolio-slide-image');
                         const slideRect = slide.getBoundingClientRect();
                         const containerRect = container.getBoundingClientRect();
-                        const percentInView = 1 - Math.abs(slideRect.left - containerRect.left) / containerRect.width;
-                        const parallaxOffset = (1 - percentInView) * 150;
+                        
+                        // Symmetrical parallax calculation
+                        const slideCenter = slideRect.left + slideRect.width / 2;
+                        const containerCenter = containerRect.left + containerRect.width / 2;
+                        const distanceFromCenter = slideCenter - containerCenter;
+                        const normalizedDistance = distanceFromCenter / containerRect.width;
+                        const parallaxOffset = normalizedDistance * -100; // Adjust multiplier for effect strength
+                        
                         if(image) image.style.transform = `translateX(${parallaxOffset}px)`;
                     });
 
