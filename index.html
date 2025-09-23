@@ -10,7 +10,7 @@
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome (v5 latest) -->
@@ -231,18 +231,20 @@
         }
         
         /* New Portfolio Slider Styles */
-        #portfolio-slider-container {
-            overflow: hidden;
+        #portfolio-slider-wrapper {
             cursor: none;
+            overflow: hidden;
         }
         #portfolio-slider {
             display: flex;
             will-change: transform;
+            padding-left: calc((100vw - var(--container-width, 1280px)) / 2);
+            padding-right: calc((100vw - var(--container-width, 1280px)) / 2);
         }
         .portfolio-slide {
             flex-shrink: 0;
-            width: 60vw;
-            max-width: 800px;
+            width: 45vw;
+            max-width: 600px;
             margin-right: 2rem;
             position: relative;
             overflow: hidden;
@@ -250,6 +252,12 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             aspect-ratio: 1.5 / 1;
         }
+         @media (max-width: 1280px) {
+             #portfolio-slider {
+                 padding-left: 1.5rem; /* Corresponds to px-6 from container */
+                 padding-right: 1.5rem;
+             }
+         }
          @media (max-width: 768px) {
             .portfolio-slide { width: 80vw; }
         }
@@ -490,7 +498,7 @@
                     </div>
                 </div>
             </div>
-            <div id="portfolio-slider-container" class="pl-6 container mx-auto reveal">
+            <div id="portfolio-slider-wrapper" class="reveal">
                 <div id="portfolio-slider"></div>
             </div>
             <div class="container mx-auto px-6 mt-8">
@@ -604,7 +612,7 @@
                         <div class="grid grid-cols-1 gap-4">
                             <input type="text" name="name" class="w-full p-3 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
                             <div class="flex items-center border-2 border-main rounded-md focus-within:border-blue-500 transition bg-main dark:bg-gray-700">
-                               <span class="px-3 text-gray-500">+43</span>
+                               <span class="px-3 text-gray-500 dark:text-gray-400">+43</span>
                                <input type="tel" name="phone" class="w-full p-3 border-l border-main focus:ring-0 border-0 bg-transparent dark:placeholder-gray-400" data-translate="form_phone_austria_placeholder" placeholder="664 1234567" required>
                             </div>
                             <button type="submit" class="w-full accent-blue text-white font-semibold py-3 px-10 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition" data-translate="callback_form_btn">Rückruf anfordern</button>
@@ -902,7 +910,7 @@
                 this.elements.langDeBtn = document.getElementById('lang-de');
                 this.elements.langEnBtn = document.getElementById('lang-en');
                 this.elements.portfolioSliderEl = document.getElementById('portfolio-slider');
-                this.elements.portfolioSliderContainer = document.getElementById('portfolio-slider-container');
+                this.elements.portfolioSliderWrapper = document.getElementById('portfolio-slider-wrapper');
                 this.elements.portfolioFilterBtns = document.querySelectorAll('#portfolio-filter .filter-btn');
                 this.elements.portfolioProgressIndicator = document.getElementById('portfolio-progress-indicator');
                 this.elements.testimonialSlider = document.getElementById('testimonial-slider');
@@ -942,11 +950,11 @@
                 });
 
                 // Portfolio Slider Events
-                const sliderContainer = this.elements.portfolioSliderContainer;
-                sliderContainer.addEventListener('mousedown', (e) => this.portfolioSliderStart(e));
-                sliderContainer.addEventListener('mouseleave', () => this.portfolioSliderEnd());
-                sliderContainer.addEventListener('mouseup', () => this.portfolioSliderEnd());
-                sliderContainer.addEventListener('mousemove', (e) => this.portfolioSliderMove(e));
+                const sliderWrapper = this.elements.portfolioSliderWrapper;
+                sliderWrapper.addEventListener('mousedown', (e) => this.portfolioSliderStart(e));
+                sliderWrapper.addEventListener('mouseleave', () => this.portfolioSliderEnd());
+                sliderWrapper.addEventListener('mouseup', () => this.portfolioSliderEnd());
+                sliderWrapper.addEventListener('mousemove', (e) => this.portfolioSliderMove(e));
             }
 
             initAssetsAndLinks() {
@@ -1050,6 +1058,12 @@
                     this.elements.portfolioSliderEl.appendChild(el);
                 });
                 this.elements.portfolioSlides = Array.from(this.elements.portfolioSliderEl.children);
+                // Set container width CSS variable for padding calculation
+                const container = document.querySelector('.container');
+                if (container) {
+                    const containerWidth = container.clientWidth;
+                    this.elements.portfolioSliderEl.style.setProperty('--container-width', `${containerWidth}px`);
+                }
             }
 
             filterPortfolio(button) {
@@ -1066,6 +1080,7 @@
                 });
                 
                 if (firstVisibleItem) {
+                    // Smoothly animate to the target
                     this.portfolioSlider.targetX = -firstVisibleItem.offsetLeft;
                 }
             }
@@ -1078,8 +1093,8 @@
             portfolioSliderStart(e) {
                 this.portfolioSlider.isDown = true;
                 this.cursor.setGrab(true);
-                this.portfolioSlider.startX = e.pageX - this.elements.portfolioSliderEl.offsetLeft;
-                this.portfolioSlider.scrollLeft = this.portfolioSlider.targetX;
+                this.portfolioSlider.startX = e.pageX;
+                this.portfolioSlider.scrollLeft = this.portfolioSlider.currentX;
                 this.portfolioSlider.velocity = 0;
             }
 
@@ -1091,7 +1106,7 @@
             portfolioSliderMove(e) {
                 if (!this.portfolioSlider.isDown) return;
                 e.preventDefault();
-                const x = e.pageX - this.elements.portfolioSliderEl.offsetLeft;
+                const x = e.pageX;
                 const walk = (x - this.portfolioSlider.startX);
                 const prevX = this.portfolioSlider.targetX;
                 this.portfolioSlider.targetX = this.portfolioSlider.scrollLeft + walk;
@@ -1101,41 +1116,36 @@
             runPortfolioSlider() {
                 const slider = this.portfolioSlider;
                 const el = this.elements.portfolioSliderEl;
-                const container = this.elements.portfolioSliderContainer;
+                const wrapper = this.elements.portfolioSliderWrapper;
                 
                 const update = () => {
-                    // Ease the movement
                     slider.currentX += (slider.targetX - slider.currentX) * 0.1;
 
-                    // Apply inertia
                     if (!slider.isDown) {
                         slider.velocity *= 0.95;
                         slider.targetX += slider.velocity;
                         if(Math.abs(slider.velocity) < 0.1) slider.velocity = 0;
                     }
                     
-                    // Clamp boundaries
-                    const maxScroll = el.scrollWidth - container.clientWidth;
+                    const maxScroll = el.scrollWidth - wrapper.clientWidth;
                     slider.targetX = Math.max(-maxScroll, Math.min(0, slider.targetX));
                     slider.currentX = Math.max(-maxScroll, Math.min(0, slider.currentX));
 
                     el.style.transform = `translateX(${slider.currentX}px)`;
 
-                    // Parallax & Progress
                     const progress = maxScroll > 0 ? -slider.currentX / maxScroll : 0;
                     this.elements.portfolioProgressIndicator.style.width = `${progress * 100}%`;
 
                     this.elements.portfolioSlides.forEach(slide => {
                         const image = slide.querySelector('.portfolio-slide-image');
                         const slideRect = slide.getBoundingClientRect();
-                        const containerRect = container.getBoundingClientRect();
+                        const wrapperRect = wrapper.getBoundingClientRect();
                         
-                        // Symmetrical parallax calculation
                         const slideCenter = slideRect.left + slideRect.width / 2;
-                        const containerCenter = containerRect.left + containerRect.width / 2;
-                        const distanceFromCenter = slideCenter - containerCenter;
-                        const normalizedDistance = distanceFromCenter / containerRect.width;
-                        const parallaxOffset = normalizedDistance * -100; // Adjust multiplier for effect strength
+                        const wrapperCenter = wrapperRect.left + wrapperRect.width / 2;
+                        const distanceFromCenter = slideCenter - wrapperCenter;
+                        const normalizedDistance = distanceFromCenter / wrapperRect.width;
+                        const parallaxOffset = normalizedDistance * -100;
                         
                         if(image) image.style.transform = `translateX(${parallaxOffset}px)`;
                     });
