@@ -1,635 +1,1251 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BauMeister - Professionelle Sanierung & Renovierung in Österreich</title>
+    <title>BauMeister - Visionäre Sanierung & Renovierung</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome (v5 latest) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" xintegrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Custom Styles & Dark Mode -->
     <style>
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Roboto', sans-serif; }
-        .accent-yellow { background-color: #f9c800; }
-        .accent-yellow-text { color: #f9c800; }
-        .accent-yellow-border { border-color: #f9c800; }
-        .accent-yellow:hover { background-color: #e0b400; }
-        
-        #header.scrolled nav {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-        }
-        #header nav {
-            transition: padding 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        :root {
+            --color-primary: 37 99 235; /* blue-600 */
+            --color-primary-hover: 29 78 216; /* blue-700 */
+            --color-secondary: 234 179 8; /* yellow-500 */
+            --color-text: 75 85 99; /* gray-500 */
+            --color-heading: 17 24 39; /* gray-900 */
+            --color-bg: 249 250 251; /* gray-50 */
+            --color-bg-alt: 255 255 255; /* white */
+            --color-border: 229 231 235; /* gray-200 */
         }
 
-        /* Эффект для навигации (без ховера) */
-        .nav-link {
-            position: relative;
-            padding: 8px 16px;
-            color: #4a5568; /* tailwind gray-700 */
-            z-index: 1;
+        html.dark {
+            --color-primary: 59 130 246; /* blue-500 */
+            --color-primary-hover: 96 165 250; /* blue-400 */
+            --color-text: 156 163 175; /* gray-400 */
+            --color-heading: 243 244 246; /* gray-100 */
+            --color-bg: 17 24 39; /* gray-900 */
+            --color-bg-alt: 31 41 55; /* gray-800 */
+            --color-border: 55 65 81; /* gray-600 */
         }
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: rgb(var(--color-bg));
+            color: rgb(var(--color-text));
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor */
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgb(var(--color-heading));
+            border-radius: 50%;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s, transform 0.1s linear;
+        }
+        .cursor.hover {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(var(--color-primary), 0.2);
+            border-color: rgb(var(--color-primary));
+        }
+        .cursor.grab {
+             width: 40px;
+             height: 40px;
+             border-width: 3px;
+             transform: translate(-50%, -50%) scale(0.8);
+        }
+        .cursor-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background-color: rgb(var(--color-primary));
+            border-radius: 50%;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+        body:hover > .cursor { opacity: 1; }
+        body:hover > .cursor-dot { opacity: 1; }
+        
+        a, button, [role="button"], input, textarea {
+            cursor: none;
+        }
+
+        .blob-container {
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #f9c800;
-            transform: scaleX(0);
-            transform-origin: bottom right;
-            transition: transform 0.3s ease-out;
+            overflow: hidden;
             z-index: -1;
-            border-radius: 0.375rem; /* rounded-md */
         }
-        .nav-link.active {
-            color: #1a202c; /* tailwind gray-900 */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
         }
-        .nav-link.active::before {
-            transform: scaleX(1);
-            transform-origin: bottom left;
+        html.dark .blob { opacity: 0.35; }
+        .blob1 {
+            width: 600px;
+            height: 600px;
+            background: rgba(var(--color-primary), 0.5);
+            animation: move1 35s infinite alternate;
+        }
+        .blob2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(var(--color-secondary), 0.5);
+            animation: move2 40s infinite alternate;
+        }
+        @keyframes move1 {
+            from { transform: translate(-20%, -20%) rotate(0deg); }
+            to { transform: translate(70vw, 80vh) rotate(360deg); }
+        }
+        @keyframes move2 {
+            from { transform: translate(80vw, 10vh) rotate(0deg); }
+            to { transform: translate(5vw, 90vh) rotate(-360deg); }
         }
 
-        .parallax-bg {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+        .bg-main { background-color: rgb(var(--color-bg)); }
+        .bg-alt { background-color: rgb(var(--color-bg-alt)); }
+        .text-main { color: rgb(var(--color-text)); }
+        .text-heading { color: rgb(var(--color-heading)); }
+        .border-main { border-color: rgb(var(--color-border)); }
+        .accent-blue { background-color: rgb(var(--color-primary)); }
+        .accent-blue-text { color: rgb(var(--color-primary)); }
+        .accent-blue-border { border-color: rgb(var(--color-primary)); }
+        .accent-blue:hover { background-color: rgb(var(--color-primary-hover)); }
+        .accent-blue:disabled { background-color: rgb(var(--color-text)); cursor: not-allowed; }
+
+        #header.scrolled nav {
+            background-color: rgba(var(--color-bg-alt), 0.7);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-bottom: 1px solid rgba(var(--color-border), 0.5);
         }
-        .hero-bg { background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070&auto=format&fit=crop'); }
-        .cta-bg { background-image: linear-gradient(rgba(41, 51, 61, 0.85), rgba(41, 51, 61, 0.85)), url('https://images.unsplash.com/photo-1444723121867-7a241cacace9?q=80&w=2070&auto=format&fit=crop'); }
+        #header nav {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgb(var(--color-primary));
+            transition: width 0.3s ease;
+        }
+        .nav-link.active::after, .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: rgb(var(--color-heading));
+        }
         
         .reveal {
             opacity: 0;
-            transform: translateY(30px) scale(0.98);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         .reveal.visible {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
+        }
+
+        .service-card {
+            width: 100%;
+            height: 320px;
+            perspective: 1200px;
+        }
+        .service-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-style: preserve-3d;
+        }
+        .service-card:hover .service-card-inner {
+            transform: rotateY(180deg);
+        }
+        .service-card-front, .service-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid rgb(var(--color-border));
+        }
+        .service-card-front {
+            background-color: rgb(var(--color-bg-alt));
+        }
+        .service-card-back {
+            background-color: rgb(var(--color-primary));
+            color: white;
+            transform: rotateY(180deg);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .service-card .service-icon {
+            transition: transform 0.3s ease-out;
+        }
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
         }
         
-        .faq-item .faq-answer {
-            max-height: 0;
+        /* New Portfolio Slider Styles */
+        #portfolio-slider-container {
             overflow: hidden;
-            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            cursor: none;
         }
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-            padding-bottom: 1.25rem;
+        #portfolio-slider {
+            display: flex;
+            will-change: transform;
         }
-        .faq-item.active .faq-icon { transform: rotate(180deg); }
-        .faq-icon { transition: transform 0.3s ease-in-out; }
+        .portfolio-slide {
+            flex-shrink: 0;
+            width: 60vw;
+            max-width: 800px;
+            margin-right: 2rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            aspect-ratio: 1.5 / 1;
+        }
+         @media (max-width: 768px) {
+            .portfolio-slide { width: 80vw; }
+        }
+        .portfolio-slide-image {
+            position: absolute;
+            top: -10%; left: -10%;
+            width: 120%; height: 120%;
+            background-size: cover;
+            background-position: center;
+        }
         
-        .portfolio-overlay {
-            opacity: 0;
-            transition: opacity 0.4s ease;
+        #portfolio-progress-bar {
+            height: 2px;
+            background-color: rgb(var(--color-border));
         }
-        .group:hover .portfolio-overlay { opacity: 1; }
-        .portfolio-item {
-            transition: transform 0.3s ease, opacity 0.4s ease, width 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+        #portfolio-progress-indicator {
+            height: 100%;
+            width: 0%;
+            background-color: rgb(var(--color-primary));
+            transition: width 0.1s linear;
+        }
+        
+        #blueprint-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 450px;
+            position: relative;
+            width: 100%;
+        }
+        #blueprint-canvas {
+            max-width: 100%;
+            height: auto;
+            cursor: none;
+        }
+        #blueprint-canvas:active {
+            cursor: none;
+        }
+
+        .testimonial-slider-container {
+            position: relative;
+        }
+        .testimonial-slider {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .testimonial-slide {
+            flex: 0 0 100%;
+        }
+        @media (min-width: 768px) {
+            .testimonial-slide { flex: 0 0 50%; }
+        }
+        @media (min-width: 1024px) {
+            .testimonial-slide { flex: 0 0 33.3333%; }
+        }
+
+        .footer-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .footer-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgb(var(--color-primary)), transparent);
+            animation: footer-line-anim 5s linear infinite;
+        }
+        @keyframes footer-line-anim {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .footer-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .footer-link:hover {
+            color: rgb(var(--color-primary));
+        }
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: rgb(var(--color-primary));
+            transform: scaleX(0);
             transform-origin: center;
+            transition: transform 0.3s ease-out;
         }
-        .portfolio-item.hidden {
-            transform: scale(0.8);
-            opacity: 0;
-            width: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            overflow: hidden;
+        .footer-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .social-icons-footer a {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .social-icons-footer a:hover {
+            transform: translateY(-3px) scale(1.1);
+            color: rgb(var(--color-primary));
         }
 
         .modal {
             transition: opacity 0.3s ease-in-out;
         }
-        .modal .modal-content {
+        .modal-content {
             transition: transform 0.3s ease-in-out;
         }
         .modal.open .modal-content {
             transform: scale(1) translateY(0);
         }
-        .lang-switcher .active {
-            color: #f9c800;
-        }
     </style>
+    
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
-<body class="bg-white text-gray-700">
+<body class="text-main">
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    
+    <div class="blob-container">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+    </div>
 
-    <!-- Header -->
-    <header id="header" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
-        <!-- Top Bar -->
-        <div class="bg-gray-800 text-gray-300">
-            <div class="container mx-auto px-6 py-2 flex justify-between items-center text-xs md:text-sm">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-1.5">
-                        <i data-feather="phone" class="w-4 h-4 accent-yellow-text"></i>
-                        <a href="tel:+436641234567" class="hover:text-white transition-colors" data-translate="phone_number">+43 664 1234567</a>
-                    </div>
-                    <div class="hidden md:flex items-center space-x-1.5">
-                        <i data-feather="mail" class="w-4 h-4 accent-yellow-text"></i>
-                        <a href="mailto:info@baumeister.at" class="hover:text-white transition-colors" data-translate="email">info@baumeister.at</a>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <div class="lang-switcher flex items-center space-x-2 font-medium">
-                        <button id="lang-de" class="hover:text-white transition-colors">DE</button>
-                        <span>/</span>
-                        <button id="lang-en" class="hover:text-white transition-colors">EN</button>
-                    </div>
-                    <a href="#" class="hover:text-white transition-colors"><i data-feather="facebook" class="w-4 h-4"></i></a>
-                    <a href="#" class="hover:text-white transition-colors" title="X (Twitter)">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
-                           <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.602.75Zm-1.7 12.95h1.9l-7.48-10.74h-2.06l7.64 10.74Z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- Main Navigation -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#hero" class="text-3xl font-black text-gray-900 tracking-wider">BAUMEISTER</a>
-            <div id="main-nav" class="hidden lg:flex items-center space-x-2 font-bold text-sm uppercase">
+            <a href="#hero" class="text-3xl font-bold text-heading tracking-wider">BAUMEISTER</a>
+            <div id="main-nav" class="hidden lg:flex items-center space-x-8 font-semibold text-sm">
                 <a href="#hero" data-scroll-to="hero" class="nav-link" data-translate="nav_home">Startseite</a>
                 <a href="#services" data-scroll-to="services" class="nav-link" data-translate="nav_services">Leistungen</a>
-                <a href="#about" data-scroll-to="about" class="nav-link" data-translate="nav_about">Über uns</a>
                 <a href="#portfolio" data-scroll-to="portfolio" class="nav-link" data-translate="nav_projects">Projekte</a>
+                <a href="#about" data-scroll-to="about" class="nav-link" data-translate="nav_about">Über uns</a>
                 <a href="#contact" data-scroll-to="contact" class="nav-link" data-translate="nav_contact">Kontakt</a>
             </div>
-            <button id="callback-modal-trigger" class="hidden lg:inline-block accent-yellow text-gray-900 font-bold px-6 py-3 rounded-md hover:shadow-lg transform hover:-translate-y-0.5 transition" data-translate="request_callback_btn">Rückruf anfordern</button>
-            <button id="mobile-menu-button" class="lg:hidden text-gray-800 focus:outline-none">
-                <i data-feather="menu" class="w-8 h-8"></i>
+            <div class="hidden lg:flex items-center gap-4">
+                 <button id="callback-modal-trigger" class="accent-blue text-white font-semibold px-5 py-2 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300" data-translate="request_callback_btn">Rückruf anfordern</button>
+                 <div class="lang-switcher flex items-center text-sm font-semibold bg-main p-0.5 rounded-lg border border-main">
+                    <button id="lang-de" class="px-2 py-1 rounded-md">DE</button>
+                    <button id="lang-en" class="px-2 py-1 rounded-md">EN</button>
+                </div>
+                <button id="theme-toggle" class="text-heading hover:accent-blue-text transition-colors" aria-label="Toggle light/dark theme">
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+            <button id="mobile-menu-button" class="lg:hidden text-heading focus:outline-none" aria-label="Open mobile menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </button>
         </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-200">
-             <a href="#hero" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_home_mobile">Startseite</a>
-             <a href="#services" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_services_mobile">Leistungen</a>
-             <a href="#about" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_about_mobile">Über uns</a>
-             <a href="#portfolio" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_projects_mobile">Projekte</a>
-             <a href="#contact" class="block py-3 px-6 text-gray-600 hover:bg-gray-50" data-translate="nav_contact_mobile">Kontakt</a>
-             <button id="callback-modal-trigger-mobile" class="block w-full m-4 text-center accent-yellow text-gray-900 font-bold py-3 rounded-md" data-translate="request_callback_btn_mobile">Rückruf anfordern</button>
+        <div id="mobile-menu" class="hidden lg:hidden bg-alt border-t border-main">
+             <a href="#hero" class="block py-3 px-6 text-main hover:bg-main" data-translate="nav_home">Startseite</a>
+             <a href="#services" class="block py-3 px-6 text-main hover:bg-main" data-translate="nav_services">Leistungen</a>
+             <a href="#portfolio" class="block py-3 px-6 text-main hover:bg-main" data-translate="nav_projects">Projekte</a>
+             <a href="#about" class="block py-3 px-6 text-main hover:bg-main" data-translate="nav_about">Über uns</a>
+             <a href="#contact" class="block py-3 px-6 text-main hover:bg-main" data-translate="nav_contact">Kontakt</a>
+             <div class="p-4">
+                <button id="callback-modal-trigger-mobile" class="w-full accent-blue text-white font-semibold py-3 rounded-lg" data-translate="request_callback_btn">Rückruf anfordern</button>
+             </div>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section id="hero" class="relative h-[60vh] md:h-[80vh] text-white parallax-bg hero-bg">
-            <div class="container mx-auto px-6 h-full flex flex-col justify-center items-start text-left">
-                <div class="max-w-2xl">
-                    <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4 uppercase reveal" data-translate="hero_title">Wir gestalten <br>Ihre Räume neu</h1>
-                    <p class="text-lg md:text-xl mb-8 reveal" style="transition-delay: 150ms;" data-translate="hero_subtitle">Zuverlässigkeit, Qualität und Termintreue sind unsere Grundprinzipien. Vertrauen Sie Ihr Projekt den Profis an.</p>
+        <section id="hero" class="relative pt-32 pb-20 lg:pt-48 lg:pb-28">
+            <div class="absolute inset-0 overflow-hidden">
+                <img id="hero-bg-img" class="w-full h-full object-cover" alt="Modern interior design">
+                <div class="absolute inset-0 bg-gray-900/40"></div>
+            </div>
+            <div class="container mx-auto px-6 relative">
+                <div class="max-w-3xl text-white">
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 reveal" data-translate="hero_title">Qualität, die Räume schafft.</h1>
+                    <p class="text-lg md:text-xl max-w-2xl mb-8 reveal" style="transition-delay: 150ms;" data-translate="hero_subtitle">Von der Vision bis zur Vollendung – wir sind Ihr Partner für anspruchsvolle Sanierungen und Renovierungen in ganz Österreich.</p>
                     <div class="flex flex-wrap gap-4 reveal" style="transition-delay: 300ms;">
-                        <a href="#services" class="accent-yellow text-gray-900 font-bold px-8 py-4 rounded-md uppercase transform hover:-translate-y-1 transition" data-translate="hero_btn_1">Unsere Leistungen</a>
-                        <a href="#contact" class="bg-transparent border-2 border-white text-white font-bold px-8 py-4 rounded-md uppercase hover:bg-white hover:text-gray-900 transition transform hover:-translate-y-1" data-translate="hero_btn_2">Kontakt</a>
+                        <a href="#contact" class="accent-blue text-white font-semibold px-8 py-3 rounded-lg shadow-lg transform hover:-translate-y-1 transition duration-300" data-translate="hero_btn_1">Projekt anfragen</a>
+                        <a href="#services" class="bg-white/20 backdrop-blur-sm text-white font-semibold px-8 py-3 rounded-lg transform hover:-translate-y-1 transition duration-300" data-translate="hero_btn_2">Unsere Leistungen</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Services Section -->
-        <section id="services" class="py-20 bg-gray-50">
+        <section id="services" class="py-24 bg-main">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                     <h2 class="text-3xl md:text-4xl font-black mb-4 uppercase reveal" data-translate="services_title">Unsere Leistungen</h2>
-                     <p class="text-lg text-gray-600 mb-12 reveal" data-translate="services_subtitle">Wir bieten ein komplettes Spektrum an Renovierungs- und Ausbauarbeiten, von der Planung bis zur schlüsselfertigen Übergabe.</p>
+                     <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4 reveal" data-translate="services_title">Unsere Kernkompetenzen</h2>
+                     <p class="text-lg mb-16 reveal" data-translate="services_subtitle">Wir verbinden traditionelles Handwerk mit modernster Technik, um erstklassige Ergebnisse zu garantieren.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 text-center border-t-4 accent-yellow-border shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal">
-                        <i data-feather="edit" class="w-16 h-16 accent-yellow-text mx-auto mb-6"></i>
-                        <h3 class="text-xl font-bold mb-3 uppercase" data-translate="service_1_title">Komplettsanierung</h3>
-                        <p class="text-gray-600 mb-4" data-translate="service_1_desc">Wir führen alle Arten von Ausbauarbeiten mit hochwertigen Materialien durch.</p>
-                        <a href="#" class="font-bold text-gray-800 hover:accent-yellow-text transition" data-translate="learn_more">Mehr erfahren &rarr;</a>
+                    <div class="service-card reveal">
+                        <div class="service-card-inner">
+                            <div class="service-card-front flex flex-col justify-center items-center p-6 text-center">
+                                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-drafting-compass fa-2x"></i></div>
+                                <h3 class="text-xl font-bold text-heading" data-translate="service_1_title">Komplettsanierung</h3>
+                            </div>
+                            <div class="service-card-back"><p data-translate="service_1_desc"></p></div>
+                        </div>
                     </div>
-                    <div class="bg-white p-8 text-center border-t-4 accent-yellow-border shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 150ms;">
-                         <i data-feather="home" class="w-16 h-16 accent-yellow-text mx-auto mb-6"></i>
-                        <h3 class="text-xl font-bold mb-3 uppercase" data-translate="service_2_title">Wohnungsrenovierung</h3>
-                        <p class="text-gray-600 mb-4" data-translate="service_2_desc">Von kosmetischen Reparaturen bis zur Kernsanierung Ihrer Wohnung oder Ihres Hauses.</p>
-                         <a href="#" class="font-bold text-gray-800 hover:accent-yellow-text transition" data-translate="learn_more">Mehr erfahren &rarr;</a>
+                    <div class="service-card reveal" style="transition-delay: 150ms;">
+                         <div class="service-card-inner">
+                            <div class="service-card-front flex flex-col justify-center items-center p-6 text-center">
+                                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-home fa-2x"></i></div>
+                                <h3 class="text-xl font-bold text-heading" data-translate="service_2_title">Wohnungsrenovierung</h3>
+                            </div>
+                            <div class="service-card-back"><p data-translate="service_2_desc"></p></div>
+                        </div>
                     </div>
-                    <div class="bg-white p-8 text-center border-t-4 accent-yellow-border shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 300ms;">
-                         <i data-feather="pen-tool" class="w-16 h-16 accent-yellow-text mx-auto mb-6"></i>
-                        <h3 class="text-xl font-bold mb-3 uppercase" data-translate="service_3_title">Design & Planung</h3>
-                        <p class="text-gray-600 mb-4" data-translate="service_3_desc">Erstellung einzigartiger Designprojekte mit 3D-Visualisierung und Materialauswahl.</p>
-                         <a href="#" class="font-bold text-gray-800 hover:accent-yellow-text transition" data-translate="learn_more">Mehr erfahren &rarr;</a>
+                    <div class="service-card reveal" style="transition-delay: 300ms;">
+                        <div class="service-card-inner">
+                            <div class="service-card-front flex flex-col justify-center items-center p-6 text-center">
+                                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-building fa-2x"></i></div>
+                                <h3 class="text-xl font-bold text-heading" data-translate="service_3_title">Gewerbebau</h3>
+                            </div>
+                            <div class="service-card-back"><p data-translate="service_3_desc"></p></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- About Us Section -->
-        <section id="about" class="py-20 bg-white">
+        <section id="portfolio" class="py-24 bg-alt overflow-hidden">
             <div class="container mx-auto px-6">
+                <div class="reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4" data-translate="portfolio_title">Unsere Arbeit spricht für sich</h2>
+                    <p class="text-lg mb-8 max-w-3xl" data-translate="portfolio_subtitle">Jedes Projekt ist eine Referenz unserer Leidenschaft für Qualität und Ästhetik. Entdecken Sie eine Auswahl unserer abgeschlossenen Arbeiten.</p>
+                    <div id="portfolio-filter" class="flex flex-wrap gap-3 mb-8">
+                        <button class="filter-btn font-semibold text-sm px-4 py-2 rounded-full transition-colors" data-filter="all" data-translate="filter_all">Alle</button>
+                        <button class="filter-btn font-semibold text-sm px-4 py-2 rounded-full transition-colors" data-filter="houses" data-translate="filter_houses">Häuser</button>
+                        <button class="filter-btn font-semibold text-sm px-4 py-2 rounded-full transition-colors" data-filter="apartments" data-translate="filter_apartments">Wohnungen</button>
+                        <button class="filter-btn font-semibold text-sm px-4 py-2 rounded-full transition-colors" data-filter="offices" data-translate="filter_offices">Gewerbe</button>
+                    </div>
+                </div>
+            </div>
+            <div id="portfolio-slider-container" class="pl-6 container mx-auto reveal">
+                <div id="portfolio-slider"></div>
+            </div>
+            <div class="container mx-auto px-6 mt-8">
+                 <div id="portfolio-progress-bar" class="w-full">
+                    <div id="portfolio-progress-indicator"></div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="py-24 bg-main">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4 reveal" data-translate="testimonials_title">Stimmen unserer Kunden</h2>
+                </div>
+                <div class="testimonial-slider-container overflow-hidden relative reveal mt-12">
+                     <div id="testimonial-slider" class="testimonial-slider"></div>
+                     <button id="prev-testimonial" aria-label="Previous testimonial" class="absolute top-1/2 -left-4 -translate-y-1/2 bg-alt p-2 rounded-full shadow-md hover:bg-main transition z-10 hidden md:block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button id="next-testimonial" aria-label="Next testimonial" class="absolute top-1/2 -right-4 -translate-y-1/2 bg-alt p-2 rounded-full shadow-md hover:bg-main transition z-10 hidden md:block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-24 bg-alt">
+             <div class="container mx-auto px-6">
                  <div class="grid lg:grid-cols-2 gap-12 items-center">
-                    <div class="reveal">
-                        <h2 class="text-3xl md:text-4xl font-black mb-6 uppercase" data-translate="about_title">Warum Sie uns wählen sollten</h2>
-                        <p class="text-gray-600 mb-8" data-translate="about_desc">Wir sind stolz auf unseren Ruf als zuverlässiger Partner. Unser Ansatz basiert auf Ehrlichkeit, Professionalität und Liebe zum Detail in jeder Phase der Arbeit.</p>
-                        <div class="space-y-2">
-                            <div class="faq-item bg-gray-50 border border-gray-200 rounded">
-                                <button class="faq-question w-full flex justify-between items-center text-left p-5 font-bold">
-                                    <span data-translate="faq_1_q"><i class="accent-yellow-text mr-3" data-feather="shield"></i>Unsere Mission</span>
-                                    <i data-feather="chevron-down" class="faq-icon w-5 h-5"></i>
-                                </button>
-                                <div class="faq-answer px-5 text-gray-600" data-translate="faq_1_a">Wir streben danach, langlebige und komfortable Räume zu schaffen, die unsere Kunden viele Jahre lang erfreuen werden.</div>
-                            </div>
-                            <div class="faq-item bg-gray-50 border border-gray-200 rounded">
-                                <button class="faq-question w-full flex justify-between items-center text-left p-5 font-bold">
-                                    <span data-translate="faq_2_q"><i class="accent-yellow-text mr-3" data-feather="eye"></i>Unsere Vision</span>
-                                    <i data-feather="chevron-down" class="faq-icon w-5 h-5"></i>
-                                </button>
-                                <div class="faq-answer px-5 text-gray-600" data-translate="faq_2_a">Das führende Renovierungsunternehmen zu werden, bekannt für seinen innovativen Ansatz, makellose Qualität und außergewöhnlichen Service.</div>
-                            </div>
-                             <div class="faq-item bg-gray-50 border border-gray-200 rounded">
-                                <button class="faq-question w-full flex justify-between items-center text-left p-5 font-bold">
-                                    <span data-translate="faq_3_q"><i class="accent-yellow-text mr-3" data-feather="award"></i>Unsere Garantien</span>
-                                    <i data-feather="chevron-down" class="faq-icon w-5 h-5"></i>
-                                </button>
-                                <div class="faq-answer px-5 text-gray-600" data-translate="faq_3_a">Wir bieten eine offizielle Garantie auf alle Arbeiten, verwenden nur zertifizierte Materialien und halten uns strikt an alle Baunormen.</div>
-                            </div>
-                        </div>
+                    <div id="blueprint-container" class="reveal">
+                        <canvas id="blueprint-canvas"></canvas>
                     </div>
                     <div class="reveal" style="transition-delay: 150ms;">
-                        <img src="https://images.unsplash.com/photo-1574366622362-715a3a35825b?q=80&w=1974&auto=format&fit=crop" class="rounded-lg shadow-2xl w-full h-full object-cover" alt="Bauprozess">
+                        <h2 class="text-3xl md:text-4xl font-bold text-heading mb-6" data-translate="about_title">Unsere Philosophie</h2>
+                        <p class="text-lg" data-translate="about_desc">Wir glauben, dass jedes Gebäude eine Geschichte erzählt. Unsere Mission ist es, diese Geschichten mit Respekt, Sorgfalt und höchster Handwerkskunst weiterzuschreiben. Unsere Kernwerte – Qualität, Pünktlichkeit und Transparenz – sind das Fundament jedes Projekts, das wir übernehmen.</p>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Portfolio Section -->
-        <section id="portfolio" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-4 uppercase reveal" data-translate="portfolio_title">Aktuelle Projekte</h2>
-                <div id="portfolio-filter" class="flex justify-center flex-wrap gap-2 md:gap-4 mb-12 reveal">
-                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded transition-colors" data-filter="all" data-translate="filter_all">Alle</button>
-                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded transition-colors" data-filter="houses" data-translate="filter_houses">Häuser & Villen</button>
-                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded transition-colors" data-filter="apartments" data-translate="filter_apartments">Wohnungen</button>
-                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded transition-colors" data-filter="offices" data-translate="filter_offices">Büros</button>
-                </div>
-                <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">
-                    <!-- Projects will be dynamically populated by JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="py-20 parallax-bg cta-bg">
-            <div class="container mx-auto px-6 text-center text-white">
-                <h2 class="text-3xl md:text-4xl font-black mb-4 uppercase reveal" data-translate="cta_title">Suchen Sie einen zuverlässigen Partner?</h2>
-                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style="transition-delay: 150ms;" data-translate="cta_subtitle">Wir sind bereit, Ihr Traumprojekt zu verwirklichen. Erhalten Sie noch heute eine kostenlose Beratung und einen detaillierten Kostenvoranschlag.</p>
-                <a href="#contact-form-main" class="accent-yellow text-gray-900 font-bold px-10 py-4 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-1 transition reveal" style="transition-delay: 300ms;" data-translate="cta_btn">Angebot anfordern</a>
-            </div>
-        </section>
         
-        <!-- Contact Section -->
-        <section id="contact" class="py-20 bg-gray-100">
+        <section id="contact" class="py-24 bg-main">
             <div class="container mx-auto px-6">
-                 <div id="contact-form-main" class="bg-white p-8 md:p-12 rounded-lg shadow-2xl max-w-4xl mx-auto reveal">
-                    <h2 class="text-3xl md:text-4xl font-black text-center mb-2 uppercase" data-translate="contact_title">Kontaktieren Sie uns</h2>
-                    <p class="text-center text-gray-600 mb-10" data-translate="contact_subtitle">Hinterlassen Sie eine Nachricht, und wir werden uns in Kürze bei Ihnen melden.</p>
-                    <form action="#" method="POST">
-                        <div class="grid md:grid-cols-2 gap-6 mb-5">
-                            <input type="text" name="name" class="w-full p-4 border-2 border-gray-200 rounded-md focus:border-yellow-400 focus:ring-0 transition" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
-                            <input type="tel" name="phone" class="w-full p-4 border-2 border-gray-200 rounded-md focus:border-yellow-400 focus:ring-0 transition" data-translate="form_phone_placeholder" placeholder="Ihre Telefonnummer" required>
-                        </div>
-                        <div class="mb-5">
-                            <textarea name="message" rows="5" class="w-full p-4 border-2 border-gray-200 rounded-md focus:border-yellow-400 focus:ring-0 transition" data-translate="form_message_placeholder" placeholder="Beschreiben Sie kurz Ihr Projekt..."></textarea>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="w-full md:w-auto accent-yellow text-gray-900 font-bold py-4 px-10 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-1 transition" data-translate="form_send_btn">Senden</button>
-                        </div>
-                    </form>
+                 <div class="bg-alt p-8 md:p-12 rounded-lg shadow-xl max-w-4xl mx-auto reveal border border-main">
+                    <div id="contact-form-wrapper">
+                        <h2 class="text-3xl md:text-4xl text-heading font-bold text-center mb-2" data-translate="contact_title">Starten Sie Ihr Projekt</h2>
+                        <p class="text-center mb-10" data-translate="contact_subtitle">Erzählen Sie uns von Ihrer Vision. Wir melden uns umgehend für eine kostenlose Erstberatung.</p>
+                        <form id="main-contact-form" action="#" method="POST" novalidate>
+                            <div class="grid md:grid-cols-2 gap-6 mb-5">
+                                <input type="text" name="name" class="w-full p-4 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
+                                <input type="tel" name="phone" class="w-full p-4 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_phone_placeholder" placeholder="Ihre Telefonnummer" required>
+                            </div>
+                            <div class="mb-5">
+                                <textarea name="message" rows="5" class="w-full p-4 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_message_placeholder" placeholder="Beschreiben Sie kurz Ihr Projekt..."></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="w-full md:w-auto accent-blue text-white font-semibold py-3 px-10 rounded-lg shadow-lg transform hover:-translate-y-1 transition" data-translate="form_send_btn">Anfrage Senden</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="contact-form-success" class="hidden text-center">
+                        <h2 class="text-2xl font-bold mb-2 text-green-600" data-translate="contact_success_title">Vielen Dank!</h2>
+                        <p data-translate="contact_success_msg">Ihre Nachricht wurde gesendet. Wir werden uns in Kürze bei Ihnen melden.</p>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400">
-        <div class="container mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                <div>
-                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_about_title">Über uns</h4>
-                    <p class="text-sm" data-translate="footer_about_desc">"BauMeister" — Ihr zuverlässiger Partner in der Welt der Renovierung. Wir schaffen Qualität, der Sie seit über 15 Jahren vertrauen können.</p>
+    <footer class="bg-alt text-main border-t border-main footer-container">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <h4 class="font-bold text-lg text-heading mb-4" data-translate="footer_about_title">BauMeister</h4>
+                    <p class="text-sm max-w-md" data-translate="footer_about_desc">Ihr zuverlässiger Partner für Sanierung und Renovierung. Wir schaffen Qualität, der Sie vertrauen können.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_services_title">Unsere Leistungen</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_1">&raquo; Komplettsanierung</a></li>
-                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_2">&raquo; Wohnungsrenovierung</a></li>
-                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_3">&raquo; Bürosanierung</a></li>
-                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_4">&raquo; Design-Projekte</a></li>
-                    </ul>
+                     <h4 class="font-bold text-lg text-heading mb-4" data-translate="footer_links_title">Navigation</h4>
+                     <ul class="space-y-2 text-sm">
+                        <li><a href="#services" class="footer-link" data-translate="nav_services">Leistungen</a></li>
+                        <li><a href="#portfolio" class="footer-link" data-translate="nav_projects">Projekte</a></li>
+                        <li><a href="#about" class="footer-link" data-translate="nav_about">Über uns</a></li>
+                        <li><a href="#contact" class="footer-link" data-translate="nav_contact">Kontakt</a></li>
+                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_contact_title">Kontakt</h4>
-                     <ul class="space-y-3 text-sm">
-                        <li class="flex items-start"><i data-feather="map-pin" class="w-4 h-4 mr-3 mt-1 flex-shrink-0 text-yellow-400"></i><span data-translate="address">Musterstraße 1, 1010 Wien</span></li>
-                        <li class="flex items-center"><i data-feather="phone" class="w-4 h-4 mr-3 flex-shrink-0 text-yellow-400"></i><a href="tel:+436641234567" class="hover:text-yellow-400" data-translate="phone_number_footer">+43 664 1234567</a></li>
-                        <li class="flex items-center"><i data-feather="mail" class="w-4 h-4 mr-3 flex-shrink-0 text-yellow-400"></i><a href="mailto:info@baumeister.at" class="hover:text-yellow-400" data-translate="email_footer">info@baumeister.at</a></li>
-                    </ul>
-                </div>
-                 <div>
-                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_projects_title">Aktuelle Projekte</h4>
-                    <div class="grid grid-cols-3 gap-2">
-                        <a href="#"><img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=300" class="aspect-square object-cover rounded-sm hover:opacity-80 transition"></a>
-                        <a href="#"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=300" class="aspect-square object-cover rounded-sm hover:opacity-80 transition"></a>
-                        <a href="#"><img src="https://images.unsplash.com/photo-1521737852577-6848d81b9324?q=80&w=300" class="aspect-square object-cover rounded-sm hover:opacity-80 transition"></a>
-                    </div>
+                     <h4 class="font-bold text-lg text-heading mb-4" data-translate="footer_contact_title">Kontakt</h4>
+                     <ul class="space-y-2 text-sm">
+                         <li><a href="tel:+436641234567" class="footer-link" data-translate="phone_number_footer">+43 664 1234567</a></li>
+                         <li><a href="mailto:info@baumeister.at" class="footer-link" data-translate="email_footer">info@baumeister.at</a></li>
+                         <li data-translate="address">Musterstraße 1, 1010 Wien</li>
+                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="bg-gray-900 py-4">
-             <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+            <div class="mt-12 pt-8 border-t border-main flex flex-col md:flex-row justify-between items-center text-sm">
                 <p data-translate="copyright">&copy; 2024 BauMeister. Alle Rechte vorbehalten.</p>
+                <div class="social-icons-footer flex items-center gap-6 mt-4 md:mt-0 text-lg">
+                    <a href="#" data-translate-aria="facebook_link_aria"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" data-translate-aria="instagram_link_aria"><i class="fab fa-instagram"></i></a>
+                    <a href="#" data-translate-aria="telegram_link_aria"><i class="fab fa-telegram-plane"></i></a>
+                </div>
             </div>
         </div>
     </footer>
-
-    <!-- Lightbox -->
-    <div id="lightbox" class="modal fixed inset-0 bg-black bg-opacity-90 z-[100] flex justify-center items-center p-4 hidden opacity-0">
-        <div class="modal-content bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto relative transform scale-95 -translate-y-10">
-            <button id="lightbox-close" class="absolute top-0 right-0 mt-4 mr-4 text-white hover:text-yellow-400 text-5xl z-10">&times;</button>
-            <img id="lightbox-img" src="" alt="Projektbild" class="w-full h-auto rounded-t-lg">
-            <div class="p-6">
-                <h3 id="lightbox-title" class="text-2xl font-bold mb-2"></h3>
-                <p id="lightbox-desc" class="text-gray-600"></p>
-            </div>
-        </div>
-    </div>
     
-    <!-- Callback Modal -->
-    <div id="callback-modal" class="modal fixed inset-0 bg-black bg-opacity-70 z-[100] flex justify-center items-center p-4 hidden opacity-0">
-        <div class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-md relative transform scale-95 -translate-y-10">
-            <button id="callback-modal-close" class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-3xl">&times;</button>
-            <div class="p-8 text-center">
-                <div id="callback-modal-form-container">
-                    <div class="mb-4">
-                        <i data-feather="phone-call" class="w-16 h-16 accent-yellow-text mx-auto"></i>
-                    </div>
-                    <h2 class="text-2xl font-black mb-2 uppercase" data-translate="callback_title_modal">Rückruf anfordern</h2>
-                    <p class="text-gray-600 mb-6" data-translate="callback_subtitle_modal">Hinterlassen Sie Ihre Nummer und wir rufen Sie innerhalb von 10 Minuten zurück!</p>
-                    <form id="callback-modal-form" class="flex flex-col gap-4">
-                        <div class="flex items-center border-2 border-gray-200 rounded-md focus-within:border-yellow-400 transition">
-                           <span class="px-4 text-gray-500">+43</span>
-                           <input type="tel" id="callback-modal-phone" class="w-full p-3 border-l border-gray-200 focus:ring-0 border-0" data-translate="phone_placeholder_modal" placeholder="Ihre Telefonnummer" required>
+    <div id="callback-modal" class="modal fixed inset-0 bg-black/60 z-[100] flex justify-center items-center p-4 hidden opacity-0">
+        <div class="modal-content bg-alt rounded-lg shadow-2xl w-full max-w-md relative transform scale-95 -translate-y-10">
+            <button id="callback-modal-close" class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-3xl" aria-label="Close modal">&times;</button>
+            <div class="p-8">
+                <div id="callback-form-wrapper">
+                    <h2 class="text-2xl font-bold text-heading text-center mb-2" data-translate="callback_modal_title">Kontakt & Rückruf</h2>
+                    <p class="text-center mb-6" data-translate="callback_modal_subtitle">Wählen Sie Ihre bevorzugte Kontaktmethode.</p>
+                    
+                    <form id="callback-form" novalidate>
+                        <h3 class="font-semibold text-heading mb-3" data-translate="callback_form_title">Rückruf anfordern (Österreich)</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <input type="text" name="name" class="w-full p-3 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
+                            <div class="flex items-center border-2 border-main rounded-md focus-within:border-blue-500 transition bg-main dark:bg-gray-700">
+                               <span class="px-3 text-gray-500">+43</span>
+                               <input type="tel" name="phone" class="w-full p-3 border-l border-main focus:ring-0 border-0 bg-transparent dark:placeholder-gray-400" data-translate="form_phone_austria_placeholder" placeholder="664 1234567" required>
+                            </div>
+                            <button type="submit" class="w-full accent-blue text-white font-semibold py-3 px-10 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition" data-translate="callback_form_btn">Rückruf anfordern</button>
                         </div>
-                        <button type="submit" class="accent-yellow text-gray-900 font-bold py-3 px-8 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-0.5 transition" data-translate="callback_btn_modal">Rückruf anfordern</button>
                     </form>
+
+                    <div class="my-6 flex items-center text-center">
+                        <hr class="flex-grow border-main">
+                        <span class="px-2 text-sm" data-translate="or_divider">ODER</span>
+                        <hr class="flex-grow border-main">
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-heading mb-3 text-center" data-translate="messenger_title">Direkt per Messenger schreiben</h3>
+                        <div class="flex justify-center gap-4">
+                            <a href="#" id="whatsapp-link" target="_blank" class="flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-green-500 text-white font-semibold transform hover:-translate-y-0.5 transition"><i class="fab fa-whatsapp"></i><span data-translate="whatsapp_btn">WhatsApp</span></a>
+                            <a href="#" id="telegram-link" target="_blank" class="flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-sky-500 text-white font-semibold transform hover:-translate-y-0.5 transition"><i class="fab fa-telegram-plane"></i><span data-translate="telegram_btn">Telegram</span></a>
+                        </div>
+                    </div>
                 </div>
-                <div id="callback-modal-success" class="hidden">
-                     <h2 class="text-2xl font-black mb-2 uppercase text-green-600" data-translate="callback_success_title_modal">Vielen Dank!</h2>
-                     <p class="text-gray-600 mb-4" data-translate="callback_success_msg_modal">Ihre Anfrage wurde erhalten. Wir werden Sie in Kürze kontaktieren.</p>
-                     <div class="text-5xl font-bold text-gray-800" id="modal-timer">10:00</div>
+                 <div id="callback-form-success" class="hidden text-center">
+                    <h2 class="text-2xl font-bold mb-2 text-green-600" data-translate="callback_success_title">Danke!</h2>
+                    <p data-translate="callback_success_msg">Ihre Rückrufanfrage wurde gesendet. Wir melden uns in Kürze!</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Live Chat Widget -->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/689f8e12372f611927382c29/1j2nk5uq4';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    
+    <!-- App Logic -->
     <script>
-        // --- Content for Language Switcher ---
-        const content = {
-            de: {
-                page_title: "BauMeister - Professionelle Sanierung & Renovierung in Österreich",
-                phone_number: "+43 664 1234567", email: "info@baumeister.at",
-                nav_home: "Startseite", nav_services: "Leistungen", nav_about: "Über uns", nav_projects: "Projekte", nav_contact: "Kontakt",
-                get_quote_btn: "Angebot anfordern", request_callback_btn: "Rückruf anfordern",
-                nav_home_mobile: "Startseite", nav_services_mobile: "Leistungen", nav_about_mobile: "Über uns", nav_projects_mobile: "Projekte", nav_contact_mobile: "Kontakt", request_callback_btn_mobile: "Rückruf anfordern",
-                hero_title: "Wir gestalten <br>Ihre Räume neu", hero_subtitle: "Zuverlässigkeit, Qualität und Termintreue sind unsere Grundprinzipien. Vertrauen Sie Ihr Projekt den Profis an.", hero_btn_1: "Unsere Leistungen", hero_btn_2: "Kontakt",
-                services_title: "Unsere Leistungen", services_subtitle: "Wir bieten ein komplettes Spektrum an Renovierungs- und Ausbauarbeiten, von der Planung bis zur schlüsselfertigen Übergabe.",
-                service_1_title: "Komplettsanierung", service_1_desc: "Wir führen alle Arten von Ausbauarbeiten mit hochwertigen Materialien durch.",
-                service_2_title: "Wohnungsrenovierung", service_2_desc: "Von kosmetischen Reparaturen bis zur Kernsanierung Ihrer Wohnung oder Ihres Hauses.",
-                service_3_title: "Design & Planung", service_3_desc: "Erstellung einzigartiger Designprojekte mit 3D-Visualisierung und Materialauswahl.",
-                learn_more: "Mehr erfahren &rarr;",
-                about_title: "Warum Sie uns wählen sollten", about_desc: "Wir sind stolz auf unseren Ruf als zuverlässiger Partner. Unser Ansatz basiert auf Ehrlichkeit, Professionalität und Liebe zum Detail in jeder Phase der Arbeit.",
-                faq_1_q: '<i class="accent-yellow-text mr-3" data-feather="shield"></i>Unsere Mission', faq_1_a: "Wir streben danach, langlebige und komfortable Räume zu schaffen, die unsere Kunden viele Jahre lang erfreuen werden.",
-                faq_2_q: '<i class="accent-yellow-text mr-3" data-feather="eye"></i>Unsere Vision', faq_2_a: "Das führende Renovierungsunternehmen zu werden, bekannt für seinen innovativen Ansatz, makellose Qualität und außergewöhnlichen Service.",
-                faq_3_q: '<i class="accent-yellow-text mr-3" data-feather="award"></i>Unsere Garantien', faq_3_a: "Wir bieten eine offizielle Garantie auf alle Arbeiten, verwenden nur zertifizierte Materialien und halten uns strikt an alle Baunormen.",
-                portfolio_title: "Aktuelle Projekte", filter_all: "Alle", filter_houses: "Häuser & Villen", filter_apartments: "Wohnungen", filter_offices: "Büros",
-                portfolio_items: [
-                    { category: "houses", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop", title: "Sanierung Landhaus", desc: "Komplettsanierung eines modernen Hauses mit Panoramafenstern und Ruhebereich am Pool." },
-                    { category: "apartments", img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop", title: "Loft-Wohnung", desc: "Modernes Loft mit industriellen Designelementen und offenem Grundriss." },
-                    { category: "offices", img: "https://images.unsplash.com/photo-1521737852577-6848d81b9324?q=80&w=2070&auto=format&fit=crop", title: "Büro für IT-Firma", desc: "Open-Space-Büro mit Besprechungsräumen, Loungebereichen und moderner Küche." },
-                    { category: "apartments", img: "https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2127&auto=format&fit=crop", title: "Modernes Badezimmer", desc: "Geräumiges und helles Badezimmer, ausgeführt in einem minimalistischen Stil." },
-                ],
-                callback_title_modal: "Rückruf anfordern", callback_subtitle_modal: "Hinterlassen Sie Ihre Nummer und wir rufen Sie innerhalb von 10 Minuten zurück!", phone_placeholder_modal: "Ihre Telefonnummer", callback_btn_modal: "Rückruf anfordern",
-                callback_success_title_modal: "Vielen Dank!", callback_success_msg_modal: "Ihre Anfrage wurde erhalten. Wir werden Sie in Kürze kontaktieren.", callback_timer_end: "Wir rufen an!",
-                cta_title: "Suchen Sie einen zuverlässigen Partner?", cta_subtitle: "Wir sind bereit, Ihr Traumprojekt zu verwirklichen. Erhalten Sie noch heute eine kostenlose Beratung und einen detaillierten Kostenvoranschlag.", cta_btn: "Angebot anfordern",
-                contact_title: "Kontaktieren Sie uns", contact_subtitle: "Hinterlassen Sie eine Nachricht, und wir werden uns in Kürze bei Ihnen melden.",
-                form_name_placeholder: "Ihr Name", form_phone_placeholder: "Ihre Telefonnummer", form_message_placeholder: "Beschreiben Sie kurz Ihr Projekt...", form_send_btn: "Senden",
-                footer_about_title: "Über uns", footer_about_desc: '"BauMeister" — Ihr zuverlässiger Partner in der Welt der Renovierung. Wir schaffen Qualität, der Sie seit über 15 Jahren vertrauen können.',
-                footer_services_title: "Unsere Leistungen", footer_service_1: "&raquo; Komplettsanierung", footer_service_2: "&raquo; Wohnungsrenovierung", footer_service_3: "&raquo; Bürosanierung", footer_service_4: "&raquo; Design-Projekte",
-                footer_contact_title: "Kontakt", address: "Musterstraße 1, 1010 Wien", phone_number_footer: "+43 664 1234567", email_footer: "info@baumeister.at",
-                footer_projects_title: "Aktuelle Projekte", copyright: "&copy; 2024 BauMeister. Alle Rechte vorbehalten."
+        const siteConfig = {
+            contact: {
+                phone: "+436641234567", email: "info@baumeister.at", address: "Musterstraße 1, 1010 Wien",
+                whatsappNumber: "436641234567", telegramUsername: "yourusername",
+                social: { facebook: "#", instagram: "#", telegram: "#" }
             },
-            en: {
-                page_title: "RenoMaster - Professional Renovation & Remodeling in Austria",
-                phone_number: "+43 664 1234567", email: "info@renomaster.at",
-                nav_home: "Home", nav_services: "Services", nav_about: "About Us", nav_projects: "Projects", nav_contact: "Contact",
-                get_quote_btn: "Get a Quote", request_callback_btn: "Request Callback",
-                nav_home_mobile: "Home", nav_services_mobile: "Services", nav_about_mobile: "About Us", nav_projects_mobile: "Projects", nav_contact_mobile: "Contact", request_callback_btn_mobile: "Request Callback",
-                hero_title: "We Reinvent <br>Your Living Space", hero_subtitle: "Reliability, quality, and timeliness are our core principles. Entrust your project to the professionals.", hero_btn_1: "Our Services", hero_btn_2: "Contact Us",
-                services_title: "Our Services", services_subtitle: "We provide a full range of renovation and remodeling services, from initial design to turnkey project completion.",
-                service_1_title: "Full Remodeling", service_1_desc: "We perform all types of finishing work using high-quality, durable materials.",
-                service_2_title: "Interior Renovation", service_2_desc: "From cosmetic repairs to complete gut renovations for your apartment or house.",
-                service_3_title: "Design & Planning", service_3_desc: "Creating unique interior design projects with 3D visualization and material selection.",
-                learn_more: "Learn More &rarr;",
-                about_title: "Why Choose Us?", about_desc: "We are proud of our reputation as a reliable contractor. Our approach is based on honesty, professionalism, and attention to detail at every stage of the project.",
-                faq_1_q: '<i class="accent-yellow-text mr-3" data-feather="shield"></i>Our Mission', faq_1_a: "We strive to create durable and comfortable spaces that will delight our clients for many years to come.",
-                faq_2_q: '<i class="accent-yellow-text mr-3" data-feather="eye"></i>Our Vision', faq_2_a: "To become the leading renovation company, known for our innovative approach, impeccable quality, and exceptional service.",
-                faq_3_q: '<i class="accent-yellow-text mr-3" data-feather="award"></i>Our Guarantees', faq_3_a: "We provide an official warranty for all work, use only certified materials, and strictly adhere to all building codes.",
-                portfolio_title: "Recent Projects", filter_all: "All", filter_houses: "Houses & Villas", filter_apartments: "Apartments", filter_offices: "Offices",
-                portfolio_items: [
-                    { category: "houses", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop", title: "Country House Renovation", desc: "Complete renovation of a modern house with panoramic windows and a poolside relaxation area." },
-                    { category: "apartments", img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop", title: "Loft Style Apartment", desc: "A modern loft featuring industrial design elements and an open-plan layout." },
-                    { category: "offices", img: "https://images.unsplash.com/photo-1521737852577-6848d81b9324?q=80&w=2070&auto=format&fit=crop", title: "IT Company Office", desc: "An open-space office with meeting rooms, lounge areas, and a modern kitchen." },
-                    { category: "apartments", img: "https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2127&auto=format&fit=crop", title: "Modern Bathroom", desc: "A spacious and bright bathroom, executed in a minimalist style." },
-                ],
-                callback_title_modal: "Request a Callback", callback_subtitle_modal: "Leave your number and we'll call you back within 10 minutes!", phone_placeholder_modal: "Your Phone Number", callback_btn_modal: "Request Call",
-                callback_success_title_modal: "Thank You!", callback_success_msg_modal: "Your request has been received. We will contact you shortly.", callback_timer_end: "Calling now!",
-                cta_title: "Looking for a Reliable Contractor?", cta_subtitle: "We are ready to bring your dream project to life. Get a free consultation and a detailed cost estimate today.", cta_btn: "Get a Quote",
-                contact_title: "Contact Us", contact_subtitle: "Leave a message, and we will get back to you shortly.",
-                form_name_placeholder: "Your Name", form_phone_placeholder: "Your Phone Number", form_message_placeholder: "Briefly describe your project...", form_send_btn: "Send Message",
-                footer_about_title: "About Us", footer_about_desc: '"RenoMaster" is your reliable partner in the world of renovation. We\'ve been creating quality you can trust for over 15 years.',
-                footer_services_title: "Our Services", footer_service_1: "&raquo; Full Remodeling", footer_service_2: "&raquo; Apartment Renovation", footer_service_3: "&raquo; Office Remodeling", footer_service_4: "&raquo; Design Projects",
-                footer_contact_title: "Contact Info", address: "Musterstraße 1, 1010 Vienna", phone_number_footer: "+43 664 1234567", email_footer: "info@renomaster.at",
-                footer_projects_title: "Recent Projects", copyright: "&copy; 2024 RenoMaster. All Rights Reserved."
+            assets: {
+                heroBg: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop',
+                portfolio: [
+                    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop', 'https://images.unsplash.com/photo-1529408632839-a549174db48c?q=80&w=800&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=800&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=800&auto=format&fit=crop', 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop', 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=800&auto=format&fit=crop'
+                ]
+            },
+            content: {
+                de: {
+                    page_title: "BauMeister - Visionäre Sanierung & Renovierung",
+                    nav_home: "Startseite", nav_services: "Leistungen", nav_projects: "Projekte", nav_about: "Über uns", nav_contact: "Kontakt", request_callback_btn: "Rückruf anfordern",
+                    hero_title: "Qualität, die Räume schafft.", hero_subtitle: "Von der Vision bis zur Vollendung – wir sind Ihr Partner für anspruchsvolle Sanierungen und Renovierungen in ganz Österreich.", hero_btn_1: "Projekt anfragen", hero_btn_2: "Unsere Leistungen",
+                    services_title: "Unsere Kernkompetenzen", services_subtitle: "Wir verbinden traditionelles Handwerk mit modernster Technik, um erstklassige Ergebnisse zu garantieren.",
+                    service_1_title: "Komplettsanierung", service_1_desc: "Ganzheitliche Modernisierung von Immobilien, von der Entkernung bis zum finalen Innenausbau.",
+                    service_2_title: "Wohnungsrenovierung", service_2_desc: "Vom neuen Anstrich bis zur kompletten Neugestaltung einzelner Wohnbereiche oder ganzer Wohnungen.",
+                    service_3_title: "Gewerbebau", service_3_desc: "Funktionale und repräsentative Umbauten für Büros, Praxen und Einzelhandelsflächen.",
+                    portfolio_title: "Unsere Arbeit spricht für sich", portfolio_subtitle: "Jedes Projekt ist eine Referenz unserer Leidenschaft für Qualität und Ästhetik. Entdecken Sie eine Auswahl unserer abgeschlossenen Arbeiten.",
+                    filter_all: "Alle", filter_houses: "Häuser", filter_apartments: "Wohnungen", filter_offices: "Gewerbe",
+                    portfolio_items: [
+                        { category: "houses", title: "Moderne Villa" }, { category: "apartments", title: "Dachgeschosswohnung" }, { category: "offices", title: "Start-up Büro" },
+                        { category: "houses", title: "Bungalow am See" }, { category: "apartments", title: "Minimalistisches Loft" }, { category: "offices", title: "Kreativagentur" },
+                        { category: "apartments", title: "Altbau-Charme" }, { category: "houses", title: "Landhaus Classic" }
+                    ],
+                    testimonials_title: "Stimmen unserer Kunden",
+                    testimonials: [
+                        { name: "Familie Huber", text: "Absolut professionell und zuverlässig. Unser Hausumbau war ein voller Erfolg!"},
+                        { name: "M. Schmidt", text: "Das Ergebnis übertrifft alle Erwartungen. BauMeister hat unsere Wohnung in eine Oase verwandelt."},
+                        { name: "Anna Wagner", text: "Kreativ, pünktlich und budgettreu. Die besten Handwerker, mit denen wir je gearbeitet haben."},
+                        { name: "Dr. Eva Klein", text: "Der Umbau unserer Praxis lief reibungslos und termingerecht. Exzellente Arbeit!"},
+                        { name: "Thomas Bauer", text: "Hervorragende Qualität und tolle Kommunikation während des gesamten Projekts."}
+                    ],
+                    about_title: "Unsere Philosophie", about_desc: "Wir glauben, dass jedes Gebäude eine Geschichte erzählt. Unsere Mission ist es, diese Geschichten mit Respekt, Sorgfalt und höchster Handwerkskunst weiterzuschreiben. Unsere Kernwerte – Qualität, Pünktlichkeit und Transparenz – sind das Fundament jedes Projekts, das wir übernehmen.",
+                    contact_title: "Starten Sie Ihr Projekt", contact_subtitle: "Erzählen Sie uns von Ihrer Vision. Wir melden uns umgehend für eine kostenlose Erstberatung.",
+                    contact_success_title: "Vielen Dank!", contact_success_msg: "Ihre Nachricht wurde gesendet. Wir werden uns in Kürze bei Ihnen melden.",
+                    form_name_placeholder: "Ihr Name", form_phone_placeholder: "Ihre Telefonnummer", form_message_placeholder: "Beschreiben Sie kurz Ihr Projekt...", form_send_btn: "Anfrage Senden", form_sending_btn: "Senden...",
+                    callback_modal_title: "Kontakt & Rückruf", callback_modal_subtitle: "Wählen Sie Ihre bevorzugte Kontaktmethode.", callback_form_title: "Rückruf anfordern (Österreich)", form_phone_austria_placeholder: "664 1234567", callback_form_btn: "Rückruf anfordern", or_divider: "ODER", messenger_title: "Direkt per Messenger schreiben", whatsapp_btn: "WhatsApp", telegram_btn: "Telegram", callback_success_title: "Danke!", callback_success_msg: "Ihre Rückrufanfrage wurde gesendet. Wir melden uns in Kürze!",
+                    footer_about_title: "BauMeister", footer_about_desc: "Ihr zuverlässiger Partner für Sanierung und Renovierung. Wir schaffen Qualität, der Sie vertrauen können.",
+                    footer_links_title: "Navigation", footer_contact_title: "Kontakt", copyright: "&copy; 2024 BauMeister. Alle Rechte vorbehalten.",
+                    facebook_link_aria: "Besuchen Sie uns auf Facebook", instagram_link_aria: "Folgen Sie uns auf Instagram", telegram_link_aria: "Kontaktieren Sie uns über Telegram",
+                },
+                en: {
+                    page_title: "RenoMaster - Visionary Refurbishment & Renovation",
+                    nav_home: "Home", nav_services: "Services", nav_projects: "Projects", nav_about: "About Us", nav_contact: "Contact", request_callback_btn: "Request Callback",
+                    hero_title: "Quality that creates space.", hero_subtitle: "From vision to completion – we are your partner for sophisticated refurbishments and renovations throughout Austria.", hero_btn_1: "Request a Project", hero_btn_2: "Our Services",
+                    services_title: "Our Core Competencies", services_subtitle: "We combine traditional craftsmanship with the latest technology to guarantee first-class results.",
+                    service_1_title: "Complete Refurbishment", service_1_desc: "Holistic modernization of properties, from gutting to the final interior finishing.",
+                    service_2_title: "Apartment Renovation", service_2_desc: "From a new coat of paint to the complete redesign of individual living areas or entire apartments.",
+                    service_3_title: "Commercial Construction", service_3_desc: "Functional and representative conversions for offices, practices, and retail spaces.",
+                    portfolio_title: "Our Work Speaks for Itself", portfolio_subtitle: "Every project is a testament to our passion for quality and aesthetics. Discover a selection of our completed works.",
+                    filter_all: "All", filter_houses: "Houses", filter_apartments: "Apartments", filter_offices: "Commercial",
+                    portfolio_items: [
+                        { category: "houses", title: "Modern Villa" }, { category: "apartments", title: "Attic Apartment" }, { category: "offices", title: "Start-up Office" },
+                        { category: "houses", title: "Lakeside Bungalow" }, { category: "apartments", title: "Minimalist Loft" }, { category: "offices", title: "Creative Agency" },
+                        { category: "apartments", title: "Old Building Charm" }, { category: "houses", title: "Classic Country House" }
+                    ],
+                    testimonials_title: "What Our Clients Say",
+                    testimonials: [
+                        { name: "The Huber Family", text: "Absolutely professional and reliable. Our house conversion was a complete success!"},
+                        { name: "M. Schmidt", text: "The result exceeds all expectations. RenoMaster has transformed our apartment into an oasis."},
+                        { name: "Anna Wagner", text: "Creative, punctual, and on budget. The best craftsmen we have ever worked with."},
+                        { name: "Dr. Eva Klein", text: "The renovation of our practice went smoothly and on schedule. Excellent work!"},
+                        { name: "Thomas Bauer", text: "Outstanding quality and great communication throughout the entire project."}
+                    ],
+                    about_title: "Our Philosophy", about_desc: "We believe that every building tells a story. Our mission is to continue writing these stories with respect, care, and the highest level of craftsmanship. Our core values – Quality, Punctuality, and Transparency – are the foundation of every project we undertake.",
+                    contact_title: "Start Your Project", contact_subtitle: "Tell us about your vision. We will contact you promptly for a free initial consultation.",
+                    contact_success_title: "Thank You!", contact_success_msg: "Your message has been sent. We will contact you shortly.",
+                    form_name_placeholder: "Your Name", form_phone_placeholder: "Your Phone Number", form_message_placeholder: "Briefly describe your project...", form_send_btn: "Send Inquiry", form_sending_btn: "Sending...",
+                    callback_modal_title: "Contact & Callback", callback_modal_subtitle: "Choose your preferred contact method.", callback_form_title: "Request a callback (Austria)", form_phone_austria_placeholder: "664 1234567", callback_form_btn: "Request Callback", or_divider: "OR", messenger_title: "Contact us directly via Messenger", whatsapp_btn: "WhatsApp", telegram_btn: "Telegram", callback_success_title: "Thank you!", callback_success_msg: "Your callback request has been sent. We will contact you shortly!",
+                    footer_about_title: "RenoMaster", footer_about_desc: "Your reliable partner for refurbishment and renovation. We create quality you can trust.",
+                    footer_links_title: "Quick Links", footer_contact_title: "Contact", copyright: "&copy; 2024 RenoMaster. All Rights Reserved.",
+                    facebook_link_aria: "Visit us on Facebook", instagram_link_aria: "Follow us on Instagram", telegram_link_aria: "Contact us on Telegram",
+                }
             }
         };
 
-        // --- Initial Setup ---
-        document.addEventListener('DOMContentLoaded', () => {
-            feather.replace();
-            const savedLang = localStorage.getItem('language') || 'de';
-            setLanguage(savedLang);
-
-            // --- Header & Nav Logic ---
-            const header = document.getElementById('header');
-            const mobileMenu = document.getElementById('mobile-menu');
-            document.getElementById('mobile-menu-button').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-            mobileMenu.querySelectorAll('a, button').forEach(link => {
-                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-            });
-            window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50));
-
-            const navObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute('id');
-                        document.querySelectorAll('#main-nav .nav-link').forEach(link => {
-                            link.classList.toggle('active', link.dataset.scrollTo === id);
-                        });
-                    }
+        class Cursor {
+            constructor() {
+                this.cursor = document.querySelector('.cursor');
+                this.cursorDot = document.querySelector('.cursor-dot');
+                
+                window.addEventListener('mousemove', this.move.bind(this));
+                document.querySelectorAll('a, button, [role="button"], input, textarea').forEach(el => {
+                    el.addEventListener('mouseenter', () => this.cursor.classList.add('hover'));
+                    el.addEventListener('mouseleave', () => this.cursor.classList.remove('hover'));
                 });
-            }, { rootMargin: "-40% 0px -60% 0px" });
-            document.querySelectorAll('main section').forEach(section => navObserver.observe(section));
-            
-            // --- Reveal on Scroll ---
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+            }
 
-            // --- Accordion Logic ---
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.querySelector('.faq-question').addEventListener('click', () => item.classList.toggle('active'));
-            });
+            move(e) {
+                this.cursor.style.left = `${e.clientX}px`;
+                this.cursor.style.top = `${e.clientY}px`;
+                this.cursorDot.style.left = `${e.clientX}px`;
+                this.cursorDot.style.top = `${e.clientY}px`;
+            }
 
-            // --- Portfolio Filter Logic ---
-            const filterButtons = document.querySelectorAll('#portfolio-filter .filter-btn');
-            filterButtons[0].classList.add('bg-yellow-400', 'text-gray-900');
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const filter = button.dataset.filter;
-                    filterButtons.forEach(btn => btn.classList.remove('bg-yellow-400', 'text-gray-900'));
-                    button.classList.add('bg-yellow-400', 'text-gray-900');
-                    document.querySelectorAll('#portfolio-grid .portfolio-item').forEach(item => {
-                        item.classList.toggle('hidden', filter !== 'all' && item.dataset.category !== filter);
+            setGrab(isGrabbing) {
+                this.cursor.classList.toggle('grab', isGrabbing);
+            }
+        }
+        
+        class HolographicBlueprint {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.time = 0;
+                this.mouse = { x: 0, y: 0 };
+                this.rotation = { x: 0.5, y: -0.5 };
+                this.targetRotation = { x: 0.5, y: -0.5 };
+                this.drawProgress = 0;
+                this.isIntersecting = false;
+                
+                const s = 100; // size
+                this.initModel(s);
+                this.initParticles();
+                this.updateColors();
+                this.resize();
+
+                window.addEventListener('resize', () => this.resize());
+                this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
+                this.canvas.addEventListener('mouseleave', () => this.onMouseLeave());
+            }
+
+            initModel(s) {
+                 this.vertices = [
+                    {x: -s, y: -s, z: -s}, {x: s, y: -s, z: -s}, {x: s, y: s, z: -s}, {x: -s, y: s, z: -s},
+                    {x: -s, y: -s, z: s}, {x: s, y: -s, z: s}, {x: s, y: s, z: s}, {x: -s, y: s, z: s},
+                    {x: 0, y: -s, z: -s*1.5}, {x: 0, y: s, z: -s*1.5}
+                ];
+                this.edges = [
+                    [0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4],
+                    [0, 4], [1, 5], [2, 6], [3, 7], [0, 8], [1, 8], [2, 9], [3, 9], [8,9]
+                ];
+            }
+
+            initParticles() {
+                this.particles = [];
+                for (let i = 0; i < 150; i++) {
+                    this.particles.push({
+                        x: (Math.random() - 0.5) * 600, y: (Math.random() - 0.5) * 600,
+                        z: (Math.random() - 0.5) * 600, size: Math.random() * 2 + 1,
+                        speed: Math.random() * 0.1 + 0.05
                     });
-                });
-            });
+                }
+            }
 
-            // --- Modal Open/Close Logic ---
-            const openModal = (modal) => {
+            startAnimation() { this.isIntersecting = true; }
+
+            updateColors() {
+                const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim().replace(/ /g, ',');
+                this.colors = {
+                    line: `rgb(${primaryColor})`, glow: `rgba(${primaryColor}, 0.2)`,
+                    particle: `rgba(${primaryColor}, 0.5)`, light: `rgba(${primaryColor}, 0.08)`
+                };
+            }
+
+            resize() {
+                const container = this.canvas.parentElement;
+                const size = Math.min(container.clientWidth, 450);
+                this.canvas.width = size;
+                this.canvas.height = size;
+            }
+            
+            onMouseMove(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                this.targetRotation.y = (e.clientX - rect.left - this.canvas.width / 2) * 0.003;
+                this.targetRotation.x = (e.clientY - rect.top - this.canvas.height / 2) * 0.003;
+            }
+
+            onMouseLeave() {
+                this.targetRotation.y = 0;
+                this.targetRotation.x = 0;
+            }
+
+            project(point, rotX, sinX, rotY, sinY) {
+                const y1 = point.y * rotX - point.z * sinX, z1 = point.y * sinX + point.z * rotX;
+                const x1 = point.x * rotY - z1 * sinY, z2 = point.x * sinY + z1 * rotY;
+                const fov = 400;
+                const scale = fov / (fov + z2);
+                return { x: x1 * scale + this.canvas.width / 2, y: y1 * scale + this.canvas.height / 2, scale };
+            }
+
+            draw() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.time += 0.01;
+                if (this.isIntersecting && this.drawProgress < 1) this.drawProgress += 0.015;
+
+                this.rotation.x += (this.targetRotation.x - this.rotation.x) * 0.05;
+                this.rotation.y += (this.targetRotation.y - this.rotation.y) * 0.05;
+                this.rotation.x += Math.sin(this.time * 0.5) * 0.0001; this.rotation.y += 0.0008;
+
+                const rotX = Math.cos(this.rotation.x), sinX = Math.sin(this.rotation.x);
+                const rotY = Math.cos(this.rotation.y), sinY = Math.sin(this.rotation.y);
+                
+                this.ctx.fillStyle = this.colors.particle;
+                this.particles.forEach(p => {
+                    p.z -= p.speed;
+                    if (p.z < -300) p.z = 300;
+                    const proj = this.project(p, rotX, sinX, rotY, sinY);
+                    if (proj.scale > 0) {
+                        this.ctx.beginPath(); this.ctx.arc(proj.x, proj.y, p.size * proj.scale, 0, Math.PI * 2); this.ctx.fill();
+                    }
+                });
+                
+                const pulse = (Math.sin(this.time * 3) + 1) / 2;
+                const projected = this.vertices.map(v => this.project(v, rotX, sinX, rotY, sinY));
+                
+                this.ctx.strokeStyle = this.colors.line; this.ctx.lineWidth = 1.5 + pulse;
+                this.ctx.shadowBlur = 10 + pulse * 10; this.ctx.shadowColor = this.colors.glow;
+                
+                const edgesToDraw = Math.floor(this.edges.length * this.drawProgress);
+                for(let i = 0; i < edgesToDraw; i++) {
+                    const e = this.edges[i], p1 = projected[e[0]], p2 = projected[e[1]];
+                    this.ctx.beginPath(); this.ctx.moveTo(p1.x, p1.y); this.ctx.lineTo(p2.x, p2.y); this.ctx.stroke();
+                }
+                this.ctx.shadowBlur = 0;
+            }
+
+            run() {
+                const loop = () => { this.draw(); requestAnimationFrame(loop); };
+                requestAnimationFrame(loop);
+            }
+        }
+        
+        class BauMeisterApp {
+            constructor(config) {
+                this.config = config; this.currentLang = 'de'; this.elements = {};
+                this.slider = { currentIndex: 0, itemsPerView: 3, totalItems: 0, isTransitioning: false };
+                this.portfolioSlider = { isDown: false, startX: 0, scrollLeft: 0, velocity: 0, currentX: 0, targetX: 0 };
+                document.addEventListener('DOMContentLoaded', () => this.init());
+            }
+
+            init() {
+                this.cacheDOMElements(); this.registerEventListeners(); this.initAssetsAndLinks();
+                this.updateTheme(true); this.initHeaderObserver(); this.initRevealOnScroll();
+                this.initBlueprint(); this.cursor = new Cursor();
+                const savedLang = localStorage.getItem('language') || 'de'; this.setLanguage(savedLang);
+                this.runPortfolioSlider();
+            }
+
+            cacheDOMElements() {
+                this.elements.header = document.getElementById('header');
+                this.elements.mainNavLinks = document.querySelectorAll('#main-nav .nav-link');
+                this.elements.mobileMenu = document.getElementById('mobile-menu');
+                this.elements.themeToggleBtn = document.getElementById('theme-toggle');
+                this.elements.langDeBtn = document.getElementById('lang-de');
+                this.elements.langEnBtn = document.getElementById('lang-en');
+                this.elements.portfolioSliderEl = document.getElementById('portfolio-slider');
+                this.elements.portfolioSliderContainer = document.getElementById('portfolio-slider-container');
+                this.elements.portfolioFilterBtns = document.querySelectorAll('#portfolio-filter .filter-btn');
+                this.elements.portfolioProgressIndicator = document.getElementById('portfolio-progress-indicator');
+                this.elements.testimonialSlider = document.getElementById('testimonial-slider');
+                this.elements.testimonialContainer = document.querySelector('.testimonial-slider-container');
+                this.elements.nextTestimonialBtn = document.getElementById('next-testimonial');
+                this.elements.prevTestimonialBtn = document.getElementById('prev-testimonial');
+                this.elements.mainContactForm = document.getElementById('main-contact-form');
+                this.elements.callbackForm = document.getElementById('callback-form');
+                this.elements.callbackModal = document.getElementById('callback-modal');
+                this.elements.blueprintCanvas = document.getElementById('blueprint-canvas');
+            }
+
+            registerEventListeners() {
+                window.addEventListener('scroll', () => this.elements.header.classList.toggle('scrolled', window.scrollY > 50));
+                this.elements.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
+                this.elements.langDeBtn.addEventListener('click', () => this.setLanguage('de'));
+                this.elements.langEnBtn.addEventListener('click', () => this.setLanguage('en'));
+                document.getElementById('mobile-menu-button').addEventListener('click', () => this.elements.mobileMenu.classList.toggle('hidden'));
+                this.elements.mobileMenu.querySelectorAll('a, button').forEach(link => {
+                    link.addEventListener('click', () => this.elements.mobileMenu.classList.add('hidden'));
+                });
+                this.elements.portfolioFilterBtns.forEach(button => {
+                    button.addEventListener('click', (e) => this.filterPortfolio(e.currentTarget));
+                });
+                this.elements.nextTestimonialBtn.addEventListener('click', () => this.moveTestimonialSlider('next'));
+                this.elements.prevTestimonialBtn.addEventListener('click', () => this.moveTestimonialSlider('prev'));
+                this.elements.testimonialSlider.addEventListener('transitionend', () => this.handleTestimonialLoop());
+                window.addEventListener('resize', () => this.setupTestimonialSlider());
+                this.elements.mainContactForm.addEventListener('submit', (e) => this.handleFormSubmit(e, 'contact'));
+                this.elements.callbackForm.addEventListener('submit', (e) => this.handleFormSubmit(e, 'callback'));
+                [document.getElementById('callback-modal-trigger'), document.getElementById('callback-modal-trigger-mobile')].forEach(trigger => {
+                    trigger.addEventListener('click', () => this.openModal(this.elements.callbackModal));
+                });
+                document.getElementById('callback-modal-close').addEventListener('click', () => this.closeModal(this.elements.callbackModal));
+                this.elements.callbackModal.addEventListener('click', (e) => {
+                    if (e.target === this.elements.callbackModal) this.closeModal(this.elements.callbackModal);
+                });
+
+                // Portfolio Slider Events
+                const sliderContainer = this.elements.portfolioSliderContainer;
+                sliderContainer.addEventListener('mousedown', (e) => this.portfolioSliderStart(e));
+                sliderContainer.addEventListener('mouseleave', () => this.portfolioSliderEnd());
+                sliderContainer.addEventListener('mouseup', () => this.portfolioSliderEnd());
+                sliderContainer.addEventListener('mousemove', (e) => this.portfolioSliderMove(e));
+            }
+
+            initAssetsAndLinks() {
+                document.getElementById('hero-bg-img').src = this.config.assets.heroBg;
+                document.querySelector('a[data-translate-aria="facebook_link_aria"]').href = this.config.contact.social.facebook;
+                document.querySelector('a[data-translate-aria="instagram_link_aria"]').href = this.config.contact.social.instagram;
+                document.querySelector('a[data-translate-aria="telegram_link_aria"]').href = this.config.contact.social.telegram;
+                document.getElementById('whatsapp-link').href = `https://wa.me/${this.config.contact.whatsappNumber}`;
+                document.getElementById('telegram-link').href = `https://t.me/${this.config.contact.telegramUsername}`;
+            }
+
+            setLanguage(lang) {
+                this.currentLang = lang;
+                const content = this.config.content[lang];
+                document.documentElement.lang = lang;
+                localStorage.setItem('language', lang);
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (content[key]) {
+                         if (el.placeholder !== undefined) el.placeholder = content[key];
+                         else el.innerHTML = content[key];
+                    }
+                });
+                document.querySelectorAll('[data-translate-aria]').forEach(el => {
+                    const key = el.dataset.translateAria;
+                    if (content[key]) el.setAttribute('aria-label', content[key]);
+                });
+                document.querySelector('a[data-translate="phone_number_footer"]').href = `tel:${this.config.contact.phone}`;
+                document.querySelector('a[data-translate="email_footer"]').href = `mailto:${this.config.contact.email}`;
+                document.querySelector('[data-translate="address"]').textContent = this.config.contact.address;
+                this.elements.langDeBtn.classList.toggle('accent-blue', lang === 'de');
+                this.elements.langDeBtn.classList.toggle('text-white', lang === 'de');
+                this.elements.langEnBtn.classList.toggle('accent-blue', lang === 'en');
+                this.elements.langEnBtn.classList.toggle('text-white', lang === 'en');
+                document.title = content.page_title;
+                this.populatePortfolio();
+                this.populateTestimonials();
+                this.setupTestimonialSlider();
+                this.activatePortfolioFilter(this.elements.portfolioFilterBtns[0]);
+            }
+
+            toggleTheme() {
+                document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+                this.updateTheme();
+            }
+
+            updateTheme(isInitial = false) {
+                const isDark = document.documentElement.classList.contains('dark');
+                document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', !isDark);
+                document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', isDark);
+                if (!isInitial && this.blueprintInstance) {
+                    this.blueprintInstance.updateColors();
+                }
+            }
+
+            initHeaderObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.getAttribute('id');
+                            this.elements.mainNavLinks.forEach(link => {
+                                link.classList.toggle('active', link.dataset.scrollTo === id);
+                            });
+                        }
+                    });
+                }, { rootMargin: "-20% 0px -80% 0px" });
+                document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
+            }
+
+            initRevealOnScroll() {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            if (entry.target.id === 'blueprint-container' && this.blueprintInstance) {
+                                this.blueprintInstance.startAnimation();
+                            }
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.2 });
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            }
+
+            // --- New Portfolio Slider Logic ---
+            populatePortfolio() {
+                this.elements.portfolioSliderEl.innerHTML = '';
+                const items = this.config.content[this.currentLang].portfolio_items;
+                items.forEach((item, index) => {
+                    const el = document.createElement('div');
+                    const category = this.config.content.de.portfolio_items[index].category;
+                    el.className = "portfolio-slide";
+                    el.dataset.category = category;
+                    el.innerHTML = `
+                        <div class="portfolio-slide-image" style="background-image: url('${this.config.assets.portfolio[index]}')"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6 text-white">
+                            <h3 class="text-xl font-semibold">${item.title}</h3>
+                        </div>`;
+                    this.elements.portfolioSliderEl.appendChild(el);
+                });
+                this.elements.portfolioSlides = Array.from(this.elements.portfolioSliderEl.children);
+            }
+
+            filterPortfolio(button) {
+                this.activatePortfolioFilter(button);
+                const filter = button.dataset.filter;
+                
+                let firstVisibleItem = null;
+                this.elements.portfolioSlides.forEach(item => {
+                    const shouldShow = filter === 'all' || item.dataset.category === filter;
+                    item.style.display = shouldShow ? 'block' : 'none';
+                    if(shouldShow && !firstVisibleItem) {
+                        firstVisibleItem = item;
+                    }
+                });
+                
+                if (firstVisibleItem) {
+                    this.portfolioSlider.targetX = -firstVisibleItem.offsetLeft;
+                }
+            }
+
+            activatePortfolioFilter(activeButton) {
+                this.elements.portfolioFilterBtns.forEach(btn => btn.classList.remove('accent-blue', 'text-white'));
+                activeButton.classList.add('accent-blue', 'text-white');
+            }
+
+            portfolioSliderStart(e) {
+                this.portfolioSlider.isDown = true;
+                this.cursor.setGrab(true);
+                this.portfolioSlider.startX = e.pageX - this.elements.portfolioSliderEl.offsetLeft;
+                this.portfolioSlider.scrollLeft = this.portfolioSlider.targetX;
+                this.portfolioSlider.velocity = 0;
+            }
+
+            portfolioSliderEnd() {
+                this.portfolioSlider.isDown = false;
+                this.cursor.setGrab(false);
+            }
+
+            portfolioSliderMove(e) {
+                if (!this.portfolioSlider.isDown) return;
+                e.preventDefault();
+                const x = e.pageX - this.elements.portfolioSliderEl.offsetLeft;
+                const walk = (x - this.portfolioSlider.startX);
+                const prevX = this.portfolioSlider.targetX;
+                this.portfolioSlider.targetX = this.portfolioSlider.scrollLeft + walk;
+                this.portfolioSlider.velocity = this.portfolioSlider.targetX - prevX;
+            }
+            
+            runPortfolioSlider() {
+                const slider = this.portfolioSlider;
+                const el = this.elements.portfolioSliderEl;
+                const container = this.elements.portfolioSliderContainer;
+                
+                const update = () => {
+                    // Ease the movement
+                    slider.currentX += (slider.targetX - slider.currentX) * 0.1;
+
+                    // Apply inertia
+                    if (!slider.isDown) {
+                        slider.velocity *= 0.95;
+                        slider.targetX += slider.velocity;
+                        if(Math.abs(slider.velocity) < 0.1) slider.velocity = 0;
+                    }
+                    
+                    // Clamp boundaries
+                    const maxScroll = el.scrollWidth - container.clientWidth;
+                    slider.targetX = Math.max(-maxScroll, Math.min(0, slider.targetX));
+                    slider.currentX = Math.max(-maxScroll, Math.min(0, slider.currentX));
+
+                    el.style.transform = `translateX(${slider.currentX}px)`;
+
+                    // Parallax & Progress
+                    const progress = -slider.currentX / maxScroll;
+                    this.elements.portfolioProgressIndicator.style.width = `${progress * 100}%`;
+
+                    this.elements.portfolioSlides.forEach(slide => {
+                        const image = slide.querySelector('.portfolio-slide-image');
+                        const slideRect = slide.getBoundingClientRect();
+                        const containerRect = container.getBoundingClientRect();
+                        const percentInView = 1 - Math.abs(slideRect.left - containerRect.left) / containerRect.width;
+                        const parallaxOffset = (1 - percentInView) * 150;
+                        if(image) image.style.transform = `translateX(${parallaxOffset}px)`;
+                    });
+
+                    requestAnimationFrame(update);
+                }
+                update();
+            }
+
+            // --- End New Portfolio Logic ---
+            
+            populateTestimonials() {
+                const testimonials = this.config.content[this.currentLang].testimonials;
+                this.slider.totalItems = testimonials.length;
+                const allTestimonials = [...testimonials, ...testimonials, ...testimonials];
+                this.elements.testimonialSlider.innerHTML = '';
+                allTestimonials.forEach(testimonial => {
+                    const slide = document.createElement('div');
+                    slide.className = 'testimonial-slide p-4';
+                    slide.innerHTML = `<div class="bg-alt p-8 rounded-lg shadow-lg border border-main h-full flex flex-col justify-center"><p class="italic text-heading mb-4">"${testimonial.text}"</p><p class="font-semibold text-main">- ${testimonial.name}</p></div>`;
+                    this.elements.testimonialSlider.appendChild(slide);
+                });
+            }
+
+            setupTestimonialSlider() {
+                if (window.innerWidth < 768) this.slider.itemsPerView = 1;
+                else if (window.innerWidth < 1024) this.slider.itemsPerView = 2;
+                else this.slider.itemsPerView = 3;
+
+                this.slider.currentIndex = this.slider.totalItems;
+                this.elements.testimonialSlider.style.transition = 'none';
+                this.updateTestimonialSlider();
+                setTimeout(() => {
+                    this.elements.testimonialSlider.style.transition = 'transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1)';
+                }, 50);
+            }
+            
+            moveTestimonialSlider(direction) {
+                if (this.slider.isTransitioning) return;
+                this.slider.isTransitioning = true;
+                this.slider.currentIndex += (direction === 'next' ? 1 : -1);
+                this.updateTestimonialSlider();
+            }
+
+            handleTestimonialLoop() {
+                if (this.slider.currentIndex >= this.slider.totalItems * 2) {
+                    this.elements.testimonialSlider.style.transition = 'none';
+                    this.slider.currentIndex = this.slider.totalItems;
+                    this.updateTestimonialSlider();
+                }
+                if (this.slider.currentIndex <= this.slider.totalItems - 1) {
+                    this.elements.testimonialSlider.style.transition = 'none';
+                    this.slider.currentIndex = this.slider.totalItems * 2 - 1;
+                    this.updateTestimonialSlider();
+                }
+                setTimeout(() => {
+                    this.elements.testimonialSlider.style.transition = 'transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1)';
+                    this.slider.isTransitioning = false;
+                }, 50);
+            }
+
+            updateTestimonialSlider() {
+                const slideWidth = this.elements.testimonialContainer.clientWidth / this.slider.itemsPerView;
+                this.elements.testimonialSlider.style.transform = `translateX(-${this.slider.currentIndex * slideWidth}px)`;
+            }
+            
+            initBlueprint() {
+                if (!this.elements.blueprintCanvas) return;
+                this.blueprintInstance = new HolographicBlueprint(this.elements.blueprintCanvas);
+                this.blueprintInstance.run();
+            }
+            
+            handleFormSubmit(event, formType) {
+                event.preventDefault();
+                const form = event.target;
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+                const sendingText = this.config.content[this.currentLang].form_sending_btn || 'Sending...';
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = sendingText;
+
+                setTimeout(() => {
+                    const wrapperId = `${formType}-form-wrapper`;
+                    const successId = `${formType}-form-success`;
+                    document.getElementById(wrapperId).classList.add('hidden');
+                    document.getElementById(successId).classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        document.getElementById(wrapperId).classList.remove('hidden');
+                        document.getElementById(successId).classList.add('hidden');
+                        form.reset();
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                    }, 4000);
+
+                }, 1000);
+            }
+
+            openModal(modal) {
                 modal.classList.remove('hidden');
                 setTimeout(() => modal.classList.add('open', 'opacity-100'), 10);
                 document.body.style.overflow = 'hidden';
-            };
-            const closeModal = (modal) => {
+            }
+
+            closeModal(modal) {
                 modal.classList.remove('open', 'opacity-100');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    document.body.style.overflow = 'auto';
+                setTimeout(() => { 
+                    modal.classList.add('hidden'); 
+                    document.body.style.overflow = 'auto'; 
                 }, 300);
-            };
-
-            // --- Lightbox Logic ---
-            const lightbox = document.getElementById('lightbox');
-            document.getElementById('lightbox-close').addEventListener('click', () => closeModal(lightbox));
-            lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeModal(lightbox); });
-
-            // --- Callback Modal Logic ---
-            const callbackModal = document.getElementById('callback-modal');
-            document.getElementById('callback-modal-trigger').addEventListener('click', () => openModal(callbackModal));
-            document.getElementById('callback-modal-trigger-mobile').addEventListener('click', () => openModal(callbackModal));
-            document.getElementById('callback-modal-close').addEventListener('click', () => closeModal(callbackModal));
-            callbackModal.addEventListener('click', (e) => { if (e.target === callbackModal) closeModal(callbackModal); });
-
-            // --- Callback Timer Logic ---
-            const callbackForm = document.getElementById('callback-modal-form');
-            let timerInterval;
-            callbackForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (document.getElementById('callback-modal-phone').value) {
-                    document.getElementById('callback-modal-form-container').classList.add('hidden');
-                    document.getElementById('callback-modal-success').classList.remove('hidden');
-                    let duration = 600;
-                    clearInterval(timerInterval);
-                    timerInterval = setInterval(() => {
-                        const minutes = Math.floor(duration / 60).toString().padStart(2, '0');
-                        const seconds = (duration % 60).toString().padStart(2, '0');
-                        document.getElementById('modal-timer').textContent = `${minutes}:${seconds}`;
-                        if (--duration < 0) {
-                            clearInterval(timerInterval);
-                            const lang = document.documentElement.lang;
-                            document.getElementById('modal-timer').textContent = content[lang].callback_timer_end;
-                        }
-                    }, 1000);
-                }
-            });
-
-            // --- Language Switcher Logic ---
-            document.getElementById('lang-de').addEventListener('click', () => setLanguage('de'));
-            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
-        });
-
-        function setLanguage(lang) {
-            document.documentElement.lang = lang;
-            localStorage.setItem('language', lang);
-            
-            document.querySelectorAll('[data-translate]').forEach(el => {
-                const key = el.dataset.translate;
-                if (content[lang][key]) {
-                    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.placeholder = content[lang][key];
-                    } else {
-                        el.innerHTML = content[lang][key];
-                    }
-                }
-            });
-            
-            document.getElementById('lang-de').classList.toggle('active', lang === 'de');
-            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-            document.title = content[lang].page_title;
-            populatePortfolio(lang);
-            feather.replace();
+            }
         }
 
-        function populatePortfolio(lang) {
-            const portfolioGrid = document.getElementById('portfolio-grid');
-            const portfolioData = content[lang].portfolio_items;
-            portfolioGrid.innerHTML = '';
-
-            portfolioData.forEach(item => {
-                const portfolioItem = document.createElement('div');
-                portfolioItem.className = "portfolio-item group relative overflow-hidden cursor-pointer";
-                portfolioItem.dataset.category = item.category;
-                portfolioItem.dataset.img = item.img;
-                portfolioItem.dataset.title = item.title;
-                portfolioItem.dataset.desc = item.desc;
-                portfolioItem.innerHTML = `
-                    <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
-                    <div class="portfolio-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <div class="p-4 text-center text-white">
-                            <div class="block w-14 h-14 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-2"><i data-feather="eye" class="w-7 h-7"></i></div>
-                            <h3 class="font-bold uppercase">${item.title}</h3>
-                        </div>
-                    </div>
-                `;
-                portfolioGrid.appendChild(portfolioItem);
-            });
-
-            const lightbox = document.getElementById('lightbox');
-            document.querySelectorAll('.portfolio-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    document.getElementById('lightbox-img').src = item.dataset.img;
-                    document.getElementById('lightbox-title').textContent = item.dataset.title;
-                    document.getElementById('lightbox-desc').textContent = item.dataset.desc;
-                    lightbox.classList.remove('hidden');
-                    setTimeout(() => lightbox.classList.add('open', 'opacity-100'), 10);
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-        }
+        new BauMeisterApp(siteConfig);
     </script>
 </body>
 </html>
+
