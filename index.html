@@ -10,7 +10,7 @@
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome (v5 latest) -->
@@ -19,24 +19,14 @@
     <!-- Custom Styles & Dark Mode -->
     <style>
         :root {
-            --color-primary: 37 99 235; /* blue-600 */
-            --color-primary-hover: 29 78 216; /* blue-700 */
-            --color-secondary: 234 179 8; /* yellow-500 */
-            --color-text: 75 85 99; /* gray-500 */
-            --color-heading: 17 24 39; /* gray-900 */
-            --color-bg: 249 250 251; /* gray-50 */
-            --color-bg-alt: 255 255 255; /* white */
-            --color-border: 229 231 235; /* gray-200 */
-        }
-
-        html.dark {
             --color-primary: 59 130 246; /* blue-500 */
             --color-primary-hover: 96 165 250; /* blue-400 */
-            --color-text: 209 213 219; /* gray-300 - Increased contrast */
-            --color-heading: 243 244 246; /* gray-100 */
-            --color-bg: 17 24 39; /* gray-900 */
-            --color-bg-alt: 31 41 55; /* gray-800 */
-            --color-border: 55 65 81; /* gray-600 */
+            --color-secondary: 234 179 8; /* yellow-500 */
+            --color-text: 209 213 219; /* gray-300 */
+            --color-heading: 240 245 255; /* slate-100 */
+            --color-bg: 10 17 36; /* Dark Navy */
+            --color-bg-alt: 21 30 54; /* Slightly Lighter Navy */
+            --color-border: 42 56 88; /* Subtle Border */
         }
         
         body {
@@ -47,6 +37,15 @@
             position: relative;
             overflow-x: hidden;
             cursor: none; /* Custom cursor */
+        }
+
+        #background-shader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         /* Custom Cursor */
@@ -94,44 +93,7 @@
             cursor: none;
         }
 
-        .blob-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.25;
-        }
-        html.dark .blob { opacity: 0.35; }
-        .blob1 {
-            width: 600px;
-            height: 600px;
-            background: rgba(var(--color-primary), 0.5);
-            animation: move1 35s infinite alternate;
-        }
-        .blob2 {
-            width: 500px;
-            height: 500px;
-            background: rgba(var(--color-secondary), 0.5);
-            animation: move2 40s infinite alternate;
-        }
-        @keyframes move1 {
-            from { transform: translate(-20%, -20%) rotate(0deg); }
-            to { transform: translate(70vw, 80vh) rotate(360deg); }
-        }
-        @keyframes move2 {
-            from { transform: translate(80vw, 10vh) rotate(0deg); }
-            to { transform: translate(5vw, 90vh) rotate(-360deg); }
-        }
-
-        .bg-main { background-color: rgb(var(--color-bg)); }
+        .bg-main { background-color: transparent; }
         .bg-alt { background-color: rgb(var(--color-bg-alt)); }
         .text-main { color: rgb(var(--color-text)); }
         .text-heading { color: rgb(var(--color-heading)); }
@@ -230,7 +192,6 @@
             transform: scale(1.1);
         }
         
-        /* New Portfolio Slider Styles */
         #portfolio-slider-wrapper {
             cursor: none;
             overflow: hidden;
@@ -254,7 +215,7 @@
         }
          @media (max-width: 1280px) {
              #portfolio-slider {
-                 padding-left: 1.5rem; /* Corresponds to px-6 from container */
+                 padding-left: 1.5rem;
                  padding-right: 1.5rem;
              }
          }
@@ -293,26 +254,15 @@
             height: auto;
             cursor: none;
         }
-        #blueprint-canvas:active {
-            cursor: none;
-        }
-
-        .testimonial-slider-container {
-            position: relative;
-        }
+        
+        .testimonial-slider-container { position: relative; }
         .testimonial-slider {
             display: flex;
             transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .testimonial-slide {
-            flex: 0 0 100%;
-        }
-        @media (min-width: 768px) {
-            .testimonial-slide { flex: 0 0 50%; }
-        }
-        @media (min-width: 1024px) {
-            .testimonial-slide { flex: 0 0 33.3333%; }
-        }
+        .testimonial-slide { flex: 0 0 100%; }
+        @media (min-width: 768px) { .testimonial-slide { flex: 0 0 50%; } }
+        @media (min-width: 1024px) { .testimonial-slide { flex: 0 0 33.3333%; } }
 
         .footer-container {
             position: relative;
@@ -333,65 +283,30 @@
             100% { transform: translateX(100%); }
         }
 
-        .footer-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .footer-link:hover {
-            color: rgb(var(--color-primary));
-        }
+        .footer-link { position: relative; transition: color 0.3s ease; }
+        .footer-link:hover { color: rgb(var(--color-primary)); }
         .footer-link::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background-color: rgb(var(--color-primary));
-            transform: scaleX(0);
-            transform-origin: center;
+            content: ''; position: absolute; width: 100%; height: 1px;
+            bottom: -2px; left: 0; background-color: rgb(var(--color-primary));
+            transform: scaleX(0); transform-origin: center;
             transition: transform 0.3s ease-out;
         }
-        .footer-link:hover::after {
-            transform: scaleX(1);
-        }
-
-        .social-icons-footer a {
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
+        .footer-link:hover::after { transform: scaleX(1); }
+        .social-icons-footer a { transition: transform 0.3s ease, color 0.3s ease; }
         .social-icons-footer a:hover {
             transform: translateY(-3px) scale(1.1);
             color: rgb(var(--color-primary));
         }
-
-        .modal {
-            transition: opacity 0.3s ease-in-out;
-        }
-        .modal-content {
-            transition: transform 0.3s ease-in-out;
-        }
-        .modal.open .modal-content {
-            transform: scale(1) translateY(0);
-        }
+        .modal { transition: opacity 0.3s ease-in-out; }
+        .modal-content { transition: transform 0.3s ease-in-out; }
+        .modal.open .modal-content { transform: scale(1) translateY(0); }
     </style>
-    
-    <script>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-    </script>
 </head>
 <body class="text-main">
+    <canvas id="background-shader"></canvas>
     <div class="cursor"></div>
     <div class="cursor-dot"></div>
     
-    <div class="blob-container">
-        <div class="blob blob1"></div>
-        <div class="blob blob2"></div>
-    </div>
-
     <header id="header" class="fixed top-0 left-0 right-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#hero" class="text-3xl font-bold text-heading tracking-wider">BAUMEISTER</a>
@@ -404,14 +319,10 @@
             </div>
             <div class="hidden lg:flex items-center gap-4">
                  <button id="callback-modal-trigger" class="accent-blue text-white font-semibold px-5 py-2 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300" data-translate="request_callback_btn">Rückruf anfordern</button>
-                 <div class="lang-switcher flex items-center text-sm font-semibold bg-main p-0.5 rounded-lg border border-main">
+                 <div class="lang-switcher flex items-center text-sm font-semibold bg-bg p-0.5 rounded-lg border border-main">
                     <button id="lang-de" class="px-2 py-1 rounded-md">DE</button>
                     <button id="lang-en" class="px-2 py-1 rounded-md">EN</button>
                 </div>
-                <button id="theme-toggle" class="text-heading hover:accent-blue-text transition-colors" aria-label="Toggle light/dark theme">
-                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                </button>
             </div>
             <button id="mobile-menu-button" class="lg:hidden text-heading focus:outline-none" aria-label="Open mobile menu">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -432,22 +343,22 @@
     <main>
         <section id="hero" class="relative pt-32 pb-20 lg:pt-48 lg:pb-28">
             <div class="absolute inset-0 overflow-hidden">
-                <img id="hero-bg-img" class="w-full h-full object-cover" alt="Modern interior design">
-                <div class="absolute inset-0 bg-gray-900/40"></div>
+                <img id="hero-bg-img" class="w-full h-full object-cover opacity-50" alt="Modern interior design">
+                <div class="absolute inset-0 bg-black/40"></div>
             </div>
             <div class="container mx-auto px-6 relative">
                 <div class="max-w-3xl text-white">
                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 reveal" data-translate="hero_title">Qualität, die Räume schafft.</h1>
-                    <p class="text-lg md:text-xl max-w-2xl mb-8 reveal" style="transition-delay: 150ms;" data-translate="hero_subtitle">Von der Vision bis zur Vollendung – wir sind Ihr Partner für anspruchsvolle Sanierungen und Renovierungen in ganz Österreich.</p>
+                    <p class="text-lg md:text-xl max-w-2xl mb-8 reveal text-gray-200" style="transition-delay: 150ms;" data-translate="hero_subtitle">Von der Vision bis zur Vollendung – wir sind Ihr Partner für anspruchsvolle Sanierungen und Renovierungen in ganz Österreich.</p>
                     <div class="flex flex-wrap gap-4 reveal" style="transition-delay: 300ms;">
                         <a href="#contact" class="accent-blue text-white font-semibold px-8 py-3 rounded-lg shadow-lg transform hover:-translate-y-1 transition duration-300" data-translate="hero_btn_1">Projekt anfragen</a>
-                        <a href="#services" class="bg-white/20 backdrop-blur-sm text-white font-semibold px-8 py-3 rounded-lg transform hover:-translate-y-1 transition duration-300" data-translate="hero_btn_2">Unsere Leistungen</a>
+                        <a href="#services" class="bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-3 rounded-lg transform hover:-translate-y-1 transition duration-300 border border-white/20" data-translate="hero_btn_2">Unsere Leistungen</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="services" class="py-24 bg-main">
+        <section id="services" class="py-24">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                      <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4 reveal" data-translate="services_title">Unsere Kernkompetenzen</h2>
@@ -457,7 +368,7 @@
                     <div class="service-card reveal">
                         <div class="service-card-inner">
                             <div class="service-card-front flex flex-col justify-center items-center p-6 text-center">
-                                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-drafting-compass fa-2x"></i></div>
+                                <div class="w-16 h-16 bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-drafting-compass fa-2x"></i></div>
                                 <h3 class="text-xl font-bold text-heading" data-translate="service_1_title">Komplettsanierung</h3>
                             </div>
                             <div class="service-card-back"><p data-translate="service_1_desc"></p></div>
@@ -466,7 +377,7 @@
                     <div class="service-card reveal" style="transition-delay: 150ms;">
                          <div class="service-card-inner">
                             <div class="service-card-front flex flex-col justify-center items-center p-6 text-center">
-                                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-home fa-2x"></i></div>
+                                <div class="w-16 h-16 bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-home fa-2x"></i></div>
                                 <h3 class="text-xl font-bold text-heading" data-translate="service_2_title">Wohnungsrenovierung</h3>
                             </div>
                             <div class="service-card-back"><p data-translate="service_2_desc"></p></div>
@@ -475,7 +386,7 @@
                     <div class="service-card reveal" style="transition-delay: 300ms;">
                         <div class="service-card-inner">
                             <div class="service-card-front flex flex-col justify-center items-center p-6 text-center">
-                                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-building fa-2x"></i></div>
+                                <div class="w-16 h-16 bg-blue-900/50 accent-blue-text rounded-full flex items-center justify-center mb-6 service-icon"><i class="fas fa-building fa-2x"></i></div>
                                 <h3 class="text-xl font-bold text-heading" data-translate="service_3_title">Gewerbebau</h3>
                             </div>
                             <div class="service-card-back"><p data-translate="service_3_desc"></p></div>
@@ -508,15 +419,15 @@
             </div>
         </section>
 
-        <section id="testimonials" class="py-24 bg-main">
+        <section id="testimonials" class="py-24">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4 reveal" data-translate="testimonials_title">Stimmen unserer Kunden</h2>
                 </div>
                 <div class="testimonial-slider-container overflow-hidden relative reveal mt-12">
                      <div id="testimonial-slider" class="testimonial-slider"></div>
-                     <button id="prev-testimonial" aria-label="Previous testimonial" class="absolute top-1/2 -left-4 -translate-y-1/2 bg-alt p-2 rounded-full shadow-md hover:bg-main transition z-10 hidden md:block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-                    <button id="next-testimonial" aria-label="Next testimonial" class="absolute top-1/2 -right-4 -translate-y-1/2 bg-alt p-2 rounded-full shadow-md hover:bg-main transition z-10 hidden md:block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                     <button id="prev-testimonial" aria-label="Previous testimonial" class="absolute top-1/2 -left-4 -translate-y-1/2 bg-alt p-2 rounded-full shadow-md hover:bg-bg transition z-10 hidden md:block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button id="next-testimonial" aria-label="Next testimonial" class="absolute top-1/2 -right-4 -translate-y-1/2 bg-alt p-2 rounded-full shadow-md hover:bg-bg transition z-10 hidden md:block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                 </div>
             </div>
         </section>
@@ -535,7 +446,7 @@
             </div>
         </section>
         
-        <section id="contact" class="py-24 bg-main">
+        <section id="contact" class="py-24">
             <div class="container mx-auto px-6">
                  <div class="bg-alt p-8 md:p-12 rounded-lg shadow-xl max-w-4xl mx-auto reveal border border-main">
                     <div id="contact-form-wrapper">
@@ -543,11 +454,11 @@
                         <p class="text-center mb-10" data-translate="contact_subtitle">Erzählen Sie uns von Ihrer Vision. Wir melden uns umgehend für eine kostenlose Erstberatung.</p>
                         <form id="main-contact-form" action="#" method="POST" novalidate>
                             <div class="grid md:grid-cols-2 gap-6 mb-5">
-                                <input type="text" name="name" class="w-full p-4 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
-                                <input type="tel" name="phone" class="w-full p-4 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_phone_placeholder" placeholder="Ihre Telefonnummer" required>
+                                <input type="text" name="name" class="w-full p-4 bg-bg border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition placeholder-gray-400" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
+                                <input type="tel" name="phone" class="w-full p-4 bg-bg border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition placeholder-gray-400" data-translate="form_phone_placeholder" placeholder="Ihre Telefonnummer" required>
                             </div>
                             <div class="mb-5">
-                                <textarea name="message" rows="5" class="w-full p-4 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_message_placeholder" placeholder="Beschreiben Sie kurz Ihr Projekt..."></textarea>
+                                <textarea name="message" rows="5" class="w-full p-4 bg-bg border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition placeholder-gray-400" data-translate="form_message_placeholder" placeholder="Beschreiben Sie kurz Ihr Projekt..."></textarea>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="w-full md:w-auto accent-blue text-white font-semibold py-3 px-10 rounded-lg shadow-lg transform hover:-translate-y-1 transition" data-translate="form_send_btn">Anfrage Senden</button>
@@ -555,7 +466,7 @@
                         </form>
                     </div>
                     <div id="contact-form-success" class="hidden text-center">
-                        <h2 class="text-2xl font-bold mb-2 text-green-600" data-translate="contact_success_title">Vielen Dank!</h2>
+                        <h2 class="text-2xl font-bold mb-2 text-green-400" data-translate="contact_success_title">Vielen Dank!</h2>
                         <p data-translate="contact_success_msg">Ihre Nachricht wurde gesendet. Wir werden uns in Kürze bei Ihnen melden.</p>
                     </div>
                 </div>
@@ -600,8 +511,8 @@
     </footer>
     
     <div id="callback-modal" class="modal fixed inset-0 bg-black/60 z-[100] flex justify-center items-center p-4 hidden opacity-0">
-        <div class="modal-content bg-alt rounded-lg shadow-2xl w-full max-w-md relative transform scale-95 -translate-y-10">
-            <button id="callback-modal-close" class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-3xl" aria-label="Close modal">&times;</button>
+        <div class="modal-content bg-alt rounded-lg shadow-2xl w-full max-w-md relative transform scale-95 -translate-y-10 border border-main">
+            <button id="callback-modal-close" class="absolute top-3 right-4 text-gray-400 hover:text-white text-3xl transition-colors" aria-label="Close modal">&times;</button>
             <div class="p-8">
                 <div id="callback-form-wrapper">
                     <h2 class="text-2xl font-bold text-heading text-center mb-2" data-translate="callback_modal_title">Kontakt & Rückruf</h2>
@@ -610,10 +521,10 @@
                     <form id="callback-form" novalidate>
                         <h3 class="font-semibold text-heading mb-3" data-translate="callback_form_title">Rückruf anfordern (Österreich)</h3>
                         <div class="grid grid-cols-1 gap-4">
-                            <input type="text" name="name" class="w-full p-3 bg-main dark:bg-gray-700 border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition dark:placeholder-gray-400" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
-                            <div class="flex items-center border-2 border-main rounded-md focus-within:border-blue-500 transition bg-main dark:bg-gray-700">
-                               <span class="px-3 text-gray-500 dark:text-gray-400">+43</span>
-                               <input type="tel" name="phone" class="w-full p-3 border-l border-main focus:ring-0 border-0 bg-transparent dark:placeholder-gray-400" data-translate="form_phone_austria_placeholder" placeholder="664 1234567" required>
+                            <input type="text" name="name" class="w-full p-3 bg-bg border-2 border-main rounded-md focus:border-blue-500 focus:ring-blue-500 transition placeholder-gray-400" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
+                            <div class="flex items-center border-2 border-main rounded-md focus-within:border-blue-500 transition bg-bg">
+                               <span class="px-3 text-gray-400">+43</span>
+                               <input type="tel" name="phone" class="w-full p-3 border-l border-main focus:ring-0 border-0 bg-transparent placeholder-gray-400" data-translate="form_phone_austria_placeholder" placeholder="664 1234567" required>
                             </div>
                             <button type="submit" class="w-full accent-blue text-white font-semibold py-3 px-10 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition" data-translate="callback_form_btn">Rückruf anfordern</button>
                         </div>
@@ -634,7 +545,7 @@
                     </div>
                 </div>
                  <div id="callback-form-success" class="hidden text-center">
-                    <h2 class="text-2xl font-bold mb-2 text-green-600" data-translate="callback_success_title">Danke!</h2>
+                    <h2 class="text-2xl font-bold mb-2 text-green-400" data-translate="callback_success_title">Danke!</h2>
                     <p data-translate="callback_success_msg">Ihre Rückrufanfrage wurde gesendet. Wir melden uns in Kürze!</p>
                 </div>
             </div>
@@ -886,6 +797,81 @@
             }
         }
         
+        class BackgroundShader {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.particleCount = 70;
+                this.maxDistance = 150;
+
+                this.resize();
+                this.initParticles();
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                this.maxDistance = Math.min(window.innerWidth / 8, 150);
+                this.particleCount = Math.floor((this.canvas.width * this.canvas.height) / 20000);
+            }
+
+            initParticles() {
+                this.particles = [];
+                const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim().replace(/ /g, ',');
+                this.lineColor = `rgba(${primaryColor}, 0.5)`;
+
+                for (let i = 0; i < this.particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.3,
+                        vy: (Math.random() - 0.5) * 0.3
+                    });
+                }
+            }
+
+            draw() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach(p1 => {
+                    p1.x += p1.vx;
+                    p1.y += p1.vy;
+                    if (p1.x < 0 || p1.x > this.canvas.width) p1.vx *= -1;
+                    if (p1.y < 0 || p1.y > this.canvas.height) p1.vy *= -1;
+                });
+
+                for (let i = 0; i < this.particleCount; i++) {
+                    for (let j = i; j < this.particleCount; j++) {
+                        const p1 = this.particles[i];
+                        const p2 = this.particles[j];
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < this.maxDistance) {
+                            this.ctx.beginPath();
+                            this.ctx.strokeStyle = this.lineColor;
+                            this.ctx.globalAlpha = 1 - (dist / this.maxDistance);
+                            this.ctx.moveTo(p1.x, p1.y);
+                            this.ctx.lineTo(p2.x, p2.y);
+                            this.ctx.stroke();
+                        }
+                    }
+                }
+                this.ctx.globalAlpha = 1;
+            }
+
+            run() {
+                const loop = () => {
+                    this.draw();
+                    requestAnimationFrame(loop);
+                };
+                requestAnimationFrame(loop);
+            }
+        }
+
         class BauMeisterApp {
             constructor(config) {
                 this.config = config; this.currentLang = 'de'; this.elements = {};
@@ -896,17 +882,22 @@
 
             init() {
                 this.cacheDOMElements(); this.registerEventListeners(); this.initAssetsAndLinks();
-                this.updateTheme(true); this.initHeaderObserver(); this.initRevealOnScroll();
+                this.initHeaderObserver(); this.initRevealOnScroll();
                 this.initBlueprint(); this.cursor = new Cursor();
                 const savedLang = localStorage.getItem('language') || 'de'; this.setLanguage(savedLang);
                 this.runPortfolioSlider();
+                
+                const shaderCanvas = document.getElementById('background-shader');
+                if(shaderCanvas) {
+                    this.backgroundShader = new BackgroundShader(shaderCanvas);
+                    this.backgroundShader.run();
+                }
             }
 
             cacheDOMElements() {
                 this.elements.header = document.getElementById('header');
                 this.elements.mainNavLinks = document.querySelectorAll('#main-nav .nav-link');
                 this.elements.mobileMenu = document.getElementById('mobile-menu');
-                this.elements.themeToggleBtn = document.getElementById('theme-toggle');
                 this.elements.langDeBtn = document.getElementById('lang-de');
                 this.elements.langEnBtn = document.getElementById('lang-en');
                 this.elements.portfolioSliderEl = document.getElementById('portfolio-slider');
@@ -925,7 +916,6 @@
 
             registerEventListeners() {
                 window.addEventListener('scroll', () => this.elements.header.classList.toggle('scrolled', window.scrollY > 50));
-                this.elements.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
                 this.elements.langDeBtn.addEventListener('click', () => this.setLanguage('de'));
                 this.elements.langEnBtn.addEventListener('click', () => this.setLanguage('en'));
                 document.getElementById('mobile-menu-button').addEventListener('click', () => this.elements.mobileMenu.classList.toggle('hidden'));
@@ -949,7 +939,6 @@
                     if (e.target === this.elements.callbackModal) this.closeModal(this.elements.callbackModal);
                 });
 
-                // Portfolio Slider Events
                 const sliderWrapper = this.elements.portfolioSliderWrapper;
                 sliderWrapper.addEventListener('mousedown', (e) => this.portfolioSliderStart(e));
                 sliderWrapper.addEventListener('mouseleave', () => this.portfolioSliderEnd());
@@ -995,22 +984,7 @@
                 this.setupTestimonialSlider();
                 this.activatePortfolioFilter(this.elements.portfolioFilterBtns[0]);
             }
-
-            toggleTheme() {
-                document.documentElement.classList.toggle('dark');
-                localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-                this.updateTheme();
-            }
-
-            updateTheme(isInitial = false) {
-                const isDark = document.documentElement.classList.contains('dark');
-                document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', !isDark);
-                document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', isDark);
-                if (!isInitial && this.blueprintInstance) {
-                    this.blueprintInstance.updateColors();
-                }
-            }
-
+            
             initHeaderObserver() {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -1040,7 +1014,6 @@
                 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             }
 
-            // --- New Portfolio Slider Logic ---
             populatePortfolio() {
                 this.elements.portfolioSliderEl.innerHTML = '';
                 const items = this.config.content[this.currentLang].portfolio_items;
@@ -1058,7 +1031,6 @@
                     this.elements.portfolioSliderEl.appendChild(el);
                 });
                 this.elements.portfolioSlides = Array.from(this.elements.portfolioSliderEl.children);
-                // Set container width CSS variable for padding calculation
                 const container = document.querySelector('.container');
                 if (container) {
                     const containerWidth = container.clientWidth;
@@ -1080,7 +1052,6 @@
                 });
                 
                 if (firstVisibleItem) {
-                    // Smoothly animate to the target
                     this.portfolioSlider.targetX = -firstVisibleItem.offsetLeft;
                 }
             }
@@ -1120,7 +1091,6 @@
                 
                 const update = () => {
                     slider.currentX += (slider.targetX - slider.currentX) * 0.1;
-
                     if (!slider.isDown) {
                         slider.velocity *= 0.95;
                         slider.targetX += slider.velocity;
@@ -1154,8 +1124,6 @@
                 }
                 update();
             }
-
-            // --- End New Portfolio Logic ---
             
             populateTestimonials() {
                 const testimonials = this.config.content[this.currentLang].testimonials;
