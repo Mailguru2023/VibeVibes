@@ -1,0 +1,236 @@
+{
+  "de": {
+    "page_title": "BauMeister - Visionäre Sanierung & Renovierung",
+    "nav_home": "Startseite",
+    "nav_services": "Leistungen",
+    "nav_projects": "Projekte",
+    "nav_about": "Über uns",
+    "nav_contact": "Kontakt",
+    "request_callback_btn": "Rückruf anfordern",
+    "hero_title": "Qualität, die Räume schafft.",
+    "hero_subtitle": "Von der Vision bis zur Vollendung – wir sind Ihr Partner für anspruchsvolle Sanierungen und Renovierungen in ganz Österreich.",
+    "hero_btn_1": "Projekt anfragen",
+    "hero_btn_2": "Unsere Leistungen",
+    "services_title": "Unsere Kernkompetenzen",
+    "services_subtitle": "Wir verbinden traditionelles Handwerk mit modernster Technik, um erstklassige Ergebnisse zu garantieren.",
+    "service_1_title": "Komplettsanierung",
+    "service_1_desc": "Ganzheitliche Modernisierung von Immobilien, von der Entkernung bis zum finalen Innenausbau.",
+    "service_2_title": "Wohnungsrenovierung",
+    "service_2_desc": "Vom neuen Anstrich bis zur kompletten Neugestaltung einzelner Wohnbereiche oder ganzer Wohnungen.",
+    "service_3_title": "Gewerbebau",
+    "service_3_desc": "Funktionale und repräsentative Umbauten für Büros, Praxen und Einzelhandelsflächen.",
+    "portfolio_title": "Unsere Arbeit spricht für sich",
+    "portfolio_subtitle": "Jedes Projekt ist eine Referenz unserer Leidenschaft für Qualität und Ästhetik. Entdecken Sie eine Auswahl unserer abgeschlossenen Arbeiten.",
+    "filter_all": "Alle",
+    "filter_houses": "Häuser",
+    "filter_apartments": "Wohnungen",
+    "filter_offices": "Gewerbe",
+    "portfolio_items": [
+      {
+        "category": "houses",
+        "title": "Moderne Villa"
+      },
+      {
+        "category": "apartments",
+        "title": "Dachgeschosswohnung"
+      },
+      {
+        "category": "offices",
+        "title": "Start-up Büro"
+      },
+      {
+        "category": "houses",
+        "title": "Bungalow am See"
+      },
+      {
+        "category": "apartments",
+        "title": "Minimalistisches Loft"
+      },
+      {
+        "category": "offices",
+        "title": "Kreativagentur"
+      },
+      {
+        "category": "apartments",
+        "title": "Altbau-Charme"
+      },
+      {
+        "category": "houses",
+        "title": "Landhaus Classic"
+      }
+    ],
+    "testimonials_title": "Stimmen unserer Kunden",
+    "testimonials": [
+      {
+        "name": "Familie Huber",
+        "text": "Absolut professionell und zuverlässig. Unser Hausumbau war ein voller Erfolg!"
+      },
+      {
+        "name": "M. Schmidt",
+        "text": "Das Ergebnis übertrifft alle Erwartungen. BauMeister hat unsere Wohnung in eine Oase verwandelt."
+      },
+      {
+        "name": "Anna Wagner",
+        "text": "Kreativ, pünktlich und budgettreu. Die besten Handwerker, mit denen wir je gearbeitet haben."
+      },
+      {
+        "name": "Dr. Eva Klein",
+        "text": "Der Umbau unserer Praxis lief reibungslos und termingerecht. Exzellente Arbeit!"
+      },
+      {
+        "name": "Thomas Bauer",
+        "text": "Hervorragende Qualität und tolle Kommunikation während des gesamten Projekts."
+      }
+    ],
+    "about_title": "Unsere Philosophie",
+    "about_desc": "Wir glauben, dass jedes Gebäude eine Geschichte erzählt. Unsere Mission ist es, diese Geschichten mit Respekt, Sorgfalt und höchster Handwerkskunst weiterzuschreiben. Unsere Kernwerte – Qualität, Pünktlichkeit und Transparenz – sind das Fundament jedes Projekts, das wir übernehmen.",
+    "contact_title": "Starten Sie Ihr Projekt",
+    "contact_subtitle": "Erzählen Sie uns von Ihrer Vision. Wir melden uns umgehend für eine kostenlose Erstberatung.",
+    "contact_success_title": "Vielen Dank!",
+    "contact_success_msg": "Ihre Nachricht wurde gesendet. Wir werden uns in Kürze bei Ihnen melden.",
+    "form_name_placeholder": "Ihr Name",
+    "form_phone_placeholder": "Ihre Telefonnummer",
+    "form_message_placeholder": "Beschreiben Sie kurz Ihr Projekt...",
+    "form_send_btn": "Anfrage Senden",
+    "form_sending_btn": "Senden...",
+    "callback_modal_title": "Kontakt & Rückruf",
+    "callback_modal_subtitle": "Wählen Sie Ihre bevorzugte Kontaktmethode.",
+    "callback_form_title": "Rückruf anfordern (Österreich)",
+    "form_phone_austria_placeholder": "664 1234567",
+    "callback_form_btn": "Rückruf anfordern",
+    "or_divider": "ODER",
+    "messenger_title": "Direkt per Messenger schreiben",
+    "whatsapp_btn": "WhatsApp",
+    "telegram_btn": "Telegram",
+    "callback_success_title": "Danke!",
+    "callback_success_msg": "Ihre Rückrufanfrage wurde gesendet. Wir melden uns in Kürze!",
+    "footer_about_title": "BauMeister",
+    "footer_about_desc": "Ihr zuverlässiger Partner für Sanierung und Renovierung. Wir schaffen Qualität, der Sie vertrauen können.",
+    "footer_links_title": "Navigation",
+    "footer_contact_title": "Kontakt",
+    "phone_number_footer": "+43 664 1234567",
+    "email_footer": "info@baumeister.at",
+    "address": "Musterstraße 1, 1010 Wien",
+    "copyright": "&copy; 2024 BauMeister. Alle Rechte vorbehalten.",
+    "facebook_link_aria": "Besuchen Sie uns auf Facebook",
+    "instagram_link_aria": "Folgen Sie uns auf Instagram",
+    "telegram_link_aria": "Kontaktieren Sie uns über Telegram"
+  },
+  "en": {
+    "page_title": "RenoMaster - Visionary Refurbishment & Renovation",
+    "nav_home": "Home",
+    "nav_services": "Services",
+    "nav_projects": "Projects",
+    "nav_about": "About Us",
+    "nav_contact": "Contact",
+    "request_callback_btn": "Request Callback",
+    "hero_title": "Quality that creates space.",
+    "hero_subtitle": "From vision to completion – we are your partner for sophisticated refurbishments and renovations throughout Austria.",
+    "hero_btn_1": "Request a Project",
+    "hero_btn_2": "Our Services",
+    "services_title": "Our Core Competencies",
+    "services_subtitle": "We combine traditional craftsmanship with the latest technology to guarantee first-class results.",
+    "service_1_title": "Complete Refurbishment",
+    "service_1_desc": "Holistic modernization of properties, from gutting to the final interior finishing.",
+    "service_2_title": "Apartment Renovation",
+    "service_2_desc": "From a new coat of paint to the complete redesign of individual living areas or entire apartments.",
+    "service_3_title": "Commercial Construction",
+    "service_3_desc": "Functional and representative conversions for offices, practices, and retail spaces.",
+    "portfolio_title": "Our Work Speaks for Itself",
+    "portfolio_subtitle": "Every project is a testament to our passion for quality and aesthetics. Discover a selection of our completed works.",
+    "filter_all": "All",
+    "filter_houses": "Houses",
+    "filter_apartments": "Apartments",
+    "filter_offices": "Commercial",
+    "portfolio_items": [
+      {
+        "category": "houses",
+        "title": "Modern Villa"
+      },
+      {
+        "category": "apartments",
+        "title": "Attic Apartment"
+      },
+      {
+        "category": "offices",
+        "title": "Start-up Office"
+      },
+      {
+        "category": "houses",
+        "title": "Lakeside Bungalow"
+      },
+      {
+        "category": "apartments",
+        "title": "Minimalist Loft"
+      },
+      {
+        "category": "offices",
+        "title": "Creative Agency"
+      },
+      {
+        "category": "apartments",
+        "title": "Old Building Charm"
+      },
+      {
+        "category": "houses",
+        "title": "Classic Country House"
+      }
+    ],
+    "testimonials_title": "What Our Clients Say",
+    "testimonials": [
+      {
+        "name": "The Huber Family",
+        "text": "Absolutely professional and reliable. Our house conversion was a complete success!"
+      },
+      {
+        "name": "M. Schmidt",
+        "text": "The result exceeds all expectations. RenoMaster has transformed our apartment into an oasis."
+      },
+      {
+        "name": "Anna Wagner",
+        "text": "Creative, punctual, and on budget. The best craftsmen we have ever worked with."
+      },
+      {
+        "name": "Dr. Eva Klein",
+        "text": "The renovation of our practice went smoothly and on schedule. Excellent work!"
+      },
+      {
+        "name": "Thomas Bauer",
+        "text": "Outstanding quality and great communication throughout the entire project."
+      }
+    ],
+    "about_title": "Our Philosophy",
+    "about_desc": "We believe that every building tells a story. Our mission is to continue writing these stories with respect, care, and the highest level of craftsmanship. Our core values – Quality, Punctuality, and Transparency – are the foundation of every project we undertake.",
+    "contact_title": "Start Your Project",
+    "contact_subtitle": "Tell us about your vision. We will contact you promptly for a free initial consultation.",
+    "contact_success_title": "Thank You!",
+    "contact_success_msg": "Your message has been sent. We will contact you shortly.",
+    "form_name_placeholder": "Your Name",
+    "form_phone_placeholder": "Your Phone Number",
+    "form_message_placeholder": "Briefly describe your project...",
+    "form_send_btn": "Send Inquiry",
+    "form_sending_btn": "Sending...",
+    "callback_modal_title": "Contact & Callback",
+    "callback_modal_subtitle": "Choose your preferred contact method.",
+    "callback_form_title": "Request a callback (Austria)",
+    "form_phone_austria_placeholder": "664 1234567",
+    "callback_form_btn": "Request Callback",
+    "or_divider": "OR",
+    "messenger_title": "Contact us directly via Messenger",
+    "whatsapp_btn": "WhatsApp",
+    "telegram_btn": "Telegram",
+    "callback_success_title": "Thank you!",
+    "callback_success_msg": "Your callback request has been sent. We will contact you shortly!",
+    "footer_about_title": "RenoMaster",
+    "footer_about_desc": "Your reliable partner for refurbishment and renovation. We create quality you can trust.",
+    "footer_links_title": "Quick Links",
+    "footer_contact_title": "Contact",
+    "phone_number_footer": "+43 664 1234567",
+    "email_footer": "info@baumeister.at",
+    "address": "Musterstraße 1, 1010 Wien",
+    "copyright": "&copy; 2024 RenoMaster. All Rights Reserved.",
+    "facebook_link_aria": "Visit us on Facebook",
+    "instagram_link_aria": "Follow us on Instagram",
+    "telegram_link_aria": "Contact us on Telegram"
+  }
+}
