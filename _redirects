@@ -1,0 +1,8 @@
+# Redirect default Netlify subdomain to primary domain
+https://baumeister.netlify.app/* https://yourdomain.com/:splat 301!
+
+# Redirect old URLs (add as needed)
+# /old-page /new-page 301
+
+# SPA fallback (if needed in future)
+# /* /index.html 200

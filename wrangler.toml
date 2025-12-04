@@ -1,0 +1,16 @@
+name = "baumeister-website"
+compatibility_date = "2024-01-01"
+
+# Cloudflare Pages configuration
+pages_build_output_dir = "/"
+
+# KV binding for chat (set real ID after creating namespace)
+kv_namespaces = [
+  { binding = "CHAT_KV", id = "CHAT_KV" }
+]
+
+[env.production]
+# Production environment variables (set in Cloudflare Dashboard)
+
+[env.preview]
+# Preview environment variables (set in Cloudflare Dashboard)

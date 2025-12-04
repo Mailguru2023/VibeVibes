@@ -1,0 +1,30 @@
+{
+  "name": "baumeister-website",
+  "version": "2.0.0",
+  "description": "BauMeister - Professional Renovation & Construction in Austria | Modern Landing with Tailwind CSS, Dark Mode & Multi-language",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8888",
+    "dev": "wrangler pages dev . --port 8888",
+    "build": "echo 'Static site with Tailwind CDN - no build step required'",
+    "deploy": "wrangler pages deploy .",
+    "deploy:preview": "wrangler pages deploy . --branch=preview",
+    "test": "echo 'Tests coming soon'"
+  },
+  "keywords": [
+    "construction",
+    "renovation",
+    "austria",
+    "baumeister",
+    "cloudflare",
+    "tailwind"
+  ],
+  "author": "BauMeister Team",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

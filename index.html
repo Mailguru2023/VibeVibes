@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BauMeister - Professionelle Sanierung & Renovierung in Österreich</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles & Dark Mode -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <script>
+        // Set initial theme
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+    </script>
+</head>
+<body class="text-main">
+
+    <!-- Header -->
+    <header id="header" class="sticky top-0 z-50">
+        <!-- Top Bar -->
+        <div class="bg-gray-800 text-gray-300 dark:bg-gray-900">
+            <div class="container mx-auto px-6 py-2 flex justify-between items-center text-xs md:text-sm">
+                <div class="flex items-center space-x-4">
+                    <a href="tel:+436641234567" class="flex items-center space-x-1.5 hover:text-white transition-colors" data-translate="phone_number">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-yellow-text"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        <span>+43 664 1234567</span>
+                    </a>
+                    <a href="mailto:info@baumeister.at" class="hidden md:flex items-center space-x-1.5 hover:text-white transition-colors" data-translate="email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-yellow-text"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <span>info@baumeister.at</span>
+                    </a>
+                    <a href="https://wa.me/436641234567" target="_blank" rel="noopener" class="hidden sm:flex items-center space-x-1.5 hover:text-white transition-colors" title="WhatsApp">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-green-400"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                    </a>
+                    <a href="https://t.me/+436641234567" target="_blank" rel="noopener" class="hidden sm:flex items-center space-x-1.5 hover:text-white transition-colors" title="Telegram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-blue-400"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="lang-switcher flex items-center space-x-2 font-medium">
+                        <button id="lang-de" class="hover:text-white transition-colors">DE</button>
+                        <span>/</span>
+                        <button id="lang-en" class="hover:text-white transition-colors">EN</button>
+                    </div>
+                    <button id="theme-toggle" class="hover:text-white transition-colors">
+                        <svg id="theme-toggle-dark-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                        <svg id="theme-toggle-light-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Main Navigation -->
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-3xl font-black text-heading tracking-wider">BAUMEISTER</a>
+            <div id="main-nav" class="hidden lg:flex items-center space-x-8 font-bold text-sm uppercase">
+                <a href="#hero" data-scroll-to="hero" class="nav-link" data-translate="nav_home">Startseite</a>
+                <a href="#services" data-scroll-to="services" class="nav-link" data-translate="nav_services">Leistungen</a>
+                <a href="#about" data-scroll-to="about" class="nav-link" data-translate="nav_about">Über uns</a>
+                <a href="#portfolio" data-scroll-to="portfolio" class="nav-link" data-translate="nav_projects">Projekte</a>
+                <a href="#contact" data-scroll-to="contact" class="nav-link" data-translate="nav_contact">Kontakt</a>
+            </div>
+            <button id="callback-modal-trigger" class="hidden lg:inline-block accent-yellow text-gray-900 font-bold px-6 py-3 rounded-md hover:shadow-lg transform hover:-translate-y-0.5 transition" data-translate="request_callback_btn">Rückruf anfordern</button>
+            <button id="mobile-menu-button" class="lg:hidden text-heading focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-main border-t border-main">
+             <a href="#hero" class="block py-3 px-6 text-main hover:bg-alt" data-translate="nav_home_mobile">Startseite</a>
+             <a href="#services" class="block py-3 px-6 text-main hover:bg-alt" data-translate="nav_services_mobile">Leistungen</a>
+             <a href="#about" class="block py-3 px-6 text-main hover:bg-alt" data-translate="nav_about_mobile">Über uns</a>
+             <a href="#portfolio" class="block py-3 px-6 text-main hover:bg-alt" data-translate="nav_projects_mobile">Projekte</a>
+             <a href="#contact" class="block py-3 px-6 text-main hover:bg-alt" data-translate="nav_contact_mobile">Kontakt</a>
+             <div class="p-4">
+                <button id="callback-modal-trigger-mobile" class="block w-full text-center accent-yellow text-gray-900 font-bold py-3 rounded-md" data-translate="request_callback_btn_mobile">Rückruf anfordern</button>
+             </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="relative h-[70vh] md:h-screen text-white parallax-bg hero-bg">
+            <div class="container mx-auto px-6 h-full flex flex-col justify-center items-start text-left">
+                <div class="max-w-3xl">
+                    <h1 class="text-4xl md:text-7xl font-black leading-tight mb-4 uppercase reveal" data-translate="hero_title">Wir gestalten <br>Ihre Räume neu</h1>
+                    <p class="text-lg md:text-xl mb-8 reveal" style="transition-delay: 150ms;" data-translate="hero_subtitle">Zuverlässigkeit, Qualität und Termintreue sind unsere Grundprinzipien. Vertrauen Sie Ihr Projekt den Profis an.</p>
+                    <div class="flex flex-wrap gap-4 reveal" style="transition-delay: 300ms;">
+                        <a href="#services" class="accent-yellow text-gray-900 font-bold px-8 py-4 rounded-md uppercase transform hover:-translate-y-1 transition duration-300" data-translate="hero_btn_1">Unsere Leistungen</a>
+                        <a href="#contact" class="bg-transparent border-2 border-white text-white font-bold px-8 py-4 rounded-md uppercase hover:bg-white hover:text-gray-900 transition duration-300 transform hover:-translate-y-1" data-translate="hero_btn_2">Kontakt</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-24 bg-alt">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                     <h2 class="text-3xl md:text-4xl font-black text-heading mb-4 uppercase reveal" data-translate="services_title">Unsere Leistungen</h2>
+                     <p class="text-lg text-main mb-16 reveal" data-translate="services_subtitle">Wir bieten ein komplettes Spektrum an Renovierungs- und Ausbauarbeiten, von der Planung bis zur schlüsselfertigen Übergabe.</p>
+                </div>
+                <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Services will be populated by JS -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Us Section -->
+        <section id="about" class="py-24 bg-main">
+            <div class="container mx-auto px-6">
+                 <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="reveal">
+                        <h2 class="text-3xl md:text-4xl font-black text-heading mb-6 uppercase" data-translate="about_title">Warum Sie uns wählen sollten</h2>
+                        <p class="text-main mb-8" data-translate="about_desc">Wir sind stolz auf unseren Ruf als zuverlässiger Partner. Unser Ansatz basiert auf Ehrlichkeit, Professionalität und Liebe zum Detail in jeder Phase der Arbeit.</p>
+                        <div id="faq-container" class="space-y-2">
+                            <!-- FAQ items will be populated by JS -->
+                        </div>
+                    </div>
+                    <div class="reveal" style="transition-delay: 150ms;">
+                        <img src="https://images.unsplash.com/photo-1574366622362-715a3a35825b?q=80&w=1974&auto=format&fit=crop" class="rounded-lg shadow-2xl w-full h-full object-cover" alt="Bauprozess">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-24 bg-alt">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-black text-heading text-center mb-4 uppercase reveal" data-translate="portfolio_title">Aktuelle Projekte</h2>
+                <div id="portfolio-filter" class="flex justify-center flex-wrap gap-2 md:gap-4 mb-12 reveal">
+                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded-md transition-colors" data-filter="all" data-translate="filter_all">Alle</button>
+                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded-md transition-colors" data-filter="houses" data-translate="filter_houses">Häuser & Villen</button>
+                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded-md transition-colors" data-filter="apartments" data-translate="filter_apartments">Wohnungen</button>
+                    <button class="filter-btn font-bold text-sm uppercase px-4 py-2 rounded-md transition-colors" data-filter="offices" data-translate="filter_offices">Büros</button>
+                </div>
+                <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">
+                    <!-- Projects will be dynamically populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-24 bg-main">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-black text-heading mb-4 uppercase reveal" data-translate="testimonials_title">Was unsere Kunden sagen</h2>
+                    <p class="text-lg text-main mb-12 reveal" data-translate="testimonials_subtitle">Ihr Vertrauen ist unser größtes Kapital.</p>
+                </div>
+                <div class="relative max-w-3xl mx-auto reveal">
+                    <div id="testimonial-slider" class="overflow-hidden">
+                        <!-- Slides will be populated by JS -->
+                    </div>
+                    <button id="prev-testimonial" class="absolute top-1/2 -left-4 md:-left-12 -translate-y-1/2 bg-main p-2 rounded-full shadow-md hover:bg-alt transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button id="next-testimonial" class="absolute top-1/2 -right-4 md:-right-12 -translate-y-1/2 bg-main p-2 rounded-full shadow-md hover:bg-alt transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-24 parallax-bg cta-bg">
+            <div class="container mx-auto px-6 text-center text-white">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 uppercase reveal" data-translate="cta_title">Suchen Sie einen zuverlässigen Partner?</h2>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style="transition-delay: 150ms;" data-translate="cta_subtitle">Wir sind bereit, Ihr Traumprojekt zu verwirklichen. Erhalten Sie noch heute eine kostenlose Beratung und einen detaillierten Kostenvoranschlag.</p>
+                <a href="#contact" class="accent-yellow text-gray-900 font-bold px-10 py-4 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-1 transition reveal" style="transition-delay: 300ms;" data-translate="cta_btn">Angebot anfordern</a>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 bg-alt">
+            <div class="container mx-auto px-6">
+                 <div id="contact-form-main" class="bg-main p-8 md:p-12 rounded-lg shadow-2xl max-w-4xl mx-auto reveal border border-main relative overflow-hidden">
+                    <div id="contact-form-container">
+                        <h2 class="text-3xl md:text-4xl text-heading font-black text-center mb-2 uppercase" data-translate="contact_title">Kontaktieren Sie uns</h2>
+                        <p class="text-center text-main mb-10" data-translate="contact_subtitle">Hinterlassen Sie eine Nachricht, und wir werden uns in Kürze bei Ihnen melden.</p>
+                        <form id="main-contact-form" action="/functions/lead" method="POST" novalidate>
+                            <input type="hidden" name="source" value="website">
+                            <div class="grid md:grid-cols-2 gap-6 mb-5">
+                                <input type="text" name="name" class="w-full p-4 bg-alt border-2 border-main rounded-md focus:border-yellow-400 focus:ring-yellow-400 transition" data-translate="form_name_placeholder" placeholder="Ihr Name" required>
+                                <input type="tel" name="phone" class="w-full p-4 bg-alt border-2 border-main rounded-md focus:border-yellow-400 focus:ring-yellow-400 transition" data-translate="form_phone_placeholder" placeholder="Ihre Telefonnummer" required>
+                            </div>
+                            <div class="mb-5">
+                                <textarea name="message" rows="5" class="w-full p-4 bg-alt border-2 border-main rounded-md focus:border-yellow-400 focus:ring-yellow-400 transition" data-translate="form_message_placeholder" placeholder="Beschreiben Sie kurz Ihr Projekt..."></textarea>
+                            </div>
+                            <!-- Honeypot -->
+                            <input type="text" name="website" style="display:none">
+                            <div class="text-center">
+                                <button type="submit" class="w-full md:w-auto accent-yellow text-gray-900 font-bold py-4 px-10 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-1 transition" data-translate="form_send_btn">Senden</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="contact-form-success" class="hidden text-center">
+                        <h2 class="text-2xl font-black mb-2 uppercase text-green-600" data-translate="contact_success_title">Vielen Dank!</h2>
+                        <p class="text-main mb-4" data-translate="contact_success_msg">Ihre Nachricht wurde gesendet. Wir werden uns in Kürze bei Ihnen melden.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 dark:bg-black/50">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div>
+                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_about_title">Über uns</h4>
+                    <p class="text-sm" data-translate="footer_about_desc">"BauMeister" — Ihr zuverlässiger Partner in der Welt der Renovierung. Wir schaffen Qualität, der Sie seit über 15 Jahren vertrauen können.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_services_title">Unsere Leistungen</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_1">&raquo; Komplettsanierung</a></li>
+                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_2">&raquo; Wohnungsrenovierung</a></li>
+                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_3">&raquo; Bürosanierung</a></li>
+                        <li><a href="#services" class="hover:text-yellow-400 transition" data-translate="footer_service_4">&raquo; Design-Projekte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_contact_title">Kontakt</h4>
+                     <ul class="space-y-3 text-sm">
+                         <li class="flex items-start"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 mt-1 flex-shrink-0 text-yellow-400"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><span data-translate="address">Musterstraße 1, 1010 Wien</span></li>
+                         <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 flex-shrink-0 text-yellow-400"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg><a href="tel:+436641234567" class="hover:text-yellow-400" data-translate="phone_number_footer">+43 664 1234567</a></li>
+                         <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 flex-shrink-0 text-yellow-400"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg><a href="mailto:info@baumeister.at" class="hover:text-yellow-400" data-translate="email_footer">info@baumeister.at</a></li>
+                    </ul>
+                </div>
+                 <div id="footer-projects">
+                    <h4 class="font-bold text-lg text-white uppercase mb-4" data-translate="footer_projects_title">Aktuelle Projekte</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <!-- Footer projects will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-900 dark:bg-black/80 py-4">
+             <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+                 <p data-translate="copyright">&copy; <span id="year"></span> BauMeister. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="modal fixed inset-0 bg-black bg-opacity-90 z-[100] flex justify-center items-center p-4 hidden opacity-0">
+        <div class="modal-content bg-main rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto relative transform scale-95 -translate-y-10">
+            <button id="lightbox-close" class="absolute top-0 right-0 mt-4 mr-4 text-white hover:text-yellow-400 text-5xl z-10">&times;</button>
+            <img id="lightbox-img" src="" alt="Projektbild" class="w-full h-auto rounded-t-lg">
+            <div class="p-6">
+                <h3 id="lightbox-title" class="text-2xl font-bold text-heading mb-2"></h3>
+                <p id="lightbox-desc" class="text-main"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Callback Modal -->
+    <div id="callback-modal" class="modal fixed inset-0 bg-black bg-opacity-70 z-[100] flex justify-center items-center p-4 hidden opacity-0">
+        <div class="modal-content bg-main rounded-lg shadow-2xl w-full max-w-md relative transform scale-95 -translate-y-10">
+            <button id="callback-modal-close" class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-3xl">&times;</button>
+            <div class="p-8 text-center">
+                <div id="callback-modal-form-container">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="accent-yellow-text mx-auto"><path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-black text-heading mb-2 uppercase" data-translate="callback_title_modal">Rückruf anfordern</h2>
+                    <p class="text-main mb-6" data-translate="callback_subtitle_modal">Hinterlassen Sie Ihre Nummer und wir rufen Sie innerhalb von 10 Minuten zurück!</p>
+                    <form id="callback-modal-form" action="/functions/lead" method="POST" novalidate>
+                        <input type="hidden" name="source" value="callback-modal">
+                        <div class="flex items-center border-2 border-main rounded-md focus-within:border-yellow-400 transition bg-alt mb-4">
+                           <span class="px-4 text-gray-500">+43</span>
+                           <input type="tel" name="phone" id="callback-modal-phone" class="w-full p-3 border-l border-main focus:ring-0 border-0 bg-transparent" data-translate="phone_placeholder_modal" placeholder="Ihre Telefonnummer" required>
+                        </div>
+                        <input type="text" name="website" style="display:none">
+                        <button type="submit" class="accent-yellow text-gray-900 font-bold py-3 px-8 rounded-md uppercase hover:shadow-lg transform hover:-translate-y-0.5 transition w-full" data-translate="callback_btn_modal">Rückruf anfordern</button>
+                    </form>
+                </div>
+                <div id="callback-modal-success" class="hidden">
+                   <h2 class="text-2xl font-black mb-2 uppercase text-green-600" data-translate="callback_success_title_modal">Vielen Dank!</h2>
+                   <p class="text-main mb-4" data-translate="callback_success_msg_modal">Ihre Anfrage wurde erhalten. Wir werden Sie in Kürze kontaktieren.</p>
+                   <div class="text-5xl font-bold text-heading" id="modal-timer">10:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#hero" id="back-to-top" class="accent-yellow text-gray-900 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    </a>
+
+    <!-- Floating Messenger Buttons (Mobile) -->
+    <div class="fixed bottom-20 right-4 z-40 flex flex-col gap-3 lg:hidden">
+        <a href="https://wa.me/436641234567" target="_blank" rel="noopener" class="bg-green-500 text-white p-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300" title="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </a>
+        <a href="https://t.me/+436641234567" target="_blank" rel="noopener" class="bg-blue-500 text-white p-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300" title="Telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </a>
+    </div>
+
+        <!-- Site Chat Widget -->
+        <button data-chat-open class="fixed bottom-6 right-6 z-50 bg-yellow-400 text-gray-900 px-4 py-2 rounded-full shadow-lg hover:shadow-xl hover:scale-[1.02] transition" data-translate="chat_open_button">Чат</button>
+        <div id="site-chat-box" class="hidden fixed bottom-24 right-6 w-96 max-w-[92vw] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 z-50 overflow-hidden">
+            <div class="relative px-4 py-3 bg-gradient-to-r from-yellow-400 to-yellow-300 text-gray-900 dark:text-gray-900 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/90 ring-2 ring-yellow-200 flex items-center justify-center shadow">
+                        <span class="font-bold">BM</span>
+                    </div>
+                    <div>
+                        <div class="font-extrabold tracking-wide" data-translate="chat_title">Онлайн чат</div>
+                        <div class="text-xs text-gray-700 flex items-center gap-1"><span class="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>Online</div>
+                    </div>
+                </div>
+                <button data-chat-close class="text-gray-800 hover:text-gray-900 font-bold">✕</button>
+            </div>
+            <div id="site-chat-log" class="p-4 h-64 overflow-y-auto space-y-2 bg-main">
+                <!-- messages injected by JS -->
+            </div>
+            <form id="site-chat-form" class="p-4 bg-alt border-t border-main">
+                <input type="text" name="name" class="w-full mb-2 px-3 py-2 rounded-md border-2 border-main focus:border-yellow-400 focus:ring-yellow-400 transition bg-white dark:bg-gray-800" data-translate="chat_name_placeholder" placeholder="Ваше имя (необязательно)">
+                <div class="flex gap-2">
+                    <input type="text" name="message" class="flex-1 px-3 py-2 rounded-md border-2 border-main focus:border-yellow-400 focus:ring-yellow-400 transition bg-white dark:bg-gray-800" data-translate="chat_message_placeholder" placeholder="Сообщение...">
+                    <button type="submit" class="px-4 py-2 accent-yellow text-gray-900 font-bold rounded-md hover:shadow-lg transform hover:-translate-y-0.5 transition" data-translate="chat_send_button">Отправить</button>
+                </div>
+            </form>
+        </div>
+
+    <script>
+        // Set year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
